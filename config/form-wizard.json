@@ -1,0 +1,81 @@
+{
+  "steps": [
+    {
+      "id": "goals",
+      "titleKey": "formWizard.step1.title",
+      "fields": [
+        {
+          "name": "fitnessGoal",
+          "type": "radio",
+          "labelKey": "formWizard.step1.fitnessGoal",
+          "required": true,
+          "options": [
+            { "value": "weight_loss", "labelKey": "formWizard.step1.weightLoss" },
+            { "value": "muscle_gain", "labelKey": "formWizard.step1.muscleGain" },
+            { "value": "general_fitness", "labelKey": "formWizard.step1.generalFitness" },
+            { "value": "strength", "labelKey": "formWizard.step1.strength" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "details",
+      "titleKey": "formWizard.step2.title",
+      "fields": [
+        {
+          "name": "experienceLevel",
+          "type": "radio",
+          "labelKey": "formWizard.step2.experienceLevel",
+          "required": true,
+          "options": [
+            { "value": "beginner", "labelKey": "formWizard.step2.beginner" },
+            { "value": "intermediate", "labelKey": "formWizard.step2.intermediate" },
+            { "value": "advanced", "labelKey": "formWizard.step2.advanced" }
+          ]
+        },
+        {
+          "name": "daysPerWeek",
+          "type": "text",
+          "labelKey": "formWizard.step2.daysPerWeek",
+          "required": true
+        },
+        {
+          "name": "additionalInfo",
+          "type": "textarea",
+          "labelKey": "formWizard.step2.additionalInfo",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "titleKey": "formWizard.step3.title",
+      "fields": [
+        {
+          "name": "firstName",
+          "type": "text",
+          "labelKey": "formWizard.step3.firstName",
+          "required": true
+        },
+        {
+          "name": "lastName",
+          "type": "text",
+          "labelKey": "formWizard.step3.lastName",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "email",
+          "labelKey": "formWizard.step3.email",
+          "required": true
+        },
+        {
+          "name": "acceptTerms",
+          "type": "checkbox",
+          "labelKey": "formWizard.step3.acceptTerms",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

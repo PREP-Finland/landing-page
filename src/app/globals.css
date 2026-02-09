@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-roboto-condensed), ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: #FFFFFF;
+  --color-bg-secondary: #F5F5F5;
+  --color-text: #252525;
+  --color-accent: #4E5948;
+  --color-border: #DEDEDE;
+}
+
+:root {
+  --color-bg: #FFFFFF;
+  --color-bg-secondary: #F5F5F5;
+  --color-text: #252525;
+  --color-accent: #4E5948;
+  --color-border: #DEDEDE;
+}
+
+.dark {
+  --color-bg: #1A1A1A;
+  --color-bg-secondary: #252525;
+  --color-text: #F5F5F5;
+  --color-accent: #4E5948;
+  --color-border: #3A3A3A;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-roboto-condensed), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}

@@ -1,0 +1,66 @@
+{
+  "header": {
+    "logo": "VALMENNUS",
+    "themeLight": "Vaalea",
+    "themeDark": "Tumma",
+    "themeSystem": "Järjestelmä"
+  },
+  "hero": {
+    "headline": "VALMIS MUUTOKSEEN?",
+    "subheadline": "Henkilökohtaista valmennusta, joka toimii.",
+    "cta": "ALOITA TÄSTÄ"
+  },
+  "about": {
+    "title": "TIETOA MEISTÄ",
+    "text": "Olemme intohimoisia fitness-valmentajia, jotka uskovat tieteeseen perustuvaan harjoitteluun ja ravitsemukseen. Jokainen ohjelma räätälöidään yksilöllisesti sinun tavoitteidesi, aikataulusi ja lähtötasosi mukaan. Autamme sinua saavuttamaan pysyviä tuloksia – ei pikaratkaisuja, vaan kestävää kehitystä.\n\nOlipa tavoitteesi painonpudotus, lihasmassan kasvattaminen tai yleisen hyvinvoinnin parantaminen, olemme täällä tukemassa sinua joka askeleella. Valmennus sisältää henkilökohtaisen harjoitusohjelman, ravitsemussuunnitelman ja jatkuvan tuen."
+  },
+  "blog": {
+    "title": "BLOGISTA",
+    "readMore": "Lue lisää",
+    "noArticles": "Ei artikkeleita saatavilla."
+  },
+  "contact": {
+    "title": "OTA YHTEYTTÄ",
+    "text": "Oletko valmis aloittamaan muutoksen? Ota yhteyttä ja kerro tavoitteistasi – autamme sinua pääsemään alkuun.",
+    "cta": "ALOITA NYT",
+    "email": "info@valmennus.fi",
+    "phone": "+358 40 123 4567"
+  },
+  "footer": {
+    "copyright": "© 2026 Valmennus. Kaikki oikeudet pidätetään.",
+    "privacy": "Tietosuoja",
+    "terms": "Käyttöehdot"
+  },
+  "formWizard": {
+    "step1": {
+      "title": "Tavoitteesi",
+      "fitnessGoal": "Mikä on päätavoitteesi?",
+      "weightLoss": "Painonpudotus",
+      "muscleGain": "Lihasmassan kasvattaminen",
+      "generalFitness": "Yleinen hyvinvointi",
+      "strength": "Voimankasvatus"
+    },
+    "step2": {
+      "title": "Taustatiedot",
+      "experienceLevel": "Harjoittelutaustasi",
+      "beginner": "Aloittelija",
+      "intermediate": "Keskitaso",
+      "advanced": "Edistynyt",
+      "daysPerWeek": "Kuinka monta päivää viikossa voit harjoitella?",
+      "additionalInfo": "Muuta huomioitavaa (vammat, rajoitteet tms.)"
+    },
+    "step3": {
+      "title": "Yhteystiedot",
+      "firstName": "Etunimi",
+      "lastName": "Sukunimi",
+      "email": "Sähköposti",
+      "acceptTerms": "Hyväksyn käyttöehdot"
+    },
+    "next": "Seuraava",
+    "previous": "Edellinen",
+    "submit": "Lähetä",
+    "stepOf": "Vaihe {current}/{total}",
+    "success": "Kiitos! Olemme sinuun yhteydessä pian.",
+    "error": "Jokin meni pieleen. Yritä uudelleen."
+  }
+}

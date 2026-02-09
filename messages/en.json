@@ -1,0 +1,66 @@
+{
+  "header": {
+    "logo": "COACHING",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System"
+  },
+  "hero": {
+    "headline": "READY TO TRANSFORM?",
+    "subheadline": "Personal coaching that works.",
+    "cta": "GET STARTED"
+  },
+  "about": {
+    "title": "ABOUT US",
+    "text": "We are passionate fitness coaches who believe in science-based training and nutrition. Every program is individually tailored to your goals, schedule, and starting level. We help you achieve lasting results – no quick fixes, just sustainable progress.\n\nWhether your goal is weight loss, muscle building, or improving overall well-being, we are here to support you every step of the way. Coaching includes a personalized training program, nutrition plan, and ongoing support."
+  },
+  "blog": {
+    "title": "FROM THE BLOG",
+    "readMore": "Read more",
+    "noArticles": "No articles available."
+  },
+  "contact": {
+    "title": "GET IN TOUCH",
+    "text": "Ready to start your transformation? Get in touch and tell us about your goals – we'll help you get started.",
+    "cta": "START NOW",
+    "email": "info@coaching.fi",
+    "phone": "+358 40 123 4567"
+  },
+  "footer": {
+    "copyright": "© 2026 Coaching. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "formWizard": {
+    "step1": {
+      "title": "Your Goals",
+      "fitnessGoal": "What is your main goal?",
+      "weightLoss": "Weight Loss",
+      "muscleGain": "Muscle Building",
+      "generalFitness": "General Fitness",
+      "strength": "Strength Training"
+    },
+    "step2": {
+      "title": "Background",
+      "experienceLevel": "Your training experience",
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "daysPerWeek": "How many days per week can you train?",
+      "additionalInfo": "Anything else we should know (injuries, limitations, etc.)"
+    },
+    "step3": {
+      "title": "Contact Information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "acceptTerms": "I accept the terms of service"
+    },
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "stepOf": "Step {current}/{total}",
+    "success": "Thank you! We'll be in touch soon.",
+    "error": "Something went wrong. Please try again."
+  }
+}
