@@ -7,28 +7,24 @@ import { useFormWizard } from "@/hooks/useFormWizard";
 import { submitForm } from "@/app/actions/submit-form";
 import WizardStep from "./WizardStep";
 import Button from "@/components/ui/Button";
-import formWizardConfig from "../../../config/form-wizard.json";
 import type { FormWizardConfig } from "@/types/form";
-
-const config = formWizardConfig as FormWizardConfig;
 
 interface FormWizardProps {
   onClose: () => void;
+  formWizardConfig: FormWizardConfig;
 }
 
-export default function FormWizard({ onClose }: FormWizardProps) {
+export default function FormWizard({ onClose, formWizardConfig }: FormWizardProps) {
   const t = useTranslations("formWizard");
-  const { steps } = config;
+  const { steps } = formWizardConfig;
   const {
     currentStep,
     formData,
-    direction,
     isFirstStep,
     isLastStep,
     setField,
     nextStep,
     prevStep,
-    reset,
     validateCurrentStep,
   } = useFormWizard(steps);
 
@@ -67,7 +63,7 @@ export default function FormWizard({ onClose }: FormWizardProps) {
         >
           <div className="text-5xl mb-4">&#10003;</div>
           <p className="text-xl font-semibold mb-6">{t("success")}</p>
-          <Button variant="outline" onClick={onClose}>
+          <Button onClick={onClose}>
             OK
           </Button>
         </motion.div>
@@ -83,27 +79,27 @@ export default function FormWizard({ onClose }: FormWizardProps) {
 
       <div className="w-full bg-[var(--color-border)] rounded-full h-1 mb-8">
         <div
-          className="bg-[var(--color-accent)] h-1 rounded-full transition-all duration-300"
+          className="bg-gradient-to-r from-[#CA132A] to-[#EA3860] h-1 rounded-full transition-all duration-300"
           style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
         />
       </div>
 
-      <AnimatePresence mode="wait" custom={direction}>
-        <motion.div
-          key={currentStep}
-          custom={direction}
-          initial={{ opacity: 0, x: direction * 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: direction * -50 }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
-        >
-          <WizardStep
-            step={steps[currentStep]}
-            formData={formData}
-            onFieldChange={setField}
-          />
-        </motion.div>
-      </AnimatePresence>
+      <motion.div layout transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 0.3, ease: "easeInOut" } }}
+            exit={{ opacity: 0, transition: { duration: 0.2, ease: "easeInOut" } }}
+          >
+            <WizardStep
+              step={steps[currentStep]}
+              formData={formData}
+              onFieldChange={setField}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
 
       {status === "error" && (
         <p className="text-red-500 text-sm mt-4">{t("error")}</p>
