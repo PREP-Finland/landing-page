@@ -4,8 +4,6 @@ import { useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
-import videosConfig from "../../../config/videos.json";
-
 const isDev = process.env.NODE_ENV === "development";
 
 function getVideoSrc(src: string) {
@@ -17,9 +15,10 @@ function getVideoSrc(src: string) {
 
 interface HeroSectionProps {
   onCtaClick: () => void;
+  videosConfig: { hero: { src: string; poster: string } };
 }
 
-export default function HeroSection({ onCtaClick }: HeroSectionProps) {
+export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionProps) {
   const t = useTranslations("hero");
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -48,7 +47,7 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
   }, []);
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen w-full flex items-end justify-start md:justify-center overflow-hidden">
       <video
         ref={videoRef}
         autoPlay
@@ -60,20 +59,20 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
         src={getVideoSrc(videosConfig.hero.src)}
       />
       <div className="absolute inset-0 bg-black/60" />
-      <div className="relative z-10 text-center px-6 max-w-4xl">
-        <motion.h1
+      <div className="relative z-10 px-10 pb-16 self-end text-left md:text-center">
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight"
+          className="font-[family-name:var(--font-oswald)] text-base md:text-lg lg:text-xl text-white mb-4 tracking-tight uppercase md:whitespace-nowrap"
         >
           {t("headline")}
-        </motion.h1>
+        </motion.p>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-lg md:text-xl text-white/80 mb-10"
+          className="font-[family-name:var(--font-oswald)] text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight uppercase md:whitespace-nowrap"
         >
           {t("subheadline")}
         </motion.p>
@@ -81,6 +80,7 @@ export default function HeroSection({ onCtaClick }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          className="mt-8"
         >
           <Button size="lg" onClick={onCtaClick}>
             {t("cta")}

@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
+import MarkdownContent from "@/components/ui/MarkdownContent";
 
 export default function AboutSection() {
   const t = useTranslations("about");
@@ -13,9 +14,10 @@ export default function AboutSection() {
           <h2 className="text-3xl md:text-4xl font-bold mb-8">{t("title")}</h2>
         </ScrollFadeIn>
         <ScrollFadeIn delay={0.15}>
-          <div className="text-lg leading-relaxed text-[var(--color-text)]/80 whitespace-pre-line">
-            {t("text")}
-          </div>
+          <MarkdownContent
+            content={t("text")}
+            className="text-lg leading-relaxed text-[var(--color-text)]/80"
+          />
         </ScrollFadeIn>
       </div>
     </section>

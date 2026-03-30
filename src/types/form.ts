@@ -5,10 +5,11 @@ export interface FieldOption {
 
 export interface FormFieldConfig {
   name: string;
-  type: "text" | "email" | "textarea" | "radio" | "checkbox";
+  type: "text" | "email" | "tel" | "textarea" | "radio" | "checkbox" | "checkboxGroup" | "select";
   labelKey: string;
   required: boolean;
   options?: FieldOption[];
+  showIf?: string;
 }
 
 export interface WizardStepConfig {
@@ -21,4 +22,4 @@ export interface FormWizardConfig {
   steps: WizardStepConfig[];
 }
 
-export type FormData = Record<string, string | boolean>;
+export type FormData = Record<string, string | boolean | string[]>;

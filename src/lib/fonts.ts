@@ -1,15 +1,24 @@
-import { Roboto, Roboto_Condensed } from "next/font/google";
+import localFont from "next/font/local";
 
-export const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-  variable: "--font-roboto",
+export const futuraPtLight = localFont({
+  src: "./fonts/FuturaCyrillicBook.ttf",
+  variable: "--font-futura-pt",
   display: "swap",
+  weight: "400",
 });
 
-export const robotoCondensed = Roboto_Condensed({
-  subsets: ["latin"],
-  weight: ["700"],
-  variable: "--font-roboto-condensed",
+export const raleway = localFont({
+  src: [
+    {
+      path: "./fonts/Raleway-VariableFont_wght.ttf",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Raleway-Italic-VariableFont_wght.ttf",
+      style: "italic",
+    },
+  ],
+  variable: "--font-oswald",
   display: "swap",
+  weight: "100 900",
 });

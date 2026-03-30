@@ -3,13 +3,15 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import FormWizard from "./FormWizard";
+import type { FormWizardConfig } from "@/types/form";
 
 interface FormWizardModalProps {
   open: boolean;
   onClose: () => void;
+  formWizardConfig: FormWizardConfig;
 }
 
-export default function FormWizardModal({ open, onClose }: FormWizardModalProps) {
+export default function FormWizardModal({ open, onClose, formWizardConfig }: FormWizardModalProps) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -39,8 +41,9 @@ export default function FormWizardModal({ open, onClose }: FormWizardModalProps)
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="relative z-10 bg-[var(--color-bg)] rounded-lg p-8 md:p-12 w-full max-w-xl mx-4 max-h-[90vh] overflow-y-auto shadow-2xl"
+            layout
+            transition={{ duration: 0.2, layout: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] } }}
+            className="relative z-10 bg-[var(--color-bg)] rounded-lg p-8 md:p-12 w-full max-w-xl mx-4 max-h-[90vh] overflow-hidden shadow-2xl"
           >
             <button
               onClick={onClose}
@@ -52,7 +55,7 @@ export default function FormWizardModal({ open, onClose }: FormWizardModalProps)
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            <FormWizard onClose={onClose} />
+            <FormWizard onClose={onClose} formWizardConfig={formWizardConfig} />
           </motion.div>
         </motion.div>
       )}

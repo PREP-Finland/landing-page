@@ -1,5 +1,6 @@
 import { getRequestConfig } from "next-intl/server";
 import { cookies } from "next/headers";
+import { loadMarkdownConfig } from "@/lib/loadMarkdownConfig";
 
 export default getRequestConfig(async () => {
   const cookieStore = await cookies();
@@ -7,6 +8,6 @@ export default getRequestConfig(async () => {
 
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    messages: loadMarkdownConfig(`messages/${locale}.md`),
   };
 });

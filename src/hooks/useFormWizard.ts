@@ -9,7 +9,7 @@ interface UseFormWizardReturn {
   direction: number;
   isFirstStep: boolean;
   isLastStep: boolean;
-  setField: (name: string, value: string | boolean) => void;
+  setField: (name: string, value: string | boolean | string[]) => void;
   nextStep: () => boolean;
   prevStep: () => void;
   reset: () => void;
@@ -24,16 +24,21 @@ export function useFormWizard(steps: WizardStepConfig[]): UseFormWizardReturn {
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === steps.length - 1;
 
-  const setField = useCallback((name: string, value: string | boolean) => {
+  const setField = useCallback((name: string, value: string | boolean | string[]) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }, []);
 
   const validateCurrentStep = useCallback(() => {
     const step = steps[currentStep];
     for (const field of step.fields) {
+      if (field.showIf) {
+        const condValue = formData[field.showIf];
+        const isVisible = Array.isArray(condValue) ? condValue.length > 0 : !!condValue;
+        if (!isVisible) continue;
+      }
       if (field.required) {
         const value = formData[field.name];
-        if (value === undefined || value === "" || value === false) {
+        if (value === undefined || value === "" || value === false || (Array.isArray(value) && value.length === 0)) {
           return false;
         }
       }

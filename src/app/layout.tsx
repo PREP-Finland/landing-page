@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getLocale, getMessages } from "next-intl/server";
-import { roboto, robotoCondensed } from "@/lib/fonts";
+import { futuraPtLight, raleway } from "@/lib/fonts";
 import Providers from "@/components/providers/Providers";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -20,8 +20,8 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={`${roboto.variable} ${robotoCondensed.variable} antialiased`}>
+    <html lang={locale}>
+      <body className={`${futuraPtLight.variable} ${raleway.variable} antialiased`}>
         <Providers locale={locale} messages={messages as Record<string, unknown>}>
           <Header />
           <main>{children}</main>
