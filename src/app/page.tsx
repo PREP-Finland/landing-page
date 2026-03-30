@@ -1,5 +1,4 @@
 import PageClient from "./PageClient";
-import BlogFeedSection from "@/components/sections/BlogFeedSection";
 import { loadMarkdownConfig } from "@/lib/loadMarkdownConfig";
 import type { FormWizardConfig } from "@/types/form";
 
@@ -15,7 +14,6 @@ export default function Home() {
 
   return (
     <PageClient
-      blogSection={<BlogFeedSection />}
       videosConfig={videosConfig}
       formWizardConfig={formWizardConfig}
     />
