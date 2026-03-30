@@ -6,7 +6,7 @@ header:
   themeSystem: System
 hero:
   headline: We know how to turn your potential into results.
-  subheadline: Experience your best yourself.
+  subheadline: Experience your best self.
   cta: GET STARTED
 about:
   title: ABOUT US
