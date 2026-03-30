@@ -19,7 +19,7 @@ export default function LanguageToggle() {
     <button
       onClick={toggleLocale}
       disabled={isPending}
-      className="w-9 h-9 flex items-center justify-center rounded-md border border-[var(--color-border)] hover:bg-[var(--color-bg-secondary)] transition-colors text-sm font-semibold"
+      className="w-9 h-9 flex items-center justify-center rounded-md border border-white/60 hover:bg-white/10 transition-colors text-sm font-semibold text-white"
       aria-label="Toggle language"
     >
       {locale === "fi" ? "EN" : "FI"}
