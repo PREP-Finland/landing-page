@@ -64,15 +64,8 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-[family-name:var(--font-oswald)] text-base md:text-lg lg:text-xl text-white mb-4 tracking-tight uppercase md:whitespace-nowrap"
-        >
-          {t("headline")}
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="font-[family-name:var(--font-oswald)] text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight uppercase md:whitespace-nowrap"
+          className="font-[family-name:var(--font-oswald)] text-lg md:text-xl lg:text-2xl font-bold text-white uppercase md:whitespace-nowrap"
+          style={{ letterSpacing: "2.5px" }}
         >
           {t("subheadline")}
         </motion.p>
