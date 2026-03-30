@@ -1,6 +1,7 @@
 "use server";
 
 import { Resend } from "resend";
+import dns from "dns/promises";
 import type { FormData } from "@/types/form";
 
 interface SubmitResult {
@@ -27,6 +28,8 @@ function buildEmailHtml(data: FormData): string {
       </td>
     </tr>`;
 
+  const dataConsent = data.dataConsent === true ? "Yes ✓" : "No";
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /></head>
@@ -52,6 +55,7 @@ function buildEmailHtml(data: FormData): string {
               ${row("Phone", phone)}
               ${row("Profile", profileType)}
               ${row("Age Range", ageRange)}
+              ${row("Data Consent", dataConsent)}
             </table>
           </td>
         </tr>
@@ -102,8 +106,23 @@ export async function submitForm(data: FormData): Promise<SubmitResult> {
       return { success: false, message: "Missing goals." };
     }
 
+    if (data.dataConsent !== true) {
+      return { success: false, message: "Data consent is required." };
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(String(data.email))) {
+      return { success: false, message: "Invalid email address." };
+    }
+
+    // DNS MX lookup — verify the email domain accepts mail
+    try {
+      const domain = String(data.email).split("@")[1];
+      const mxRecords = await dns.resolveMx(domain);
+      if (!mxRecords || mxRecords.length === 0) {
+        return { success: false, message: "Invalid email address." };
+      }
+    } catch {
       return { success: false, message: "Invalid email address." };
     }
 

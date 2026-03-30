@@ -49,6 +49,7 @@ formWizard:
     name: Name
     phone: Phone Number
     email: Email
+    dataConsent: I agree to my data being used for coaching contact purposes.
   next: Next
   previous: Previous
   submit: Submit

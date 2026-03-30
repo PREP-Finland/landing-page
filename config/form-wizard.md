@@ -52,4 +52,8 @@ steps:
         type: email
         labelKey: formWizard.step3.email
         required: true
+      - name: dataConsent
+        type: checkbox
+        labelKey: formWizard.step3.dataConsent
+        required: true
 ---

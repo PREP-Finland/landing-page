@@ -49,6 +49,7 @@ formWizard:
     name: Nimi
     phone: Puhelinnumero
     email: Sähköposti
+    dataConsent: Suostun tietojeni käyttämiseen valmennusyhteydenottojen tarkoitukseen.
   next: Seuraava
   previous: Edellinen
   submit: "Lähetä"
