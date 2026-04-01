@@ -62,7 +62,7 @@ export default function FormWizard({ onClose, formWizardConfig }: FormWizardProp
           transition={{ duration: 0.3 }}
         >
           <div className="text-5xl mb-4">&#10003;</div>
-          <p className="text-xl font-semibold mb-6">{t("success")}</p>
+          <p className="text-base md:text-lg font-semibold mb-6">{t("success")}</p>
           <Button onClick={onClose}>
             OK
           </Button>
@@ -73,7 +73,7 @@ export default function FormWizard({ onClose, formWizardConfig }: FormWizardProp
 
   return (
     <div className="w-full max-w-lg mx-auto">
-      <div className="text-sm text-[var(--color-text)]/50 mb-6">
+      <div className="text-xs text-[var(--color-text)]/50 mb-6">
         {t("stepOf", { current: currentStep + 1, total: steps.length })}
       </div>
 

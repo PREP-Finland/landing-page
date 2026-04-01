@@ -18,7 +18,7 @@ export const raleway = localFont({
       style: "italic",
     },
   ],
-  variable: "--font-oswald",
+  variable: "--font-raleway",
   display: "swap",
   weight: "100 900",
 });

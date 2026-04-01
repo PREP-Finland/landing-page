@@ -16,7 +16,7 @@ export default function WizardStep({ step, formData, onFieldChange }: WizardStep
 
   return (
     <div>
-      <h3 className="text-2xl font-bold mb-6">
+      <h3 className="text-lg md:text-xl font-bold mb-6">
         {t(step.titleKey)}
         {step.fields.some((f) => f.required && !t(f.labelKey)) && (
           <span className="text-red-500 ml-1">*</span>

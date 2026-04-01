@@ -8,6 +8,16 @@ hero:
   headline: Me tiedämme, miten potentiaalisi muutetaan tuloksiksi.
   subheadline: Koe, miltä tuntuu olla paras versio itsestäsi.
   cta: Aloitetaan
+intro:
+  title: Me tiedämme, miten potentiaalisi muutetaan tuloksiksi.
+  p1: "Prep tuo huippu-urheilusta tutut, mutta harvoin moderniin elämään sovelletut metodit kokonaisvaltaisen suorituskyvyn ja hyvinvoinnin tueksi sinulle, joka haluat elämältäsi enemmän."
+  p2: "Sinulle, joka haluat kokea, miltä tuntuu olla paras versio itsestäsi."
+  p3: "Todellinen suorituskyky ei synny sattumalta. Se on rakennettavissa. Ihmisestä tulee se, mitä hän toistaa, ei se, mitä hän toivoo."
+  p4: "Valmennamme kunnianhimoisia ihmisiä, jotka haluavat saavuttaa oman potentiaalinsa. Heihin lukeutuu huippu-urheilijoita, johtajia, yrittäjiä ja julkisuudesta tunnettuja henkilöitä, mutta myös aivan tavallisia ihmisiä, joita yhdistää se, että he haluavat kivuta seuraavalle tasolle jollain elämänsä osa-alueella."
+  p5: "Tavoitteena ei ole vain parempi kunto hetkeksi."
+  p6: "Tavoitteena on suorituskyvyn perusta, joka kantaa sinua pitkälle."
+  p7: "Koe, miltä tuntuu olla paras versio itsestäsi."
+  cta: Aloitetaan
 about:
   title: TIETOA MEISTÄ
   text: |
@@ -33,7 +43,7 @@ formWizard:
     title: "Olen..."
     profileType: ""
     entrepreneur: yrittäjä
-    demandingProfessional: vaativassa roolissa työskentelevä ammattilainen
+    demandingProfessional: huippuosaaja
     competitiveAthlete: kilpaurheilija
     resultsOriented: tuloshakuinen ihminen
     ageRange: Ikä
@@ -49,7 +59,8 @@ formWizard:
     name: Nimi
     phone: Puhelinnumero
     email: Sähköposti
-    dataConsent: Suostun tietojeni käyttämiseen valmennusyhteydenottojen tarkoitukseen.
+    dataConsent: Hyväksyn tietosuojaselosteen.
+    dataConsentLink: Tietosuojaseloste
   next: Seuraava
   previous: Edellinen
   submit: "Lähetä"

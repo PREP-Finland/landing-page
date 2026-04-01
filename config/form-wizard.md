@@ -44,16 +44,17 @@ steps:
         type: text
         labelKey: formWizard.step3.name
         required: true
-      - name: phone
-        type: tel
-        labelKey: formWizard.step3.phone
-        required: true
       - name: email
         type: email
         labelKey: formWizard.step3.email
         required: true
+      - name: phone
+        type: tel
+        labelKey: formWizard.step3.phone
+        required: false
       - name: dataConsent
         type: checkbox
         labelKey: formWizard.step3.dataConsent
         required: true
+        privacyPolicyUrl: /privacy
 ---

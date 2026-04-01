@@ -32,7 +32,7 @@ function GradientBorderWrapper({ active, children }: { active: boolean; children
 }
 
 const inputClass =
-  "w-full px-4 py-3 bg-transparent text-[var(--color-text)] focus:outline-none rounded-[3px]";
+  "w-full px-4 py-3 bg-transparent text-[var(--color-text)] text-xs focus:outline-none rounded-[3px]";
 
 function CustomSelect({
   field,
@@ -47,9 +47,18 @@ function CustomSelect({
   const label = t(field.labelKey);
   const [open, setOpen] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const selectedOption = field.options?.find((o) => o.value === value);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   const updateRect = useCallback(() => {
     if (triggerRef.current) {
@@ -84,11 +93,38 @@ function CustomSelect({
     };
   }, [open, updateRect]);
 
+  if (isMobile) {
+    return (
+      <div className="mb-4">
+        {label && (
+          <label className="block text-xs font-semibold mb-2">
+            {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
+          </label>
+        )}
+        <GradientBorderWrapper active={!!value}>
+          <select
+            value={value || ""}
+            onChange={(e) => onChange(field.name, e.target.value)}
+            required={field.required}
+            className="w-full px-4 py-3 bg-transparent text-[var(--color-text)] text-xs focus:outline-none rounded-[3px] appearance-none cursor-pointer"
+          >
+            <option value="" disabled>—</option>
+            {field.options?.map((option) => (
+              <option key={option.value} value={option.value}>
+                {t(option.labelKey)}
+              </option>
+            ))}
+          </select>
+        </GradientBorderWrapper>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-4">
       {label && (
         <label className="block text-sm font-semibold mb-2">
-          {label} {field.required && <span className="text-red-500">*</span>}
+          {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
         </label>
       )}
       <GradientBorderWrapper active={open || !!value}>
@@ -131,7 +167,7 @@ function CustomSelect({
                 width: rect.width,
                 zIndex: 9999,
               }}
-              className="rounded-[4px] overflow-hidden border border-[var(--color-border)] bg-[var(--color-bg)] shadow-lg"
+              className="rounded-[4px] border border-[var(--color-border)] bg-[var(--color-bg)] shadow-lg overflow-y-auto max-h-48"
             >
               {field.options?.map((option) => {
                 const isSelected = value === option.value;
@@ -193,8 +229,8 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
     case "tel":
       return (
         <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">
-            {label} {field.required && <span className="text-red-500">*</span>}
+          <label className="block text-xs font-semibold mb-2">
+            {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
           </label>
           <GradientBorderWrapper active={focused}>
             <input
@@ -214,8 +250,8 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
       return (
         <div className="mb-4">
           {label && (
-            <label className="block text-sm font-semibold mb-2">
-              {label} {field.required && <span className="text-red-500">*</span>}
+            <label className="block text-xs font-semibold mb-2">
+              {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
             </label>
           )}
           <GradientBorderWrapper active={focused}>
@@ -239,8 +275,8 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
       return (
         <div className="mb-4">
           {label && (
-            <label className="block text-sm font-semibold mb-3">
-              {label} {field.required && <span className="text-red-500">*</span>}
+            <label className="block text-xs font-semibold mb-3">
+              {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
             </label>
           )}
           <div className="space-y-2">
@@ -275,8 +311,8 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
       const selected = (value as string[] | undefined) || [];
       return (
         <div className="mb-4">
-          <label className="block text-sm font-semibold mb-3">
-            {label} {field.required && <span className="text-red-500">*</span>}
+          <label className="block text-xs font-semibold mb-3">
+            {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
           </label>
           <div className="space-y-2">
             {field.options?.map((option) => {
@@ -380,8 +416,20 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
                 </motion.svg>
               </motion.div>
             </div>
-            <span className="text-sm">
-              {label} {field.required && <span className="text-red-500">*</span>}
+            <span className="text-xs">
+              {label}
+              {field.privacyPolicyUrl && (
+                <> — <a
+                  href={field.privacyPolicyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:opacity-70 transition-opacity"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {t("formWizard.step3.dataConsentLink")}
+                </a></>
+              )}
+              {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
             </span>
           </label>
         </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import HeroSection from "@/components/sections/HeroSection";
+import IntroSection from "@/components/sections/IntroSection";
 import FormWizardModal from "@/components/form-wizard/FormWizardModal";
 import type { FormWizardConfig } from "@/types/form";
 
@@ -20,6 +21,7 @@ export default function PageClient({ videosConfig, formWizardConfig }: PageClien
   return (
     <>
       <HeroSection onCtaClick={() => setWizardOpen(true)} videosConfig={videosConfig} />
+      <IntroSection onCtaClick={() => setWizardOpen(true)} />
       <FormWizardModal open={wizardOpen} onClose={() => setWizardOpen(false)} formWizardConfig={formWizardConfig} />
     </>
   );

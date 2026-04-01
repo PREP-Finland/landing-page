@@ -8,6 +8,16 @@ hero:
   headline: We know how to turn your potential into results.
   subheadline: Experience your best self.
   cta: GET STARTED
+intro:
+  title: We know how to turn your potential into results.
+  p1: "Prep brings methods proven in elite sports — rarely applied to modern life — to support your holistic performance and well-being, for those who want more from life."
+  p2: "For those who want to experience what it feels like to be the best version of themselves."
+  p3: "True performance doesn't happen by accident. It can be built. A person becomes what they repeat, not what they wish for."
+  p4: "We coach ambitious people who want to reach their potential. They include elite athletes, executives, entrepreneurs, and public figures — but also everyday people united by the desire to reach the next level in some area of their life."
+  p5: "The goal is not just better fitness for a moment."
+  p6: "The goal is a foundation of performance that carries you far."
+  p7: "Experience what it feels like to be the best version of yourself."
+  cta: GET STARTED
 about:
   title: ABOUT US
   text: |
@@ -49,7 +59,8 @@ formWizard:
     name: Name
     phone: Phone Number
     email: Email
-    dataConsent: I agree to my data being used for coaching contact purposes.
+    dataConsent: I accept the privacy notice.
+    dataConsentLink: Privacy Notice
   next: Next
   previous: Previous
   submit: Submit

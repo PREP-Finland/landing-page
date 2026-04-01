@@ -10,6 +10,7 @@ export interface FormFieldConfig {
   required: boolean;
   options?: FieldOption[];
   showIf?: string;
+  privacyPolicyUrl?: string;
 }
 
 export interface WizardStepConfig {

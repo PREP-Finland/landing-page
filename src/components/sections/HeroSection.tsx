@@ -41,8 +41,17 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
       video.addEventListener("loadeddata", tryPlay, { once: true });
     }
 
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        video.play().catch(() => {});
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
       video.removeEventListener("loadeddata", tryPlay);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
@@ -64,7 +73,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-[family-name:var(--font-oswald)] text-lg md:text-xl lg:text-2xl font-bold text-white uppercase md:whitespace-nowrap"
+          className="font-[family-name:var(--font-raleway)] text-lg md:text-xl lg:text-2xl font-bold text-white uppercase md:whitespace-nowrap"
           style={{ letterSpacing: "2.5px" }}
         >
           {t("subheadline")}

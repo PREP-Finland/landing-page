@@ -43,19 +43,23 @@ export default function FormWizardModal({ open, onClose, formWizardConfig }: For
             exit={{ opacity: 0, scale: 0.95 }}
             layout
             transition={{ duration: 0.2, layout: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] } }}
-            className="relative z-10 bg-[var(--color-bg)] rounded-lg p-8 md:p-12 w-full max-w-xl mx-4 max-h-[90vh] overflow-hidden shadow-2xl"
+            className="relative z-10 bg-[var(--color-bg)] rounded-lg w-full max-w-xl mx-4 max-h-[90vh] overflow-y-auto shadow-2xl"
           >
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-md hover:bg-[var(--color-bg-secondary)] transition-colors text-[var(--color-text)]/60 hover:text-[var(--color-text)]"
-              aria-label="Close"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-            <FormWizard onClose={onClose} formWizardConfig={formWizardConfig} />
+            <div className="sticky top-0 right-0 z-10 flex justify-end bg-[var(--color-bg)] pt-4 pr-4">
+              <button
+                onClick={onClose}
+                className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-[var(--color-bg-secondary)] transition-colors text-[var(--color-text)]/60 hover:text-[var(--color-text)]"
+                aria-label="Close"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            <div className="px-8 pb-8 md:px-12 md:pb-12">
+              <FormWizard onClose={onClose} formWizardConfig={formWizardConfig} />
+            </div>
           </motion.div>
         </motion.div>
       )}

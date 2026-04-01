@@ -7,7 +7,7 @@ import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PREP | Personal Coaching",
+  title: "PREP | Be Prepared",
   description: "Henkilökohtaista valmennusta, joka toimii. Personal coaching that works.",
 };
 

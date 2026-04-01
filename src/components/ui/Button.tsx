@@ -16,11 +16,11 @@ export default function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const base = "inline-flex items-center justify-center font-semibold rounded-[4px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+  const base = "inline-flex items-center justify-center font-semibold rounded-full cursor-pointer uppercase tracking-[2.5px] disabled:opacity-50 disabled:cursor-not-allowed";
 
   const sizes = {
-    default: "px-6 py-3 text-base",
-    lg: "px-8 py-4 text-lg tracking-wide",
+    default: "px-4 py-2.5 text-xs",
+    lg: "px-6 py-3 text-xs",
   };
 
   if (variant === "outline") {
