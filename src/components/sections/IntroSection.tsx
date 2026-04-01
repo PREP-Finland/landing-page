@@ -21,11 +21,6 @@ export default function IntroSection({ onCtaClick }: IntroSectionProps) {
         <div className="space-y-3 text-gray-600 text-xs md:text-sm leading-relaxed font-light">
           <p>{t("p1")}</p>
           <p>{t("p2")}</p>
-          <p>{t("p3")}</p>
-          <p>{t("p4")}</p>
-          <p>{t("p5")}</p>
-          <p>{t("p6")}</p>
-          <p>{t("p7")}</p>
         </div>
         <div className="mt-12 flex justify-center">
           <Button variant="outline" size="lg" onClick={onCtaClick}>
