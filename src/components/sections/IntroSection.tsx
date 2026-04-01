@@ -14,7 +14,7 @@ export default function IntroSection({ onCtaClick }: IntroSectionProps) {
   return (
     <section className="relative bg-white">
       <TestimonialCarousel />
-      <div className="max-w-3xl mx-auto pt-8 pb-24 px-6">
+      <div className="max-w-3xl mx-auto py-24 px-6">
         <h2 className="font-[family-name:var(--font-raleway)] text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-10 leading-tight">
           {t("title")}
         </h2>
