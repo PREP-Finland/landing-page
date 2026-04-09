@@ -79,7 +79,7 @@ export default function CoachesSection() {
           paragraphs={coach1Paragraphs}
           readMore={t("readMore")}
           readLess={t("readLess")}
-          imageSrc="/johanna-hermans.webp"
+          imageSrc="/johanna-hermans.jpg"
           delay={0.15}
           reverse
         />
@@ -88,7 +88,7 @@ export default function CoachesSection() {
           paragraphs={coach2Paragraphs}
           readMore={t("readMore")}
           readLess={t("readLess")}
-          imageSrc="/sherko-eliassi.webp"
+          imageSrc="/sherko-eliassi.jpg"
           delay={0.3}
           flipImage
         />
