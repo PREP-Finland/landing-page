@@ -9,5 +9,6 @@ export default getRequestConfig(async () => {
   return {
     locale,
     messages: loadMarkdownConfig(`messages/${locale}.md`),
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   };
 });

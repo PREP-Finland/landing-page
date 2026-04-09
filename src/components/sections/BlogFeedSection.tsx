@@ -8,9 +8,9 @@ export default async function BlogFeedSection() {
   const items = await fetchRssFeed("https://www.twopct.com/feed");
 
   return (
-    <section id="blog" className="py-24 md:py-32">
+    <section id="blog" className="py-10 md:py-12">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">{t("title")}</h2>
+        <h2 className="font-[family-name:var(--font-raleway)] text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-tight mb-6">{t("title")}</h2>
         {items.length === 0 ? (
           <p className="text-[var(--color-text)]/60">{t("noArticles")}</p>
         ) : (

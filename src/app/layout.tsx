@@ -18,11 +18,12 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   return (
     <html lang={locale}>
       <body className={`${futuraPtLight.variable} ${raleway.variable} antialiased`}>
-        <Providers locale={locale} messages={messages as Record<string, unknown>}>
+        <Providers locale={locale} messages={messages as Record<string, unknown>} timeZone={timeZone}>
           <Header />
           <main>{children}</main>
           <Footer />

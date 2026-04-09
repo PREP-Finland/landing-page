@@ -56,7 +56,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
   }, []);
 
   return (
-    <section className="relative h-screen w-full flex items-end justify-start md:justify-center overflow-hidden">
+    <section className="relative mt-16 aspect-[4/3] md:h-[calc(100vh-4rem)] md:aspect-auto w-full flex items-end justify-start md:justify-center overflow-hidden">
       <video
         ref={videoRef}
         autoPlay
@@ -67,13 +67,13 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
         className="absolute inset-0 w-full h-full object-cover"
         src={getVideoSrc(videosConfig.hero.src)}
       />
-      <div className="absolute inset-0 bg-black/60" />
-      <div className="relative z-10 px-10 pb-16 self-end text-left md:text-center">
+      <div className="absolute inset-0 bg-black/20" />
+      <div className="relative z-10 px-6 pb-6 md:px-10 md:pb-16 self-end text-left md:text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-[family-name:var(--font-raleway)] text-lg md:text-xl lg:text-2xl font-bold text-white uppercase md:whitespace-nowrap"
+          className="font-[family-name:var(--font-raleway)] text-sm md:text-xl lg:text-2xl font-bold text-white uppercase md:whitespace-nowrap"
           style={{ letterSpacing: "2.5px" }}
         >
           {t("subheadline")}
@@ -82,7 +82,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="mt-8"
+          className="mt-3 md:mt-8"
         >
           <Button size="lg" onClick={onCtaClick}>
             {t("cta")}

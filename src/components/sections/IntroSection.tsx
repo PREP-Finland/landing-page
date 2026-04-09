@@ -14,15 +14,15 @@ export default function IntroSection({ onCtaClick }: IntroSectionProps) {
   return (
     <section className="relative bg-white">
       <TestimonialCarousel />
-      <div className="max-w-3xl mx-auto py-24 px-6">
-        <h2 className="font-[family-name:var(--font-raleway)] text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-10 leading-tight">
+      <div className="max-w-3xl mx-auto py-10 md:py-12 px-6">
+        <h2 className="font-[family-name:var(--font-raleway)] text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-6 leading-tight">
           {t("title")}
         </h2>
         <div className="space-y-3 text-gray-600 text-xs md:text-sm leading-relaxed font-light">
           <p>{t("p1")}</p>
           <p>{t("p2")}</p>
         </div>
-        <div className="mt-12 flex justify-center">
+        <div className="mt-6 flex justify-start md:justify-center">
           <Button variant="outline" size="lg" onClick={onCtaClick}>
             {t("cta")}
           </Button>

@@ -24,6 +24,23 @@ about:
     We are passionate fitness coaches who believe in **science-based** training and nutrition. Every program is individually tailored to your goals, schedule, and starting level. We help you achieve lasting results – no quick fixes, just sustainable progress.
 
     Whether your goal is weight loss, muscle building, or improving overall well-being, we are here to support you every step of the way. Coaching includes a personalized training program, nutrition plan, and ongoing support.
+coaches:
+  title: FOUNDERS
+  readMore: Read more
+  readLess: Read less
+  coach1:
+    name: Johanna Hermansilla
+    role: Head Coach & Performance Specialist
+    bioP1: "With a background in elite athletics and sport science, Johanna combines world-class competitive experience with deep expertise in human performance and years navigating the high-pressure corporate world."
+    bioP2: "Over the last ten years she built the NOCCO brand into a phenomenon in Finland, while simultaneously competing at the highest level. Her interest in coaching grew organically from demand — she wanted to help the people around her succeed responsibly in a sport that often divides opinion."
+    bioP3: "She has turned clients into world champions, Finnish champions, and competition winners, while also driving exceptional results for other demanding clients. Johanna has inspired many of her clients to start their own coaching careers. Her strength is the ability to see what a person is truly capable of and build a sustainable path to get there."
+    bioP4: "If you know there is more potential in you, Johanna knows how to bring it out."
+  coach2:
+    name: Sherko Eliassi
+    role: Nutrition & Recovery Coach
+    bioP1: "Finland's most successful men's fitness athlete, Sherko brings to Prep an exceptional combination of elite athletic background, entrepreneurship, and a proven track record coaching demanding clients. He is a Men's Physique professional, world champion and multiple world medal winner, two-time European champion, two-time Nordic champion, and multiple Finnish champion — an athlete who knows first-hand what it takes to become the best in the world."
+    bioP2: "As a coach, Sherko has helped numerous competitors build a competition-ready physique on international fitness stages and elevate their performance to the highest level. His particular strength is the ability to identify what the next level requires from each individual and how to get there. His endless passion for coaching has changed many lives, and his clients call him the \"master sculptor.\" Sherko has also inspired many of his clients to start their own coaching careers."
+    bioP3: "If your goal is to see what you are truly capable of, Sherko knows what it takes."
 blog:
   title: FROM THE BLOG
   readMore: Read more

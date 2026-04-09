@@ -24,6 +24,21 @@ about:
     Olemme intohimoisia fitness-valmentajia, jotka uskovat tieteeseen perustuvaan harjoitteluun ja ravitsemukseen. Jokainen ohjelma räätälöidään yksilöllisesti sinun tavoitteidesi, aikataulusi ja lähtötasosi mukaan. Autamme sinua saavuttamaan pysyviä tuloksia – ei pikaratkaisuja, vaan kestävää kehitystä.
 
     Olipa tavoitteesi painonpudotus, lihasmassan kasvattaminen tai yleisen hyvinvoinnin parantaminen, olemme täällä tukemassa sinua joka askeleella. Valmennus sisältää henkilökohtaisen harjoitusohjelman, ravitsemussuunnitelman ja jatkuvan tuen.
+coaches:
+  title: PERUSTAJAT
+  readMore: Lue lisää
+  readLess: Lue vähemmän
+  coach1:
+    name: Johanna Hermans
+    bioP1: "Johanna Hermansilla on selkeä visio siitä, mitä tulisi tehdä, jotta paineen keskellä elävät ihmiset pystyisivät voida paremmin ja kokea olevansa parhaita versioita itsestään. Kauppatieteiden maisterina, yrittäjänä, brändinrakentajana, kahden fitnesslajin suomenmestarina sekä valmentajana Johanna yhdistää harvinaisella tavalla huippu-urheilun, ihmisen suorituskyvyn ymmärtämisen ja pitkän kokemuksen hektisessä korporaatio- ja yritysmaailmassa toimimisesta."
+    bioP2: "Tulokset puhuvat Johannan työssä puolestaan. Hän vietti viimeiset kymmenen vuotta rakentaen ilmiöksi noussutta NOCCO-brändiä Suomeen. Osittain samaan aikaan hän kilpaurheili menestyksekkäästi. Kiinnostus valmennustyöhön heräsi kysynnän kautta ja Johannaa rupesi kiinnostamaan, miten hän voisi auttaa ympärillään olevia nuoria fitnessurheilijoita onnistumaan vastuullisilla metodeilla lajissa, joka herättää paljon ristiriitaisia mielipiteitä."
+    bioP3: "Hän on tehnyt asiakkaistaan maailmanmestareita, suomenmestareita ja muiden kilpailujen voittajia sekä samalla vienyt koviin tuloksiin muita vaativia asiakkaita. Johanna on inspiroinut useita asiakkaitaan aloittamaan oman uransa valmentajana. Valmennustaitoja Johanna on soveltanut myös työelämässä tiimien johtamisessa. Johannan vahvuus on kyky nähdä, mihin ihminen todella pystyy ja rakentaa kestävä tie sinne."
+    bioP4: "Jos tiedät sinusta löytyvän enemmän potentiaalia, Johanna osaa tuoda sen esiin."
+  coach2:
+    name: Sherko Eliassi
+    bioP1: "Miesten fitnessurheilun menestynein suomalainen, Sherko, tuo Prepiin poikkeuksellisen yhdistelmän omaa huippu-urheilutaustaa, yrittäjyyttä ja näyttöjä vaativien asiakkaiden valmentamista. Hän on Men's Physique -ammattilainen, maailmanmestari ja moninkertainen MM-mitalisti, kaksinkertainen euroopanmestari, kaksinkertainen Pohjoismaiden mestari ja moninkertainen suomenmestari — urheilija, joka tietää omasta kokemuksesta, mitä maailman parhaaksi tuleminen vaatii."
+    bioP2: "Valmentajana Sherko on auttanut lukuisia kilpailijoita rakentamaan kansainvälisillä fitnesslavoilla kilpailukykyisen fysiikan sekä parantamaan suorituskykyään korkealle tasolle. Hänen erityinen vahvuutensa on kyky tunnistaa, mitä seuraava taso juuri kyseiseltä yksilöltä vaatii ja miten sinne päästään. Hänen loputon intohimonsa valmennustyötä kohtaan on muuttanut monen ihmisen elämää, ja häntä kutsutaankin asiakkaiden toimesta mestariveistäjäksi. Sherko on inspiroinut myös monia asiakkaitaan aloittamaan oman uransa valmentajana."
+    bioP3: "Jos tavoitteesi on nähdä, mihin todella pystyt, Sherko tietää, mitä se sinulta vaatii."
 blog:
   title: BLOGISTA
   readMore: Lue lisää
