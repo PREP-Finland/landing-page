@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 import { useFormWizard } from "@/hooks/useFormWizard";
 import { submitForm } from "@/app/actions/submit-form";
+import { trackEvent } from "@/lib/analytics";
 import WizardStep from "./WizardStep";
 import Button from "@/components/ui/Button";
 import type { FormWizardConfig } from "@/types/form";
@@ -30,6 +31,16 @@ export default function FormWizard({ onClose, formWizardConfig }: FormWizardProp
 
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
+  useEffect(() => {
+    const step = steps[currentStep];
+    trackEvent("form_step_view", {
+      form: "contact_wizard",
+      step_index: currentStep + 1,
+      step_total: steps.length,
+      step_id: step.id,
+    });
+  }, [currentStep, steps]);
+
   const handleNext = () => {
     if (isLastStep) {
       handleSubmit();
@@ -45,11 +56,14 @@ export default function FormWizard({ onClose, formWizardConfig }: FormWizardProp
       const result = await submitForm(formData);
       if (result.success) {
         setStatus("success");
+        trackEvent("form_submit", { form: "contact_wizard", outcome: "success" });
       } else {
         setStatus("error");
+        trackEvent("form_submit", { form: "contact_wizard", outcome: "error" });
       }
     } catch {
       setStatus("error");
+      trackEvent("form_submit", { form: "contact_wizard", outcome: "error" });
     }
   };
 

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import IntroSection from "@/components/sections/IntroSection";
 import CoachesSection from "@/components/sections/CoachesSection";
 import FormWizardModal from "@/components/form-wizard/FormWizardModal";
+import { trackEvent } from "@/lib/analytics";
 import type { FormWizardConfig } from "@/types/form";
 
 interface VideosConfig {
@@ -19,10 +20,19 @@ interface PageClientProps {
 export default function PageClient({ videosConfig, formWizardConfig }: PageClientProps) {
   const [wizardOpen, setWizardOpen] = useState(false);
 
+  useEffect(() => {
+    trackEvent("page_view_landing", { page: "home" });
+  }, []);
+
+  const openWizard = (source: string) => {
+    trackEvent("form_open", { form: "contact_wizard", source });
+    setWizardOpen(true);
+  };
+
   return (
     <>
-      <HeroSection onCtaClick={() => setWizardOpen(true)} videosConfig={videosConfig} />
-      <IntroSection onCtaClick={() => setWizardOpen(true)} />
+      <HeroSection onCtaClick={() => openWizard("hero")} videosConfig={videosConfig} />
+      <IntroSection onCtaClick={() => openWizard("intro")} />
       <CoachesSection />
       <FormWizardModal open={wizardOpen} onClose={() => setWizardOpen(false)} formWizardConfig={formWizardConfig} />
     </>
