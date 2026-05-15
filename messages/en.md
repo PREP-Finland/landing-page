@@ -55,6 +55,24 @@ footer:
   copyright: "© 2026 Coaching. All rights reserved."
   privacy: Privacy Policy
   terms: Terms of Service
+cookies:
+  title: We use cookies
+  message: "We use cookies to improve your experience, analyse traffic and personalise content. You can accept all cookies, reject non-essential ones, or customise your preferences."
+  policy: Privacy Policy
+  btnAccept: Accept all
+  btnReject: Reject non-essential
+  btnSettings: Preferences
+  btnDismiss: Cookies
+  btnSettingsAccept: Save preferences
+  btnSettingsSelectAll: Select all
+  btnSettingsUnselectAll: Unselect all
+  settingsHeader: "Manage your cookie preferences below. Essential cookies are required for the site to function."
+  essential:
+    title: Essential
+    description: Required for the site to work. These cookies cannot be disabled.
+  analytics:
+    title: Analytics
+    description: Help us understand how visitors use the site so we can improve it.
 formWizard:
   step1:
     title: "I am..."

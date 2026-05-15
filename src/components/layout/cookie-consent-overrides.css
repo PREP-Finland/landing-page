@@ -1,0 +1,142 @@
+/* Full-page dim backdrop shown until the user accepts or rejects. */
+.cookie-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 20, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 99998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+.cookie-backdrop--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Popup container: tighter, more premium look. */
+.cc-window.cc-pos-bottom-right,
+.cc-window.cc-pos-bottom-left,
+.cc-window.cc-pos-top-right,
+.cc-window.cc-pos-top-left,
+.cc-window.cc-pos-bottom-center,
+.cc-window.cc-pos-top-center {
+  --cc-window-radius: 10px;
+  --cc-window-width: 420px;
+  padding: 0;
+  filter: drop-shadow(0 12px 32px rgba(15, 15, 20, 0.18));
+  border: 1px solid var(--color-border);
+}
+
+.cc-window .cc-window-title {
+  padding: 22px 22px 0 22px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #111827;
+}
+
+.cc-window .cc-window-message {
+  padding: 4px 22px 18px 22px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+/* Buttons row: 2-col grid for accept/reject, full-width row for settings. */
+.cc-window .cc-window-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 22px 22px 22px;
+  text-align: left;
+}
+
+/* Settings styled as a gray inline link, placed above the buttons. */
+.cc-window .cc-window-buttons .cc-btn-settings {
+  grid-column: 1 / -1;
+  justify-self: start;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: -8px 0 4px !important;
+  color: #6b7280 !important;
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  box-shadow: none;
+  border-radius: 0;
+}
+.cc-window .cc-window-buttons .cc-btn-settings:hover {
+  color: #111827 !important;
+  background: transparent !important;
+}
+
+/* Accept and reject share the row 50/50. */
+.cc-window .cc-window-buttons .cc-btn-accept,
+.cc-window .cc-window-buttons .cc-btn-reject {
+  width: 100%;
+  margin: 0;
+  padding: 11px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.cc-window .cc-window-buttons .cc-btn-accept {
+  background: var(--color-accent) !important;
+  border: 1px solid var(--color-accent) !important;
+  color: #ffffff !important;
+}
+.cc-window .cc-window-buttons .cc-btn-accept:hover {
+  background: #a30f22 !important;
+  border-color: #a30f22 !important;
+}
+
+.cc-window .cc-window-buttons .cc-btn-reject {
+  background: #ffffff !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+.cc-window .cc-window-buttons .cc-btn-reject:hover {
+  background: var(--color-bg-secondary) !important;
+  border-color: #c9c9c9 !important;
+  color: #111827 !important;
+}
+
+/* Lift the popup above the backdrop. */
+.cc-window {
+  z-index: 99999;
+}
+
+/* Settings modal polish to match. */
+#cc-window-settings.cc-modal-window {
+  border-radius: 10px;
+}
+
+/* Only one toggleable cookie — bulk select/unselect controls add no value. */
+#cc-window-settings .cc-btn-settings-select {
+  display: none !important;
+}
+#cc-window-settings .cc-window-settings-buttons .cc-btn-settings-accept {
+  background: var(--color-accent) !important;
+  border: 1px solid var(--color-accent) !important;
+  color: #ffffff !important;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+#cc-window-settings .cc-window-settings-buttons .cc-btn-settings-accept:hover {
+  background: #a30f22 !important;
+  border-color: #a30f22 !important;
+}

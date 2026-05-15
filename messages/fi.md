@@ -53,6 +53,24 @@ footer:
   copyright: "© 2026 Valmennus. Kaikki oikeudet pidätetään."
   privacy: Tietosuoja
   terms: Käyttöehdot
+cookies:
+  title: "Käytämme evästeitä"
+  message: "Käytämme evästeitä parantaaksemme käyttökokemustasi, analysoidaksemme liikennettä ja personoidaksemme sisältöä. Voit hyväksyä kaikki evästeet, hylätä ei-välttämättömät tai muokata asetuksiasi."
+  policy: Tietosuojaseloste
+  btnAccept: Hyväksy kaikki
+  btnReject: Hylkää ei-välttämättömät
+  btnSettings: Asetukset
+  btnDismiss: Evästeet
+  btnSettingsAccept: Tallenna asetukset
+  btnSettingsSelectAll: Valitse kaikki
+  btnSettingsUnselectAll: Poista valinnat
+  settingsHeader: "Hallinnoi evästeasetuksiasi alla. Välttämättömät evästeet vaaditaan sivuston toimintaan."
+  essential:
+    title: "Välttämättömät"
+    description: "Vaaditaan sivuston toimintaan. Näitä evästeitä ei voi poistaa käytöstä."
+  analytics:
+    title: Analytiikka
+    description: "Auttavat meitä ymmärtämään, miten kävijät käyttävät sivustoa, jotta voimme parantaa sitä."
 formWizard:
   step1:
     title: "Olen..."
