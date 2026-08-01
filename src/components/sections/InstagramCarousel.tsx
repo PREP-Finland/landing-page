@@ -139,7 +139,7 @@ export default function InstagramCarousel() {
       ref={sectionRef}
       id="instagram"
       className="relative w-full overflow-hidden flex flex-col justify-center min-h-screen md:min-h-0 md:py-24 py-16"
-      style={{ backgroundColor: "#ffffff" }}
+      style={{ backgroundColor: "#fafaf9" }}
     >
       {/* Editorial header */}
       <div className="relative z-10 px-6 mb-10 md:mb-14 text-center">

@@ -67,7 +67,7 @@ export default function CoachesSection() {
   ];
 
   return (
-    <section id="coaches" className="py-10 md:py-12" style={{ backgroundColor: "#fafaf9" }}>
+    <section id="coaches" className="py-10 md:py-12" style={{ backgroundColor: "#ffffff" }}>
       <ScrollFadeIn>
         <div className="text-left md:text-center mb-6 px-6">
           <h2 className="font-[family-name:var(--font-raleway)] text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-tight">{t("title")}</h2>
