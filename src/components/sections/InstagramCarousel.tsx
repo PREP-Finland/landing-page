@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
+import { useInView } from "@/hooks/useInView";
 
 interface InstagramPost {
   shortcode: string;
@@ -52,6 +53,7 @@ export default function InstagramCarousel() {
   const dragStart = useRef<number | null>(null);
   const dragged = useRef(false);
   const videoRefs = useRef(new Map<string, HTMLVideoElement>());
+  const { ref: sectionRef, inView } = useInView<HTMLElement>(0.4);
 
   useEffect(() => {
     let cancelled = false;
@@ -93,20 +95,21 @@ export default function InstagramCarousel() {
     setActive(i);
   }, []);
 
-  // Drive playback of the centered clip; pause + rewind the rest.
+  // Drive playback of the centered clip; pause + rewind the rest. The active
+  // clip only plays while the section is in view, so scrolling away stops it.
   useEffect(() => {
     posts.forEach((post, i) => {
       const el = videoRefs.current.get(post.shortcode);
       if (!el) return;
       el.muted = muted;
-      if (i === active) {
-        if (!paused) el.play().catch(() => {});
+      if (i === active && inView && !paused) {
+        el.play().catch(() => {});
       } else {
         el.pause();
-        el.currentTime = 0;
+        if (i !== active) el.currentTime = 0;
       }
     });
-  }, [active, posts, muted, paused, isMobile]);
+  }, [active, posts, muted, paused, isMobile, inView]);
 
   const onPointerDown = (e: React.PointerEvent) => {
     dragStart.current = e.clientX;
@@ -132,6 +135,7 @@ export default function InstagramCarousel() {
 
   return (
     <section
+      ref={sectionRef}
       id="instagram"
       className="relative w-full overflow-hidden flex flex-col justify-center min-h-screen md:min-h-0 md:py-24 py-16"
       style={{ backgroundColor: "#0a0a0b" }}

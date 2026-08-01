@@ -30,27 +30,33 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
     video.loop = true;
     video.playsInline = true;
 
-    const tryPlay = () => {
-      video.play().catch(() => {});
+    // Play only while on-screen and the tab is visible; pause otherwise so no
+    // off-screen video keeps running.
+    let inView = true;
+    const update = () => {
+      if (inView && !document.hidden) video.play().catch(() => {});
+      else video.pause();
     };
 
-    // If already enough data, play immediately
-    if (video.readyState >= 2) {
-      tryPlay();
-    } else {
-      video.addEventListener("loadeddata", tryPlay, { once: true });
-    }
+    const onLoaded = () => update();
+    if (video.readyState >= 2) update();
+    else video.addEventListener("loadeddata", onLoaded, { once: true });
 
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        video.play().catch(() => {});
-      }
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        update();
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(video);
 
+    const handleVisibilityChange = () => update();
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      video.removeEventListener("loadeddata", tryPlay);
+      observer.disconnect();
+      video.removeEventListener("loadeddata", onLoaded);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
