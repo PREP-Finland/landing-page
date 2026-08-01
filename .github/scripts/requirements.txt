@@ -1,0 +1,2 @@
+instaloader==4.13.*
+boto3>=1.34
