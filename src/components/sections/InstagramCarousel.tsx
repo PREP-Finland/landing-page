@@ -8,6 +8,7 @@ interface InstagramPost {
   shortcode: string;
   permalink: string;
   caption: string;
+  taken_at: string;
   video_url: string;
   poster_url?: string;
 }
@@ -57,7 +58,10 @@ export default function InstagramCarousel() {
     fetch("/instagram.json", { cache: "no-cache" })
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((data: InstagramManifest) => {
-        if (!cancelled && Array.isArray(data.posts)) setPosts(data.posts);
+        if (cancelled || !Array.isArray(data.posts)) return;
+        // Play oldest -> newest.
+        const ordered = [...data.posts].sort((a, b) => a.taken_at.localeCompare(b.taken_at));
+        setPosts(ordered);
       })
       .catch(() => {});
     return () => {
@@ -216,16 +220,16 @@ export default function InstagramCarousel() {
                   cursor: isCenter ? "default" : "pointer",
                   pointerEvents: opacity === 0 ? "none" : "auto",
                   boxShadow: isCenter
-                    ? `0 30px 80px -20px ${ACCENT}55, 0 20px 60px -15px rgba(0,0,0,0.8)`
+                    ? "0 30px 80px -20px rgba(0,0,0,0.75), 0 20px 60px -15px rgba(0,0,0,0.85)"
                     : "0 20px 50px -20px rgba(0,0,0,0.7)",
                 }}
               >
-                {/* Brand ring on the focused reel */}
+                {/* Subtle neutral frame on the focused reel */}
                 {isCenter && (
                   <div
                     aria-hidden
                     className="absolute inset-0 rounded-[22px] z-20 pointer-events-none"
-                    style={{ boxShadow: `inset 0 0 0 1.5px ${ACCENT}, inset 0 0 0 6px rgba(255,255,255,0.06)` }}
+                    style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.12)" }}
                   />
                 )}
 
