@@ -52,7 +52,9 @@ export default function InstagramCarousel() {
   const dragStart = useRef<number | null>(null);
   const dragged = useRef(false);
   const videoRefs = useRef(new Map<string, HTMLVideoElement>());
-  const { ref: sectionRef, inView } = useInView<HTMLElement>(0.3);
+  // "In view" once the section reaches the middle band of the viewport —
+  // robust even though the section is taller than the screen.
+  const { ref: sectionRef, inView } = useInView<HTMLElement>(0, "-25% 0px -25% 0px");
 
   useEffect(() => {
     let cancelled = false;
@@ -224,12 +226,19 @@ export default function InstagramCarousel() {
                 {isCenter ? (
                   <video
                     ref={(el) => {
-                      if (el) videoRefs.current.set(post.shortcode, el);
-                      else videoRefs.current.delete(post.shortcode);
+                      if (el) {
+                        // Set muted as a property (the React attribute is
+                        // unreliable) so muted autoplay is allowed.
+                        el.muted = muted;
+                        videoRefs.current.set(post.shortcode, el);
+                      } else {
+                        videoRefs.current.delete(post.shortcode);
+                      }
                     }}
                     src={post.video_url}
                     poster={post.poster_url}
                     muted={muted}
+                    autoPlay
                     playsInline
                     preload="auto"
                     onClick={() => {
@@ -300,7 +309,15 @@ export default function InstagramCarousel() {
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setMuted((m) => !m);
+                          const next = !muted;
+                          setMuted(next);
+                          // Apply + resume synchronously so the browser keeps
+                          // playing (unmuting via effect would pause it).
+                          const el = videoRefs.current.get(post.shortcode);
+                          if (el) {
+                            el.muted = next;
+                            if (!next) el.play().catch(() => {});
+                          }
                         }}
                         aria-label={muted ? "Unmute" : "Mute"}
                         className="shrink-0 h-10 w-10 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 transition-colors"
