@@ -18,7 +18,6 @@ interface InstagramManifest {
   posts: InstagramPost[];
 }
 
-const ACCENT = "#CA132A";
 const SWIPE_THRESHOLD = 60;
 const SPRING = { type: "spring" as const, stiffness: 220, damping: 30, mass: 0.9 };
 
@@ -138,25 +137,8 @@ export default function InstagramCarousel() {
       ref={sectionRef}
       id="instagram"
       className="relative w-full overflow-hidden flex flex-col justify-center min-h-screen md:min-h-0 md:py-24 py-16"
-      style={{ backgroundColor: "#0a0a0b" }}
+      style={{ backgroundColor: "#ffffff" }}
     >
-      {/* Atmosphere: brand-red spotlight, vignette, and film grain */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: `radial-gradient(120% 90% at 50% 42%, ${ACCENT}22 0%, transparent 45%), radial-gradient(140% 120% at 50% 120%, #000 20%, transparent 70%)`,
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
-
       {/* Editorial header */}
       <div className="relative z-10 px-6 mb-10 md:mb-14 text-center">
         <motion.a
@@ -167,8 +149,7 @@ export default function InstagramCarousel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="inline-block text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 hover:opacity-70 transition-opacity"
-          style={{ color: ACCENT }}
+          className="inline-block text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 text-gray-400 hover:text-gray-600 transition-colors"
         >
           {t("subtitle")}
         </motion.a>
@@ -177,7 +158,7 @@ export default function InstagramCarousel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, delay: 0.05 }}
-          className="font-[family-name:var(--font-raleway)] text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-[1.05]"
+          className="font-[family-name:var(--font-raleway)] text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-[1.05]"
         >
           {t("title")}
         </motion.h2>
@@ -349,7 +330,7 @@ export default function InstagramCarousel() {
           type="button"
           onClick={() => go(-1)}
           aria-label="Previous"
-          className="hidden md:flex absolute left-8 lg:left-16 z-[120] h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white text-xl backdrop-blur-sm hover:bg-white/15 hover:border-white/30 transition-all"
+          className="hidden md:flex absolute left-8 lg:left-16 z-[120] h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-black/[0.03] text-gray-700 text-xl hover:bg-black/[0.06] hover:border-black/20 transition-all"
         >
           &#8249;
         </button>
@@ -357,7 +338,7 @@ export default function InstagramCarousel() {
           type="button"
           onClick={() => go(1)}
           aria-label="Next"
-          className="hidden md:flex absolute right-8 lg:right-16 z-[120] h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white text-xl backdrop-blur-sm hover:bg-white/15 hover:border-white/30 transition-all"
+          className="hidden md:flex absolute right-8 lg:right-16 z-[120] h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-black/[0.03] text-gray-700 text-xl hover:bg-black/[0.06] hover:border-black/20 transition-all"
         >
           &#8250;
         </button>
@@ -374,13 +355,13 @@ export default function InstagramCarousel() {
                 type="button"
                 onClick={() => jumpTo(i)}
                 aria-label={`Go to reel ${i + 1}`}
-                className="group relative flex-1 h-[3px] rounded-full bg-white/15 overflow-hidden"
+                className="group relative flex-1 h-[3px] rounded-full bg-black/10 overflow-hidden"
               >
                 <span
                   className="absolute inset-y-0 left-0 rounded-full"
                   style={{
                     width: `${state * 100}%`,
-                    backgroundColor: i === active ? ACCENT : "rgba(255,255,255,0.85)",
+                    backgroundColor: i === active ? "#1f2937" : "rgba(0,0,0,0.35)",
                     transition: i === active ? "width 0.15s linear" : "width 0.4s ease",
                   }}
                 />
@@ -389,7 +370,7 @@ export default function InstagramCarousel() {
           })}
         </div>
         <span
-          className="font-[family-name:var(--font-futura-pt)] text-xs tracking-[0.3em] text-white/40"
+          className="font-[family-name:var(--font-futura-pt)] text-xs tracking-[0.3em] text-gray-400"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {counter}
