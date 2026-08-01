@@ -34,8 +34,8 @@ export default function PageClient({ videosConfig, formWizardConfig }: PageClien
     <>
       <HeroSection onCtaClick={() => openWizard("hero")} videosConfig={videosConfig} />
       <IntroSection onCtaClick={() => openWizard("intro")} />
-      <CoachesSection />
       <InstagramCarousel />
+      <CoachesSection />
       <FormWizardModal open={wizardOpen} onClose={() => setWizardOpen(false)} formWizardConfig={formWizardConfig} />
     </>
   );
