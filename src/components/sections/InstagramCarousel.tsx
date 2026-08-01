@@ -159,16 +159,19 @@ export default function InstagramCarousel() {
 
       {/* Editorial header */}
       <div className="relative z-10 px-6 mb-10 md:mb-14 text-center">
-        <motion.p
+        <motion.a
+          href="https://www.instagram.com/prepfinland/"
+          target="_blank"
+          rel="noopener noreferrer"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4"
+          className="inline-block text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 hover:opacity-70 transition-opacity"
           style={{ color: ACCENT }}
         >
           {t("subtitle")}
-        </motion.p>
+        </motion.a>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

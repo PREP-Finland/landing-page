@@ -40,7 +40,7 @@ coaches:
     bioP2: "Valmentajana Sherko on auttanut lukuisia kilpailijoita rakentamaan kansainvälisillä fitnesslavoilla kilpailukykyisen fysiikan sekä parantamaan suorituskykyään korkealle tasolle. Hänen erityinen vahvuutensa on kyky tunnistaa, mitä seuraava taso juuri kyseiseltä yksilöltä vaatii ja miten sinne päästään. Hänen loputon intohimonsa valmennustyötä kohtaan on muuttanut monen ihmisen elämää, ja häntä kutsutaankin asiakkaiden toimesta mestariveistäjäksi. Sherko on inspiroinut myös monia asiakkaitaan aloittamaan oman uransa valmentajana."
     bioP3: "Jos tavoitteesi on nähdä, mihin todella pystyt, Sherko tietää, mitä se sinulta vaatii."
 instagram:
-  title: SEURAA MEITÄ
+  title: ONNISTUMISIA
   subtitle: "@prepfinland"
 blog:
   title: BLOGISTA
