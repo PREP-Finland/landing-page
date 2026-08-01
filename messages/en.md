@@ -105,4 +105,60 @@ formWizard:
   stepOf: "Step {current}/{total}"
   success: "Thank you! We'll be in touch soon."
   error: Something went wrong. Please try again.
+faq:
+  title: FAQ
+  items:
+    - q: "What is PREP?"
+      a: "PREP is a performance mentoring program for people who want to grow their performance capacity and experience what it feels like to be the best version of themselves."
+    - q: "Who is PREP built for?"
+      a: |-
+        PREP is a personal performance mentoring program for people whose circumstances and goals demand high capacity and performance.
+        Our clients are entrepreneurs, executives, experts and driven individuals for whom good performance means not just efficiency at work, but also energy in everyday life, strong health and the ability to enjoy life.
+    - q: "What does performance mentoring mean in practice?"
+      a: |-
+        Performance is built from many factors.
+        Training, nutrition, recovery, sleep, health, load management and everyday choices all affect how you cope, recover and perform.
+        PREP brings these together into a whole, built around your goals and your life situation.
+    - q: "What makes PREP different?"
+      a: |-
+        Most services focus on a single area.
+        PREP looks at the whole system.
+        We don't just optimize training or nutrition. We build more capacity for a life where the demands are high.
+    - q: "Does my goal have to be weight loss?"
+      a: |-
+        Not necessarily.
+        Many of our clients want, above all:
+        - more energy
+        - better recovery
+        - better focus
+        - a stronger body
+        - long-term health
+        Weight management can be one goal, but rarely the most important one.
+    - q: "I'm really busy. Can I still take part in PREP?"
+      a: |-
+        That's exactly why PREP exists.
+        We help you design your demanding everyday life so that it supports improving your performance.
+    - q: "How individual is the program?"
+      a: |-
+        No two PREP clients are alike.
+        Everything is built around your goals, your schedule, your training background, your health and your life situation, so that you can feel like the best version of yourself.
+    - q: "How closely do we work together?"
+      a: |-
+        You are in continuous personal contact with your mentor.
+        You get regular feedback, programs are developed as you progress, and you can ask for advice whenever you need it.
+        The goal is that you always know what the next most important step is.
+    - q: "What if my life situation changes?"
+      a: |-
+        Life changes. Change is inevitable, and we help you prepare for it.
+        Travel, busy work periods, illnesses and other changes are taken into account immediately, so your progress continues without unnecessary stress.
+    - q: "How quickly can I expect results?"
+      a: |-
+        Many clients already notice within the first weeks that they sleep better, recover more efficiently and have more energy.
+        The most significant changes, however, come from long-term work over months.
+        Our goal is not quick change, but lasting progress.
+    - q: "How does the collaboration begin?"
+      a: |-
+        The collaboration begins with a comprehensive personal initial assessment.
+        Together we go through your goals, your current situation and whether PREP could be the right solution for you.
+        If we both believe we can create significant value for you, we build you a personal mentoring program.
 ---

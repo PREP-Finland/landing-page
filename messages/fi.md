@@ -103,4 +103,60 @@ formWizard:
   stepOf: "Vaihe {current}/{total}"
   success: Kiitos! Olemme sinuun yhteydessä pian.
   error: Jokin meni pieleen. Yritä uudelleen.
+faq:
+  title: FAQ
+  items:
+    - q: "Mikä PREP on?"
+      a: "PREP on suorituskyvyn mentorointiohjelma ihmisille, jotka haluavat kasvattaa suorituskyvyn kapasitteettiaan ja kokea, millaista on olla paras versio itsestään."
+    - q: "Kenelle PREP on rakennettu?"
+      a: |-
+        PREP on henkilökohtainen suorituskyvyn mentorointiohjelma ihmisille, joiden elämäntilanne ja tavoitteet edellyttävät korkeaa kapasiteettia ja suorituskykyä.
+        Asiakkaamme ovat yrittäjiä, johtajia, asiantuntijoita ja tavoitteellisia yksilöitä, joille hyvä suorituskyky ei tarkoita vain tehokkuutta työssä, vaan myös energiaa arjessa, vahvaa terveyttä ja kykyä nauttia elämästä.
+    - q: "Mitä suorituskyvyn mentorointi tarkoittaa käytännössä?"
+      a: |-
+        Suorituskyky rakentuu monesta tekijästä.
+        Harjoittelu, ravitsemus, palautuminen, uni, terveys, kuormituksen hallinta ja arjen valinnat vaikuttavat kaikki siihen, miten jaksat, palaudut ja suoriudut.
+        PREP yhdistää nämä kokonaisuudeksi, joka on rakennettu sinun tavoitteidesi ja elämäntilanteesi ympärille.
+    - q: "Mikä tekee PREPistä erilaisen?"
+      a: |-
+        Useimmat palvelut keskittyvät yhteen osa-alueeseen.
+        PREP tarkastelee koko järjestelmää.
+        Emme optimoi vain harjoittelua tai ravitsemusta. Rakennamme enemmän kapasiteettia elämään, jossa vaatimustaso on korkea.
+    - q: "Tarvitseeko tavoitteenani olla painonpudotus?"
+      a: |-
+        Ei välttämättä.
+        Monet asiakkaamme haluavat ennen kaikkea:
+        - enemmän energiaa
+        - parempaa palautumista
+        - parempaa keskittymiskykyä
+        - vahvemman kehon
+        - pitkäjänteistä terveyttä
+        Painonhallinta voi olla yksi tavoite, mutta harvoin tärkein.
+    - q: "Olen todella kiireinen. Pystynkö silti osallistua PREPiin?"
+      a: |-
+        Juuri siksi PREP on olemassa.
+        Autamme sinua suunnittelemaan vaativan arkesi niin, että se tukee suorituskykysi paranemista.
+    - q: "Kuinka yksilöllinen ohjelma on?"
+      a: |-
+        Ei ole kahta samanlaista PREP-asiakasta.
+        Kaikki rakentuu tavoitteidesi, aikataulusi, harjoittelutaustasi, terveydentilasi ja elämäntilanteesi ympärille niin, että voit tuntea olevasi paras versio itsestäsi.
+    - q: "Kuinka tiiviisti työskentelemme yhdessä?"
+      a: |-
+        Olet jatkuvasti henkilökohtaisessa yhteydessä mentoriisi.
+        Saat säännöllistä palautetta, ohjelmia kehitetään edistymisesi mukaan ja voit kysyä neuvoa aina, kun tarvitset.
+        Tavoitteena on, että tiedät jatkuvasti, mikä on seuraava tärkein askel.
+    - q: "Entä jos elämäntilanne muuttuu?"
+      a: |-
+        Elämä muuttuu. Muutos on välttämättömyys ja me autamme sinua varautumaan siihen.
+        Matkat, kiireiset työjaksot, sairastumiset ja muut muutokset huomioidaan heti, jotta kehitys jatkuu ilman turhaa stressiä.
+    - q: "Kuinka nopeasti tuloksia voi odottaa?"
+      a: |-
+        Monet asiakkaat kokevat jo ensimmäisten viikkojen aikana nukkuvansa paremmin, palautuvansa tehokkaammin ja jaksavansa enemmän.
+        Merkittävimmät muutokset syntyvät kuitenkin pitkäjänteisestä työstä kuukausien aikana.
+        Tavoitteemme ei ole nopea muutos, vaan pysyvä kehitys.
+    - q: "Miten yhteistyö alkaa?"
+      a: |-
+        Yhteistyö alkaa kokonaisvaltaisella henkilökohtaisella alkukartoituksella.
+        Käymme yhdessä läpi tavoitteesi, nykytilanteesi ja sen, voisiko PREP olla oikea ratkaisu juuri sinulle.
+        Jos uskomme molemmat, että voimme tuottaa sinulle merkittävää arvoa, rakennamme sinulle henkilökohtaisen mentorointiohjelman.
 ---
