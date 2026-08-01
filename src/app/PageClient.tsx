@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import IntroSection from "@/components/sections/IntroSection";
 import CoachesSection from "@/components/sections/CoachesSection";
+import InstagramCarousel from "@/components/sections/InstagramCarousel";
 import FormWizardModal from "@/components/form-wizard/FormWizardModal";
 import { trackEvent } from "@/lib/analytics";
 import type { FormWizardConfig } from "@/types/form";
@@ -34,6 +35,7 @@ export default function PageClient({ videosConfig, formWizardConfig }: PageClien
       <HeroSection onCtaClick={() => openWizard("hero")} videosConfig={videosConfig} />
       <IntroSection onCtaClick={() => openWizard("intro")} />
       <CoachesSection />
+      <InstagramCarousel />
       <FormWizardModal open={wizardOpen} onClose={() => setWizardOpen(false)} formWizardConfig={formWizardConfig} />
     </>
   );

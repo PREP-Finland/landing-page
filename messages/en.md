@@ -41,6 +41,9 @@ coaches:
     bioP1: "Finland's most successful men's fitness athlete, Sherko brings to Prep an exceptional combination of elite athletic background, entrepreneurship, and a proven track record coaching demanding clients. He is a Men's Physique professional, world champion and multiple world medal winner, two-time European champion, two-time Nordic champion, and multiple Finnish champion — an athlete who knows first-hand what it takes to become the best in the world."
     bioP2: "As a coach, Sherko has helped numerous competitors build a competition-ready physique on international fitness stages and elevate their performance to the highest level. His particular strength is the ability to identify what the next level requires from each individual and how to get there. His endless passion for coaching has changed many lives, and his clients call him the \"master sculptor.\" Sherko has also inspired many of his clients to start their own coaching careers."
     bioP3: "If your goal is to see what you are truly capable of, Sherko knows what it takes."
+instagram:
+  title: FOLLOW ALONG
+  subtitle: "@prepfinland"
 blog:
   title: FROM THE BLOG
   readMore: Read more

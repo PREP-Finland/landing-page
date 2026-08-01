@@ -39,6 +39,9 @@ coaches:
     bioP1: "Miesten fitnessurheilun menestynein suomalainen, Sherko, tuo Prepiin poikkeuksellisen yhdistelmän omaa huippu-urheilutaustaa, yrittäjyyttä ja näyttöjä vaativien asiakkaiden valmentamista. Hän on Men's Physique -ammattilainen, maailmanmestari ja moninkertainen MM-mitalisti, kaksinkertainen euroopanmestari, kaksinkertainen Pohjoismaiden mestari ja moninkertainen suomenmestari — urheilija, joka tietää omasta kokemuksesta, mitä maailman parhaaksi tuleminen vaatii."
     bioP2: "Valmentajana Sherko on auttanut lukuisia kilpailijoita rakentamaan kansainvälisillä fitnesslavoilla kilpailukykyisen fysiikan sekä parantamaan suorituskykyään korkealle tasolle. Hänen erityinen vahvuutensa on kyky tunnistaa, mitä seuraava taso juuri kyseiseltä yksilöltä vaatii ja miten sinne päästään. Hänen loputon intohimonsa valmennustyötä kohtaan on muuttanut monen ihmisen elämää, ja häntä kutsutaankin asiakkaiden toimesta mestariveistäjäksi. Sherko on inspiroinut myös monia asiakkaitaan aloittamaan oman uransa valmentajana."
     bioP3: "Jos tavoitteesi on nähdä, mihin todella pystyt, Sherko tietää, mitä se sinulta vaatii."
+instagram:
+  title: SEURAA MEITÄ
+  subtitle: "@prepfinland"
 blog:
   title: BLOGISTA
   readMore: Lue lisää
