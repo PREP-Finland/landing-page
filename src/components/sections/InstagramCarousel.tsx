@@ -151,7 +151,8 @@ export default function InstagramCarousel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="inline-block text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 text-gray-400 hover:text-gray-600 transition-colors"
+          className="inline-block text-xs md:text-sm tracking-[0.3em] uppercase mb-4 hover:opacity-70 transition-opacity"
+          style={{ color: "var(--color-text)" }}
         >
           {t("subtitle")}
         </motion.a>
