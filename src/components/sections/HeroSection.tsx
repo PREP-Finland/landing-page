@@ -30,11 +30,13 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
     video.loop = true;
     video.playsInline = true;
 
-    // Play only while on-screen and the tab is visible; pause otherwise so no
-    // off-screen video keeps running.
+    // Play only when on-screen, scrolling has settled, and the tab is visible —
+    // so it starts once you land on it and stops when you scroll away.
     let inView = true;
+    let settled = true;
+    let settleTimer: ReturnType<typeof setTimeout>;
     const update = () => {
-      if (inView && !document.hidden) video.play().catch(() => {});
+      if (inView && settled && !document.hidden) video.play().catch(() => {});
       else video.pause();
     };
 
@@ -51,11 +53,24 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
     );
     observer.observe(video);
 
+    const onScroll = () => {
+      settled = false;
+      video.pause();
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        settled = true;
+        update();
+      }, 200);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     const handleVisibilityChange = () => update();
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       observer.disconnect();
+      clearTimeout(settleTimer);
+      window.removeEventListener("scroll", onScroll);
       video.removeEventListener("loadeddata", onLoaded);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };

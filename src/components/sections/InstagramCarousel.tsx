@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useInView } from "@/hooks/useInView";
+import { useScrollSettled } from "@/hooks/useScrollSettled";
 
 interface InstagramPost {
   shortcode: string;
@@ -54,6 +55,7 @@ export default function InstagramCarousel() {
   const dragged = useRef(false);
   const videoRefs = useRef(new Map<string, HTMLVideoElement>());
   const { ref: sectionRef, inView } = useInView<HTMLElement>(0.4);
+  const settled = useScrollSettled();
 
   useEffect(() => {
     let cancelled = false;
@@ -96,20 +98,21 @@ export default function InstagramCarousel() {
   }, []);
 
   // Drive playback of the centered clip; pause + rewind the rest. The active
-  // clip only plays while the section is in view, so scrolling away stops it.
+  // clip plays only while the section is in view AND scrolling has settled, so
+  // it starts when you land on the section, not while scrolling past.
   useEffect(() => {
     posts.forEach((post, i) => {
       const el = videoRefs.current.get(post.shortcode);
       if (!el) return;
       el.muted = muted;
-      if (i === active && inView && !paused) {
+      if (i === active && inView && settled && !paused) {
         el.play().catch(() => {});
       } else {
         el.pause();
         if (i !== active) el.currentTime = 0;
       }
     });
-  }, [active, posts, muted, paused, isMobile, inView]);
+  }, [active, posts, muted, paused, isMobile, inView, settled]);
 
   const onPointerDown = (e: React.PointerEvent) => {
     dragStart.current = e.clientX;
