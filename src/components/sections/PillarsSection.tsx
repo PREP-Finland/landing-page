@@ -161,7 +161,7 @@ export default function PillarsSection() {
     <Section id="pillars" surface="tertiary">
       <>
         <ScrollFadeIn>
-          <div className="mb-12 md:mb-16">
+          <div className="mb-12 md:mb-16 text-left md:text-center">
             <p className="t-eyebrow text-[var(--color-accent)]">{t("eyebrow")}</p>
             <h2 className="t-h2 mt-4 text-[var(--color-text)]">{t("title")}</h2>
           </div>
@@ -205,7 +205,7 @@ export default function PillarsSection() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="max-w-3xl pt-6 t-body text-[var(--color-text-muted)]"
+                className="max-w-3xl mx-auto pt-6 t-body text-left md:text-center text-[var(--color-text-muted)]"
               >
                 {t("summary")}
               </motion.p>

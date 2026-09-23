@@ -14,7 +14,7 @@ export default function IntroSection({ onCtaClick }: IntroSectionProps) {
 
   return (
     <Section id="intro">
-      <Measure>
+      <Measure className="mx-auto">
         <ScrollFadeIn>
           <h2 className="t-h2 text-[var(--color-text)]">{t("title")}</h2>
         </ScrollFadeIn>

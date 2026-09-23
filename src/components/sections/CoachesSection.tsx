@@ -133,7 +133,9 @@ export default function CoachesSection() {
     <Section id="coaches">
       <>
         <ScrollFadeIn>
-          <h2 className="t-h2 text-[var(--color-text)] mb-14 md:mb-20">{t("title")}</h2>
+          <h2 className="t-h2 text-left md:text-center text-[var(--color-text)] mb-14 md:mb-20">
+            {t("title")}
+          </h2>
         </ScrollFadeIn>
 
         <div className="flex flex-col gap-20 md:gap-28">

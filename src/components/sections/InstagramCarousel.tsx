@@ -252,7 +252,7 @@ export default function InstagramCarousel() {
     <Section id="instagram" surface="secondary" bleed className="relative w-full overflow-hidden">
       <div ref={sectionRef as unknown as React.Ref<HTMLDivElement>}>
       {/* Editorial header */}
-      <div className="relative z-10 px-6 mb-12 md:mb-16 max-w-6xl mx-auto">
+      <div className="relative z-10 px-6 mb-12 md:mb-16 max-w-6xl mx-auto text-left md:text-center">
         <ScrollFadeIn>
           <a
             href="https://www.instagram.com/prepfinland/"
@@ -491,7 +491,7 @@ export default function InstagramCarousel() {
       </div>
 
       {/* Story-style segmented progress + counter */}
-      <div className="relative z-10 mt-10 md:mt-14 px-6 max-w-6xl mx-auto flex flex-col gap-3">
+      <div className="relative z-10 mt-10 md:mt-14 px-6 max-w-6xl mx-auto flex flex-col items-center gap-4">
         <div className="flex items-center gap-1.5 w-full max-w-[320px] md:max-w-[420px]">
           {posts.map((post, i) => {
             const state = i < active ? 1 : i === active ? progress : 0;

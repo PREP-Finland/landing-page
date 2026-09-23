@@ -28,7 +28,7 @@ export default function ClosingSection({ onCtaClick }: ClosingSectionProps) {
         }}
       />
       <div className="relative max-w-6xl mx-auto px-6">
-        <Measure>
+        <Measure className="mx-auto text-center">
         <ScrollFadeIn>
           <p className="t-h2 text-white text-balance">{t("p7")}</p>
         </ScrollFadeIn>

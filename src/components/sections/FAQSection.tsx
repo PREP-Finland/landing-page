@@ -129,9 +129,11 @@ export default function FAQSection() {
 
   return (
     <Section id="faq" surface="secondary">
-      <Measure>
+      <Measure className="mx-auto">
         <ScrollFadeIn>
-          <h2 className="t-h2 text-[var(--color-text)] mb-12 md:mb-16">{t("title")}</h2>
+          <h2 className="t-h2 text-left md:text-center text-[var(--color-text)] mb-12 md:mb-16">
+            {t("title")}
+          </h2>
         </ScrollFadeIn>
         <ScrollFadeIn delay={0.06}>
           <div className="border-t border-[var(--color-border)]">
