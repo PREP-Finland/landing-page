@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import TestimonialCarousel from "@/components/sections/TestimonialCarousel";
 import IntroSection from "@/components/sections/IntroSection";
+import PillarsSection from "@/components/sections/PillarsSection";
 import CoachesSection from "@/components/sections/CoachesSection";
 import InstagramCarousel from "@/components/sections/InstagramCarousel";
 import FAQSection from "@/components/sections/FAQSection";
@@ -45,6 +46,7 @@ export default function PageClient({ videosConfig, formWizardConfig }: PageClien
       <HeroSection onCtaClick={openWizard("hero")} videosConfig={videosConfig} />
       <TestimonialCarousel />
       <IntroSection onCtaClick={openWizard("intro")} />
+      <PillarsSection />
       <InstagramCarousel />
       <CoachesSection />
       <FAQSection />
