@@ -25,7 +25,8 @@ export default async function OpengraphImage() {
 
   // The wordmark carries the brand red as an inline fill on every path, which
   // would disappear into the red wash — repaint it white for the dark card.
-  const logoSvg = logo.toString("utf8").replaceAll("fill:#ce1a35", "fill:#ffffff");
+  // Matched by pattern so a future logo swap does not silently break this.
+  const logoSvg = logo.toString("utf8").replace(/fill:#[0-9a-fA-F]{6}/g, "fill:#ffffff");
   const logoSrc = `data:image/svg+xml;base64,${Buffer.from(logoSvg).toString("base64")}`;
 
   return new ImageResponse(

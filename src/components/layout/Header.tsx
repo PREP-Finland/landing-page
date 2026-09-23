@@ -18,29 +18,14 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 pointer-events-none"
+      className={`material fixed top-0 left-0 right-0 z-50 transition-[background-color,backdrop-filter,border-color,box-shadow] duration-300 ease-out ${
+        scrolled
+          ? "bg-white/70 backdrop-blur-xl backdrop-saturate-150 border-b border-black/[0.06] shadow-[0_1px_20px_-12px_rgba(0,0,0,0.35)]"
+          : "bg-transparent border-b border-transparent"
+      }`}
       style={{ height: "var(--header-h)" }}
     >
-      {/*
-       * The material itself. Blur radius and background ramp together so the
-       * bar reads as glass arriving rather than a colour cross-fade, and it
-       * ends in a soft scroll edge instead of a hard 1px divider.
-       */}
-      <div
-        aria-hidden
-        className={`material absolute inset-0 transition-[opacity,backdrop-filter] duration-300 ease-out ${
-          scrolled ? "opacity-100 backdrop-blur-xl backdrop-saturate-150" : "opacity-0 backdrop-blur-none"
-        }`}
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.72) 62%, rgba(255,255,255,0) 100%)",
-          // Fade the material out at its lower edge rather than cutting it.
-          maskImage: "linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%)",
-        }}
-      />
-
-      <div className="relative max-w-6xl mx-auto px-6 h-full flex items-center justify-between pointer-events-auto">
+      <div className="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
         <a href="#" aria-label="PREP" className="inline-flex min-h-11 items-center pr-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
