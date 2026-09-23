@@ -1,11 +1,10 @@
 "use client";
 
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import { motion } from "motion/react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "onDark";
   size?: "default" | "lg";
 }
 
@@ -16,43 +15,32 @@ export default function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const base = "inline-flex items-center justify-center font-semibold rounded-full cursor-pointer uppercase tracking-[2.5px] disabled:opacity-50 disabled:cursor-not-allowed";
+  // Feedback lives on the press, not the release: the scale is driven by
+  // :active so it lands on pointer-down with no perceptible latency.
+  const base =
+    "group relative inline-flex items-center justify-center rounded-full font-semibold uppercase cursor-pointer " +
+    "transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out " +
+    "active:scale-[0.97] active:duration-75 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100";
 
   const sizes = {
-    default: "px-4 py-2.5 text-xs",
-    lg: "px-6 py-3 text-xs",
+    default: "px-6 py-3 text-xs tracking-[0.14em]",
+    lg: "px-9 py-4 text-sm tracking-[0.14em]",
   };
 
-  if (variant === "outline") {
-    return (
-      <motion.button
-        className={`relative overflow-hidden border-2 border-[#CA132A] text-[#CA132A] ${base} ${sizes[size]} ${className}`}
-        whileHover="hover"
-        initial="rest"
-        animate="rest"
-        {...(props as React.ComponentProps<typeof motion.button>)}
-      >
-        <motion.span
-          className="absolute inset-0 bg-gradient-to-r from-[#CA132A] to-[#EA3860]"
-          variants={{ rest: { opacity: 0 }, hover: { opacity: 1 } }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
-        />
-        <motion.span
-          className="relative z-10"
-          variants={{ rest: { color: "#CA132A" }, hover: { color: "#ffffff" } }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
-        >
-          {children}
-        </motion.span>
-      </motion.button>
-    );
-  }
+  const variants = {
+    primary:
+      "bg-[var(--color-accent)] text-white shadow-[0_2px_10px_-4px_rgba(202,19,42,0.6)] " +
+      "hover:bg-[var(--color-accent-light)] hover:shadow-[0_8px_24px_-8px_rgba(202,19,42,0.55)]",
+    outline:
+      "border border-[var(--color-accent)] text-[var(--color-accent)] bg-transparent " +
+      "hover:bg-[var(--color-accent)] hover:text-white",
+    onDark:
+      "border border-white/70 text-white bg-white/10 backdrop-blur-md material-dark " +
+      "hover:bg-white hover:text-[var(--color-text)] hover:border-white",
+  };
 
   return (
-    <button
-      className={`bg-gradient-to-r from-[#CA132A] to-[#EA3860] text-white transition-opacity duration-200 hover:opacity-90 ${base} ${sizes[size]} ${className}`}
-      {...props}
-    >
+    <button className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...props}>
       {children}
     </button>
   );

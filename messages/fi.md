@@ -5,7 +5,7 @@ header:
   themeDark: Tumma
   themeSystem: "Järjestelmä"
 hero:
-  headline: Me tiedämme, miten potentiaalisi muutetaan tuloksiksi.
+  headline: "Autamme **kiireisiä ammattilaisia** saavuttamaan vartalon, joka tuntuu **uskomattoman hyvältä** – ilman **yhtäkään haaskattua minuuttia**."
   subheadline: Koe, miltä tuntuu olla paras versio itsestäsi.
   cta: Aloitetaan
 intro:

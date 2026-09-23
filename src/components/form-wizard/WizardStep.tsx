@@ -1,25 +1,34 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import FormField from "./FormField";
+import { springUI } from "@/lib/motion";
 import type { WizardStepConfig, FormData } from "@/types/form";
 
 interface WizardStepProps {
   step: WizardStepConfig;
   formData: FormData;
   onFieldChange: (name: string, value: string | boolean | string[]) => void;
+  titleId?: string;
 }
 
-export default function WizardStep({ step, formData, onFieldChange }: WizardStepProps) {
+export default function WizardStep({ step, formData, onFieldChange, titleId }: WizardStepProps) {
   const t = useTranslations();
+  const reduceMotion = useReducedMotion();
+
+  // Some steps have a single unlabelled required field, so the requirement is
+  // marked on the step title instead.
+  const requiredOnTitle = step.fields.some((f) => f.required && !t(f.labelKey));
 
   return (
     <div>
-      <h3 className="text-lg md:text-xl font-bold mb-6">
+      <h3 id={titleId} className="t-h3 text-[var(--color-text)] mb-7">
         {t(step.titleKey)}
-        {step.fields.some((f) => f.required && !t(f.labelKey)) && (
-          <span className="text-red-500 ml-1">*</span>
+        {requiredOnTitle && (
+          <span aria-hidden className="text-[var(--color-accent)] font-normal ml-1.5 align-super text-base">
+            *
+          </span>
         )}
       </h3>
       {step.fields.map((field) => {
@@ -30,10 +39,11 @@ export default function WizardStep({ step, formData, onFieldChange }: WizardStep
             <AnimatePresence key={field.name}>
               {isVisible && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0, overflow: "hidden" }}
-                  animate={{ opacity: 1, height: "auto", overflow: "hidden" }}
-                  exit={{ opacity: 0, height: 0, overflow: "hidden" }}
-                  transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                  initial={reduceMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+                  animate={reduceMotion ? { opacity: 1 } : { opacity: 1, height: "auto" }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+                  transition={reduceMotion ? { duration: 0.2 } : springUI}
+                  className="overflow-hidden"
                 >
                   <FormField
                     field={field}

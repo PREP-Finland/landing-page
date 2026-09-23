@@ -22,7 +22,7 @@
 .cc-window.cc-pos-top-left,
 .cc-window.cc-pos-bottom-center,
 .cc-window.cc-pos-top-center {
-  --cc-window-radius: 10px;
+  --cc-window-radius: var(--radius-sm);
   --cc-window-width: 420px;
   padding: 0;
   filter: drop-shadow(0 12px 32px rgba(15, 15, 20, 0.18));
@@ -36,7 +36,7 @@
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #111827;
+  color: var(--color-text);
 }
 
 .cc-window .cc-window-message {
@@ -63,7 +63,7 @@
   border: none !important;
   padding: 0 !important;
   margin: -8px 0 4px !important;
-  color: #6b7280 !important;
+  color: var(--color-text-subtle) !important;
   font-size: 12px;
   font-weight: 400;
   text-decoration: underline;
@@ -73,7 +73,7 @@
   border-radius: 0;
 }
 .cc-window .cc-window-buttons .cc-btn-settings:hover {
-  color: #111827 !important;
+  color: var(--color-text) !important;
   background: transparent !important;
 }
 
@@ -87,7 +87,7 @@
   font-weight: 500;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
@@ -108,8 +108,8 @@
 }
 .cc-window .cc-window-buttons .cc-btn-reject:hover {
   background: var(--color-bg-secondary) !important;
-  border-color: #c9c9c9 !important;
-  color: #111827 !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
 }
 
 /* Lift the popup above the backdrop. */
@@ -119,7 +119,7 @@
 
 /* Settings modal polish to match. */
 #cc-window-settings.cc-modal-window {
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
 }
 
 /* Only one toggleable cookie — bulk select/unselect controls add no value. */
@@ -130,7 +130,7 @@
   background: var(--color-accent) !important;
   border: 1px solid var(--color-accent) !important;
   color: #ffffff !important;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   padding: 10px 16px;
   font-size: 12px;
   letter-spacing: 0.5px;

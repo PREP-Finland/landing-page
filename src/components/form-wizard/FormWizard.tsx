@@ -2,20 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useFormWizard } from "@/hooks/useFormWizard";
 import { submitForm } from "@/app/actions/submit-form";
 import { trackEvent } from "@/lib/analytics";
 import WizardStep from "./WizardStep";
 import Button from "@/components/ui/Button";
+import { springUI } from "@/lib/motion";
 import type { FormWizardConfig } from "@/types/form";
 
 interface FormWizardProps {
   onClose: () => void;
   formWizardConfig: FormWizardConfig;
+  titleId?: string;
 }
 
-export default function FormWizard({ onClose, formWizardConfig }: FormWizardProps) {
+export default function FormWizard({ onClose, formWizardConfig, titleId }: FormWizardProps) {
   const t = useTranslations("formWizard");
   const { steps } = formWizardConfig;
   const {
@@ -30,6 +32,7 @@ export default function FormWizard({ onClose, formWizardConfig }: FormWizardProp
   } = useFormWizard(steps);
 
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const step = steps[currentStep];
@@ -69,17 +72,22 @@ export default function FormWizard({ onClose, formWizardConfig }: FormWizardProp
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[300px] text-center px-6">
+      <div className="flex flex-col items-center justify-center min-h-[300px] text-center px-2">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
+          transition={reduceMotion ? { duration: 0.2 } : springUI}
         >
-          <div className="text-5xl mb-4">&#10003;</div>
-          <p className="text-base md:text-lg font-semibold mb-6">{t("success")}</p>
-          <Button onClick={onClose}>
-            OK
-          </Button>
+          <div
+            aria-hidden
+            className="mx-auto mb-6 grid h-14 w-14 place-items-center rounded-full bg-[var(--color-accent)]/10 text-3xl text-[var(--color-accent)]"
+          >
+            &#10003;
+          </div>
+          <p id={titleId} className="t-lead font-semibold text-[var(--color-text)] mb-8">
+            {t("success")}
+          </p>
+          <Button onClick={onClose}>OK</Button>
         </motion.div>
       </div>
     );
@@ -87,39 +95,49 @@ export default function FormWizard({ onClose, formWizardConfig }: FormWizardProp
 
   return (
     <div className="w-full max-w-lg mx-auto">
-      <div className="text-xs text-[var(--color-text)]/50 mb-6">
+      <div className="t-eyebrow text-[var(--color-text-subtle)] mb-4">
         {t("stepOf", { current: currentStep + 1, total: steps.length })}
       </div>
 
-      <div className="w-full bg-[var(--color-border)] rounded-full h-1 mb-8">
-        <div
-          className="bg-gradient-to-r from-[#CA132A] to-[#EA3860] h-1 rounded-full transition-all duration-300"
-          style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+      <div
+        className="w-full bg-[var(--color-border)] rounded-full h-1 mb-10 overflow-hidden"
+        role="progressbar"
+        aria-valuenow={currentStep + 1}
+        aria-valuemin={1}
+        aria-valuemax={steps.length}
+      >
+        <motion.div
+          className="bg-[var(--color-accent)] h-1 rounded-full"
+          animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+          transition={reduceMotion ? { duration: 0.2 } : springUI}
         />
       </div>
 
-      <motion.div layout transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}>
+      <motion.div layout transition={reduceMotion ? { duration: 0.2 } : springUI}>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.3, ease: "easeInOut" } }}
-            exit={{ opacity: 0, transition: { duration: 0.2, ease: "easeInOut" } }}
+            animate={{ opacity: 1, transition: { duration: 0.25, ease: "easeOut" } }}
+            exit={{ opacity: 0, transition: { duration: 0.15, ease: "easeIn" } }}
           >
             <WizardStep
               step={steps[currentStep]}
               formData={formData}
               onFieldChange={setField}
+              titleId={titleId}
             />
           </motion.div>
         </AnimatePresence>
       </motion.div>
 
       {status === "error" && (
-        <p className="text-red-500 text-sm mt-4">{t("error")}</p>
+        <p role="alert" className="text-[var(--color-accent)] text-sm mt-5">
+          {t("error")}
+        </p>
       )}
 
-      <div className="flex justify-between mt-8">
+      <div className="flex justify-between items-center gap-4 mt-10">
         {!isFirstStep ? (
           <Button variant="outline" onClick={prevStep}>
             {t("previous")}
@@ -127,15 +145,8 @@ export default function FormWizard({ onClose, formWizardConfig }: FormWizardProp
         ) : (
           <div />
         )}
-        <Button
-          onClick={handleNext}
-          disabled={status === "submitting"}
-        >
-          {status === "submitting"
-            ? "..."
-            : isLastStep
-            ? t("submit")
-            : t("next")}
+        <Button onClick={handleNext} disabled={status === "submitting"}>
+          {status === "submitting" ? "..." : isLastStep ? t("submit") : t("next")}
         </Button>
       </div>
     </div>
