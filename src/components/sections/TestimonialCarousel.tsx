@@ -65,7 +65,7 @@ export default function TestimonialCarousel() {
 
   return (
     <Section aria-label="Testimonials" surface="tertiary" className="overflow-hidden">
-      <Measure>
+      <Measure className="mx-auto text-center">
         <div
           onMouseEnter={() => setHeld(true)}
           onMouseLeave={() => setHeld(false)}
@@ -76,7 +76,7 @@ export default function TestimonialCarousel() {
         <div
           ref={liveRef}
           aria-live="polite"
-          className="relative flex min-h-[9rem] md:min-h-[10rem] items-center"
+          className="relative flex min-h-[9rem] md:min-h-[10rem] items-center justify-center"
         >
           <AnimatePresence mode="wait">
             <motion.figure
@@ -98,7 +98,7 @@ export default function TestimonialCarousel() {
           </AnimatePresence>
         </div>
 
-        <div className="mt-10 flex items-center gap-1">
+        <div className="mt-10 flex items-center justify-center gap-1">
           {TESTIMONIALS.map((item, i) => (
             <button
               key={item.id}
