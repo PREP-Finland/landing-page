@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { springUI } from "@/lib/motion";
+import Section, { Measure } from "@/components/ui/Section";
 
 const DISPLAY_MS = 7000;
 
@@ -63,21 +64,19 @@ export default function TestimonialCarousel() {
   const current = TESTIMONIALS[index];
 
   return (
-    <section
-      aria-label="Testimonials"
-      className="relative overflow-hidden bg-[var(--color-bg-tertiary)]"
-      style={{ paddingTop: "var(--section-y)", paddingBottom: "var(--section-y)" }}
-      onMouseEnter={() => setHeld(true)}
-      onMouseLeave={() => setHeld(false)}
-      onFocusCapture={() => setHeld(true)}
-      onBlurCapture={() => setHeld(false)}
-    >
-      <div className="max-w-3xl mx-auto px-6 text-center">
+    <Section aria-label="Testimonials" surface="tertiary" className="overflow-hidden">
+      <Measure>
+        <div
+          onMouseEnter={() => setHeld(true)}
+          onMouseLeave={() => setHeld(false)}
+          onFocusCapture={() => setHeld(true)}
+          onBlurCapture={() => setHeld(false)}
+        >
         {/* Fixed min-height keeps the section from jumping as quotes change. */}
         <div
           ref={liveRef}
           aria-live="polite"
-          className="relative flex min-h-[9rem] md:min-h-[10rem] items-center justify-center"
+          className="relative flex min-h-[9rem] md:min-h-[10rem] items-center"
         >
           <AnimatePresence mode="wait">
             <motion.figure
@@ -92,14 +91,14 @@ export default function TestimonialCarousel() {
               <blockquote className="t-h3 font-normal italic text-[var(--color-text)] text-balance">
                 &ldquo;{current.quote}&rdquo;
               </blockquote>
-              <figcaption className="t-eyebrow mt-6 text-[var(--color-text-subtle)]">
+              <figcaption className="t-eyebrow mt-6 text-[var(--color-text-muted)]">
                 {current.title}
               </figcaption>
             </motion.figure>
           </AnimatePresence>
         </div>
 
-        <div className="mt-10 flex items-center justify-center gap-2.5">
+        <div className="mt-10 flex items-center gap-1">
           {TESTIMONIALS.map((item, i) => (
             <button
               key={item.id}
@@ -107,7 +106,7 @@ export default function TestimonialCarousel() {
               onClick={() => setIndex(i)}
               aria-label={`Testimonial ${i + 1}`}
               aria-current={i === index}
-              className="group p-2 -m-2 cursor-pointer"
+              className="group grid h-11 w-11 place-items-center cursor-pointer"
             >
               <span
                 className={`block h-1.5 rounded-full transition-[width,background-color] duration-300 ease-out ${
@@ -119,7 +118,8 @@ export default function TestimonialCarousel() {
             </button>
           ))}
         </div>
-      </div>
-    </section>
+        </div>
+      </Measure>
+    </Section>
   );
 }

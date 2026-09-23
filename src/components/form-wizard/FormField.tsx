@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { springUI } from "@/lib/motion";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { FormFieldConfig } from "@/types/form";
 
 interface FormFieldProps {
@@ -73,19 +74,11 @@ function CustomSelect({
   const label = t(field.labelKey);
   const [open, setOpen] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useMediaQuery("(pointer: coarse)");
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const selectedOption = field.options?.find((o) => o.value === value);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(pointer: coarse)");
-    setIsMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
 
   const updateRect = useCallback(() => {
     if (triggerRef.current) {
@@ -173,7 +166,7 @@ function CustomSelect({
           aria-expanded={open}
           className="w-full px-4 py-3.5 flex items-center justify-between text-left text-base bg-transparent rounded-[calc(var(--radius-sm)-1px)] cursor-pointer"
         >
-          <span className={selectedOption ? "text-[var(--color-text)]" : "text-[var(--color-text-subtle)]"}>
+          <span className={selectedOption ? "text-[var(--color-text)]" : "text-[var(--color-text-muted)]"}>
             {selectedOption ? t(selectedOption.labelKey) : "—"}
           </span>
           <motion.svg

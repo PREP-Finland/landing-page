@@ -63,7 +63,7 @@
   border: none !important;
   padding: 0 !important;
   margin: -8px 0 4px !important;
-  color: var(--color-text-subtle) !important;
+  color: var(--color-text-muted) !important;
   font-size: 12px;
   font-weight: 400;
   text-decoration: underline;

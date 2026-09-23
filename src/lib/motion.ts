@@ -50,6 +50,7 @@ export function releaseVelocity(history: { x: number; t: number }[]): number {
   if (dt < MIN_VELOCITY_WINDOW_MS) return 0;
 
   const v = ((last.x - first.x) / dt) * 1000;
+  if (!Number.isFinite(v)) return 0;
   return Math.max(-MAX_VELOCITY, Math.min(MAX_VELOCITY, v));
 }
 
@@ -59,5 +60,8 @@ export function releaseVelocity(history: { x: number; t: number }[]): number {
  * frozen.
  */
 export function rubberband(overshoot: number, dimension: number, constant = 0.55): number {
-  return (overshoot * dimension * constant) / (dimension + constant * Math.abs(overshoot));
+  const denominator = dimension + constant * Math.abs(overshoot);
+  if (denominator === 0) return 0;
+  const resisted = (overshoot * dimension * constant) / denominator;
+  return Number.isFinite(resisted) ? resisted : 0;
 }

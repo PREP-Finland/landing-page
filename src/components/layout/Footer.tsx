@@ -18,19 +18,19 @@ export default async function Footer() {
             href="https://www.instagram.com/prepfinland/"
             target="_blank"
             rel="noopener noreferrer"
-            className="t-eyebrow text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+            className="inline-flex min-h-11 items-center t-eyebrow text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
           >
             {ti("subtitle")}
           </a>
           <a
             href="/privacy"
-            className="t-eyebrow text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+            className="inline-flex min-h-11 items-center t-eyebrow text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
           >
             {t("privacy")}
           </a>
         </nav>
 
-        <p className="text-sm text-[var(--color-text-subtle)]">
+        <p className="text-sm text-[var(--color-text-muted)]">
           &copy; {new Date().getFullYear()} PREP. {rights}
         </p>
       </div>

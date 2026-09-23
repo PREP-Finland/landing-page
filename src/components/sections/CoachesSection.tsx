@@ -6,6 +6,7 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
 import { springUI } from "@/lib/motion";
+import Section from "@/components/ui/Section";
 
 interface CoachRowProps {
   name: string;
@@ -84,7 +85,7 @@ function CoachRow({
             <button
               onClick={() => setExpanded((prev) => !prev)}
               aria-expanded={expanded}
-              className="mt-6 self-start inline-flex items-center gap-2 t-eyebrow text-[var(--color-accent)] cursor-pointer transition-opacity duration-150 ease-out hover:opacity-70 active:opacity-50"
+              className="mt-4 -ml-1 self-start inline-flex min-h-11 items-center gap-2 px-1 t-eyebrow text-[var(--color-accent)] cursor-pointer transition-opacity duration-150 ease-out hover:opacity-70 active:opacity-50"
             >
               {expanded ? readLess : readMore}
               <motion.svg
@@ -129,12 +130,8 @@ export default function CoachesSection() {
   ];
 
   return (
-    <section
-      id="coaches"
-      className="bg-[var(--color-bg)]"
-      style={{ paddingTop: "var(--section-y)", paddingBottom: "var(--section-y)" }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
+    <Section id="coaches">
+      <>
         <ScrollFadeIn>
           <h2 className="t-h2 text-[var(--color-text)] mb-14 md:mb-20">{t("title")}</h2>
         </ScrollFadeIn>
@@ -160,7 +157,7 @@ export default function CoachesSection() {
             flipImage
           />
         </div>
-      </div>
-    </section>
+      </>
+    </Section>
   );
 }

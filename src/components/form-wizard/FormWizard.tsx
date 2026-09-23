@@ -95,7 +95,7 @@ export default function FormWizard({ onClose, formWizardConfig, titleId }: FormW
 
   return (
     <div className="w-full max-w-lg mx-auto">
-      <div className="t-eyebrow text-[var(--color-text-subtle)] mb-4">
+      <div className="t-eyebrow text-[var(--color-text-muted)] mb-4">
         {t("stepOf", { current: currentStep + 1, total: steps.length })}
       </div>
 

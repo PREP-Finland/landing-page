@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
 import { springUI } from "@/lib/motion";
+import Section from "@/components/ui/Section";
 
 interface PillarItem {
   number: string;
@@ -45,7 +46,7 @@ function PillarCard({
         ${
           isActive
             ? "border-[var(--color-accent)]/25 shadow-[0_2px_6px_rgba(20,16,16,0.04),0_18px_40px_-24px_rgba(20,16,16,0.30)]"
-            : "border-[var(--color-border)] hover:border-[var(--color-text-subtle)]/50 shadow-[0_1px_2px_rgba(20,16,16,0.03)] hover:shadow-[0_2px_8px_rgba(20,16,16,0.06)]"
+            : "border-[var(--color-border)] hover:border-[var(--color-text-muted)]/50 shadow-[0_1px_2px_rgba(20,16,16,0.03)] hover:shadow-[0_2px_8px_rgba(20,16,16,0.06)]"
         }
         ${isDimmed ? "opacity-55 hover:opacity-100" : "opacity-100"}`}
     >
@@ -73,7 +74,7 @@ function PillarCard({
       <span
         aria-hidden
         className={`mt-auto pt-5 inline-flex items-center gap-1.5 t-eyebrow transition-colors duration-200 ${
-          isActive ? "text-[var(--color-accent)]" : "text-[var(--color-text-subtle)] group-hover:text-[var(--color-accent)]"
+          isActive ? "text-[var(--color-accent)]" : "text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)]"
         }`}
       >
         <motion.svg
@@ -157,12 +158,8 @@ export default function PillarsSection() {
       };
 
   return (
-    <section
-      id="pillars"
-      className="bg-[var(--color-bg-tertiary)]"
-      style={{ paddingTop: "var(--section-y)", paddingBottom: "var(--section-y)" }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
+    <Section id="pillars" surface="tertiary">
+      <>
         <ScrollFadeIn>
           <div className="mb-12 md:mb-16">
             <p className="t-eyebrow text-[var(--color-accent)]">{t("eyebrow")}</p>
@@ -215,7 +212,7 @@ export default function PillarsSection() {
             )}
           </AnimatePresence>
         </motion.div>
-      </div>
-    </section>
+      </>
+    </Section>
   );
 }

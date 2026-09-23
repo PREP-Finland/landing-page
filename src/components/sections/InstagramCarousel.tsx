@@ -5,6 +5,8 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useInView } from "@/hooks/useInView";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
+import Section from "@/components/ui/Section";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { projectMomentum, releaseVelocity, rubberband, springGesture, springUI } from "@/lib/motion";
 
 interface InstagramPost {
@@ -52,7 +54,6 @@ export default function InstagramCarousel() {
   const t = useTranslations("instagram");
   const [posts, setPosts] = useState<InstagramPost[]>([]);
   const [active, setActive] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const [muted, setMuted] = useState(true);
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0); // 0..1 of the active video
@@ -60,8 +61,11 @@ export default function InstagramCarousel() {
   const [drag, setDrag] = useState(0);
   const [dragging, setDragging] = useState(false);
 
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const reduceMotion = useReducedMotion();
   const stageRef = useRef<HTMLDivElement>(null);
+  /** Measured, not read from a ref during render. */
+  const [step, setStep] = useState(200);
   // Mirrors `drag` so the release handler reads the true final offset even if
   // the last state update has not flushed yet.
   const dragRef = useRef(0);
@@ -98,14 +102,6 @@ export default function InstagramCarousel() {
     };
   }, []);
 
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const update = () => setIsMobile(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-
   const len = posts.length;
 
   const go = useCallback(
@@ -129,26 +125,34 @@ export default function InstagramCarousel() {
       const el = videoRefs.current.get(post.shortcode);
       if (!el) return;
       el.muted = muted;
-      if (i === active && inView && !paused) {
+      if (i === active && inView && !paused && !reduceMotion) {
         el.play().catch(() => {});
       } else {
         el.pause();
         if (i !== active) el.currentTime = 0;
       }
     });
-  }, [active, posts, muted, paused, isMobile, inView]);
+  }, [active, posts, muted, paused, isMobile, inView, reduceMotion]);
 
   /**
-   * Distance the reel travels when it advances by one card. Measured from the
-   * card's layout width (offsetWidth ignores the scale transform) and the same
-   * percentage the cards are laid out with, so the drag tracks the finger 1:1.
+   * Distance the reel travels when it advances by one card: the card's layout
+   * width (offsetWidth ignores the scale transform) times the same percentage
+   * the cards are laid out with, so the drag tracks the finger 1:1. Measured
+   * into state on resize rather than read from the ref while rendering.
    */
-  const stepPx = useCallback(() => {
-    const card = stageRef.current?.querySelector<HTMLElement>("[data-reel-card]");
-    const w = card?.offsetWidth ?? 0;
-    if (!w) return 200;
-    return w * (isMobile ? 1 : 0.58);
-  }, [isMobile]);
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const measure = () => {
+      const card = stage.querySelector<HTMLElement>("[data-reel-card]");
+      const w = card?.offsetWidth ?? 0;
+      if (w) setStep(w * (isMobile ? 1 : 0.58));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(stage);
+    return () => ro.disconnect();
+  }, [isMobile, len]);
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
@@ -186,7 +190,6 @@ export default function InstagramCarousel() {
     // Track the finger 1:1. At the ends of a non-wrapping reel there is no
     // boundary to resist against — the ring wraps — so resistance only kicks
     // in past a full step, which keeps a hard flick from skipping ahead.
-    const step = stepPx();
     const over = Math.abs(dx) - step;
     const next = over > 0 ? Math.sign(dx) * (step + rubberband(over, step)) : dx;
     dragRef.current = next;
@@ -212,7 +215,6 @@ export default function InstagramCarousel() {
       e.currentTarget.releasePointerCapture(e.pointerId);
     }
 
-    const step = stepPx();
     const velocity = releaseVelocity(p.history);
 
     // Two ways to commit: a deliberate flick, or a slow drag taken far enough.
@@ -243,16 +245,12 @@ export default function InstagramCarousel() {
 
   // While the finger is down the stage follows it exactly; on release the
   // spring takes over from that position, carrying the gesture's momentum.
-  const dragFraction = drag / stepPx();
+  const dragFraction = drag / step;
   const transition = dragging ? { duration: 0 } : reduceMotion ? { duration: 0.2 } : springGesture;
 
   return (
-    <section
-      ref={sectionRef}
-      id="instagram"
-      className="relative w-full overflow-hidden bg-[var(--color-bg-secondary)]"
-      style={{ paddingTop: "var(--section-y)", paddingBottom: "var(--section-y)" }}
-    >
+    <Section id="instagram" surface="secondary" bleed className="relative w-full overflow-hidden">
+      <div ref={sectionRef as unknown as React.Ref<HTMLDivElement>}>
       {/* Editorial header */}
       <div className="relative z-10 px-6 mb-12 md:mb-16 max-w-6xl mx-auto">
         <ScrollFadeIn>
@@ -260,7 +258,7 @@ export default function InstagramCarousel() {
             href="https://www.instagram.com/prepfinland/"
             target="_blank"
             rel="noopener noreferrer"
-            className="t-eyebrow inline-block text-[var(--color-accent)] transition-opacity duration-150 hover:opacity-70"
+            className="t-eyebrow -ml-1 inline-flex min-h-11 items-center px-1 text-[var(--color-accent)] transition-opacity duration-150 hover:opacity-70"
           >
             {t("subtitle")}
           </a>
@@ -270,7 +268,17 @@ export default function InstagramCarousel() {
 
       {/* Stage */}
       <div
-        className="relative z-10 flex items-center justify-center select-none touch-pan-y"
+        role="group"
+        aria-roledescription="carousel"
+        aria-label={t("title")}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
+          else if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
+          else if (e.key === "Home") { e.preventDefault(); jumpTo(0); }
+          else if (e.key === "End") { e.preventDefault(); jumpTo(len - 1); }
+        }}
+        className="relative z-10 flex items-center justify-center select-none touch-pan-y rounded-[var(--radius-lg)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]"
         style={{ perspective: "1600px" }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -350,7 +358,7 @@ export default function InstagramCarousel() {
                     src={post.video_url}
                     poster={post.poster_url}
                     muted={muted}
-                    autoPlay
+                    autoPlay={!reduceMotion}
                     playsInline
                     preload="auto"
                     onClick={() => {
@@ -369,7 +377,7 @@ export default function InstagramCarousel() {
                       const v = e.currentTarget;
                       if (v.duration) setProgress(v.currentTime / v.duration);
                     }}
-                    onEnded={() => go(1)}
+                    onEnded={() => { if (!reduceMotion) go(1); }}
                     className="w-full h-full object-cover bg-black"
                   />
                 ) : post.poster_url ? (
@@ -421,7 +429,7 @@ export default function InstagramCarousel() {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="t-eyebrow mt-2.5 inline-flex items-center gap-1.5 text-white/75 hover:text-white transition-colors"
+                          className="t-eyebrow mt-1 inline-flex min-h-11 items-center gap-1.5 text-white/80 hover:text-white transition-colors"
                         >
                           {t("subtitle")} ↗
                         </a>
@@ -441,7 +449,7 @@ export default function InstagramCarousel() {
                           }
                         }}
                         aria-label={muted ? "Unmute" : "Mute"}
-                        className="material-dark shrink-0 h-10 w-10 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center cursor-pointer transition-[background-color,transform] duration-150 ease-out hover:bg-white/20 active:scale-95"
+                        className="material-dark shrink-0 h-11 w-11 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center cursor-pointer transition-[background-color,transform] duration-150 ease-out hover:bg-white/20 active:scale-95"
                       >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" stroke="none" />
@@ -483,7 +491,7 @@ export default function InstagramCarousel() {
       </div>
 
       {/* Story-style segmented progress + counter */}
-      <div className="relative z-10 mt-10 md:mt-14 px-6 flex flex-col items-center gap-4">
+      <div className="relative z-10 mt-10 md:mt-14 px-6 max-w-6xl mx-auto flex flex-col gap-3">
         <div className="flex items-center gap-1.5 w-full max-w-[320px] md:max-w-[420px]">
           {posts.map((post, i) => {
             const state = i < active ? 1 : i === active ? progress : 0;
@@ -494,8 +502,9 @@ export default function InstagramCarousel() {
                 onClick={() => jumpTo(i)}
                 aria-label={`Go to reel ${i + 1}`}
                 aria-current={i === active}
-                className="group relative flex-1 h-[3px] rounded-full bg-black/10 overflow-hidden cursor-pointer"
+                className="group relative flex-1 h-11 flex items-center cursor-pointer"
               >
+                <span aria-hidden className="relative block h-[3px] w-full overflow-hidden rounded-full bg-black/10">
                 <span
                   className="absolute inset-y-0 left-0 rounded-full"
                   style={{
@@ -504,17 +513,19 @@ export default function InstagramCarousel() {
                     transition: i === active ? "width 0.15s linear" : "width 0.4s ease",
                   }}
                 />
+                </span>
               </button>
             );
           })}
         </div>
         <span
-          className="font-[family-name:var(--font-futura-pt)] text-xs tracking-[0.3em] text-[var(--color-text-subtle)]"
+          className="font-[family-name:var(--font-futura-pt)] text-xs tracking-[0.3em] text-[var(--color-text-muted)]"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {counter}
         </span>
       </div>
-    </section>
+      </div>
+    </Section>
   );
 }

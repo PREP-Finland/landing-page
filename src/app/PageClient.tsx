@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import TestimonialCarousel from "@/components/sections/TestimonialCarousel";
 import IntroSection from "@/components/sections/IntroSection";
@@ -25,7 +25,7 @@ interface PageClientProps {
 export default function PageClient({ videosConfig, formWizardConfig }: PageClientProps) {
   const [wizardOpen, setWizardOpen] = useState(false);
   // Remembered so the sheet scales out of the button that opened it.
-  const originRef = useRef<{ x: number; y: number } | null>(null);
+  const [origin, setOrigin] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     trackEvent("page_view_landing", { page: "home" });
@@ -35,7 +35,7 @@ export default function PageClient({ videosConfig, formWizardConfig }: PageClien
     const el = e?.currentTarget as HTMLElement | undefined;
     if (el) {
       const r = el.getBoundingClientRect();
-      originRef.current = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      setOrigin({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
     }
     trackEvent("form_open", { form: "contact_wizard", source });
     setWizardOpen(true);
@@ -55,7 +55,7 @@ export default function PageClient({ videosConfig, formWizardConfig }: PageClien
         open={wizardOpen}
         onClose={() => setWizardOpen(false)}
         formWizardConfig={formWizardConfig}
-        origin={originRef.current}
+        origin={origin}
       />
     </>
   );

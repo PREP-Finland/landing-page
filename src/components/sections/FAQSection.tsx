@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
 import { springUI } from "@/lib/motion";
+import Section, { Measure } from "@/components/ui/Section";
 
 interface FaqItem {
   q: string;
@@ -127,12 +128,8 @@ export default function FAQSection() {
   if (!Array.isArray(items) || items.length === 0) return null;
 
   return (
-    <section
-      id="faq"
-      className="bg-[var(--color-bg-secondary)]"
-      style={{ paddingTop: "var(--section-y)", paddingBottom: "var(--section-y)" }}
-    >
-      <div className="max-w-3xl mx-auto px-6">
+    <Section id="faq" surface="secondary">
+      <Measure>
         <ScrollFadeIn>
           <h2 className="t-h2 text-[var(--color-text)] mb-12 md:mb-16">{t("title")}</h2>
         </ScrollFadeIn>
@@ -148,7 +145,7 @@ export default function FAQSection() {
             ))}
           </div>
         </ScrollFadeIn>
-      </div>
-    </section>
+      </Measure>
+    </Section>
   );
 }

@@ -19,13 +19,13 @@ intro:
   p7: "Koe, miltä tuntuu olla paras versio itsestäsi."
   cta: Aloitetaan
 about:
-  title: TIETOA MEISTÄ
+  title: Tietoa meistä
   text: |
     Olemme intohimoisia fitness-valmentajia, jotka uskovat tieteeseen perustuvaan harjoitteluun ja ravitsemukseen. Jokainen ohjelma räätälöidään yksilöllisesti sinun tavoitteidesi, aikataulusi ja lähtötasosi mukaan. Autamme sinua saavuttamaan pysyviä tuloksia – ei pikaratkaisuja, vaan kestävää kehitystä.
 
     Olipa tavoitteesi painonpudotus, lihasmassan kasvattaminen tai yleisen hyvinvoinnin parantaminen, olemme täällä tukemassa sinua joka askeleella. Valmennus sisältää henkilökohtaisen harjoitusohjelman, ravitsemussuunnitelman ja jatkuvan tuen.
 coaches:
-  title: PERUSTAJAT
+  title: Perustajat
   readMore: Lue lisää
   readLess: Lue vähemmän
   coach1:
@@ -40,14 +40,14 @@ coaches:
     bioP2: "Valmentajana Sherko on auttanut lukuisia kilpailijoita rakentamaan kansainvälisillä fitnesslavoilla kilpailukykyisen fysiikan sekä parantamaan suorituskykyään korkealle tasolle. Hänen erityinen vahvuutensa on kyky tunnistaa, mitä seuraava taso juuri kyseiseltä yksilöltä vaatii ja miten sinne päästään. Hänen loputon intohimonsa valmennustyötä kohtaan on muuttanut monen ihmisen elämää, ja häntä kutsutaankin asiakkaiden toimesta mestariveistäjäksi. Sherko on inspiroinut myös monia asiakkaitaan aloittamaan oman uransa valmentajana."
     bioP3: "Jos tavoitteesi on nähdä, mihin todella pystyt, Sherko tietää, mitä se sinulta vaatii."
 instagram:
-  title: ONNISTUMISIA
+  title: Onnistumisia
   subtitle: "@prepfinland"
 blog:
-  title: BLOGISTA
+  title: Blogista
   readMore: Lue lisää
   noArticles: Ei artikkeleita saatavilla.
 contact:
-  title: OTA YHTEYTTÄ
+  title: Ota yhteyttä
   text: Oletko valmis aloittamaan muutoksen? Ota yhteyttä ja kerro tavoitteistasi – autamme sinua pääsemään alkuun.
   cta: Aloitetaan
   email: info@valmennus.fi

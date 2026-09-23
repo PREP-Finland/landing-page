@@ -33,6 +33,15 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
     video.loop = true;
     video.playsInline = true;
 
+    // A looping full-viewport video is exactly what prefers-reduced-motion is
+    // for. There is no poster in the config, so hold the first frame instead:
+    // the image still sets the scene, nothing moves.
+    if (reduceMotion) {
+      video.pause();
+      video.currentTime = 0;
+      return;
+    }
+
     // Play while on-screen and the tab is visible; pause when scrolled away.
     let inView = true;
     const update = () => {
@@ -61,7 +70,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
       video.removeEventListener("loadeddata", onLoaded);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [reduceMotion]);
 
   const rise = reduceMotion
     ? { initial: { opacity: 0 }, animate: { opacity: 1 } }
@@ -74,7 +83,8 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
     <section className="relative h-[100svh] w-full flex items-end overflow-hidden bg-black">
       <video
         ref={videoRef}
-        autoPlay
+        aria-hidden
+        autoPlay={!reduceMotion}
         muted
         loop
         playsInline
@@ -90,16 +100,16 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.45) 26%, rgba(0,0,0,0.10) 55%, rgba(0,0,0,0.22) 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.72) 18%, rgba(0,0,0,0.40) 42%, rgba(0,0,0,0.12) 66%, rgba(0,0,0,0.28) 100%)",
         }}
       />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pb-16 md:pb-24">
-        <div className="max-w-6xl">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-16 md:pb-24">
+        <div>
           <motion.h1
             {...rise}
             transition={{ ...springUI, delay: 0.05 }}
-            className="t-hero text-white/85"
+            className="t-hero text-white/90"
           >
             {splitEmphasis(t("headline")).map((segment, i) =>
               segment.emphasised ? (
@@ -114,7 +124,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
           <motion.p
             {...rise}
             transition={{ ...springUI, delay: 0.14 }}
-            className="t-lead mt-6 text-white/70 max-w-2xl"
+            className="t-lead mt-6 text-white/80 max-w-2xl"
           >
             {t("subheadline")}
           </motion.p>

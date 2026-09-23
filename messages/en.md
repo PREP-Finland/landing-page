@@ -5,7 +5,7 @@ header:
   themeDark: Dark
   themeSystem: System
 hero:
-  headline: We know how to turn your potential into results.
+  headline: "We help **busy professionals** build a body that feels **incredibly good** – without **a single wasted minute**."
   subheadline: Experience your best self.
   cta: GET STARTED
 intro:
@@ -19,13 +19,13 @@ intro:
   p7: "Experience what it feels like to be the best version of yourself."
   cta: GET STARTED
 about:
-  title: ABOUT US
+  title: About us
   text: |
     We are passionate fitness coaches who believe in **science-based** training and nutrition. Every program is individually tailored to your goals, schedule, and starting level. We help you achieve lasting results – no quick fixes, just sustainable progress.
 
     Whether your goal is weight loss, muscle building, or improving overall well-being, we are here to support you every step of the way. Coaching includes a personalized training program, nutrition plan, and ongoing support.
 coaches:
-  title: FOUNDERS
+  title: Founders
   readMore: Read more
   readLess: Read less
   coach1:
@@ -42,14 +42,14 @@ coaches:
     bioP2: "As a coach, Sherko has helped numerous competitors build a competition-ready physique on international fitness stages and elevate their performance to the highest level. His particular strength is the ability to identify what the next level requires from each individual and how to get there. His endless passion for coaching has changed many lives, and his clients call him the \"master sculptor.\" Sherko has also inspired many of his clients to start their own coaching careers."
     bioP3: "If your goal is to see what you are truly capable of, Sherko knows what it takes."
 instagram:
-  title: ACHIEVEMENTS
+  title: Achievements
   subtitle: "@prepfinland"
 blog:
-  title: FROM THE BLOG
+  title: From the blog
   readMore: Read more
   noArticles: No articles available.
 contact:
-  title: GET IN TOUCH
+  title: Get in touch
   text: Ready to start your transformation? Get in touch and tell us about your goals – we'll help you get started.
   cta: START NOW
   email: info@coaching.fi

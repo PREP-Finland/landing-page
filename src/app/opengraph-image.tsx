@@ -44,7 +44,6 @@ export default async function OpengraphImage() {
           fontFamily: "Raleway",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={logoSrc} alt="PREP" width={260} height={57} />
         <div
           style={{

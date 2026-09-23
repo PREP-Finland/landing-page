@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
+import Section, { Measure } from "@/components/ui/Section";
 
 interface IntroSectionProps {
   onCtaClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -12,12 +13,8 @@ export default function IntroSection({ onCtaClick }: IntroSectionProps) {
   const t = useTranslations("intro");
 
   return (
-    <section
-      id="intro"
-      className="relative bg-[var(--color-bg)]"
-      style={{ paddingTop: "var(--section-y)", paddingBottom: "var(--section-y)" }}
-    >
-      <div className="max-w-3xl mx-auto px-6">
+    <Section id="intro">
+      <Measure>
         <ScrollFadeIn>
           <h2 className="t-h2 text-[var(--color-text)]">{t("title")}</h2>
         </ScrollFadeIn>
@@ -44,7 +41,7 @@ export default function IntroSection({ onCtaClick }: IntroSectionProps) {
 
         <ScrollFadeIn delay={0.14}>
           <div className="mt-10 space-y-2">
-            <p className="t-lead text-[var(--color-text-subtle)]">{t("p5")}</p>
+            <p className="t-lead text-[var(--color-text-muted)]">{t("p5")}</p>
             <p className="t-lead text-[var(--color-text)] font-semibold">{t("p6")}</p>
           </div>
         </ScrollFadeIn>
@@ -56,7 +53,7 @@ export default function IntroSection({ onCtaClick }: IntroSectionProps) {
             </Button>
           </div>
         </ScrollFadeIn>
-      </div>
-    </section>
+      </Measure>
+    </Section>
   );
 }
