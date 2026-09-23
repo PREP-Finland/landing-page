@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import LanguageToggle from "@/components/ui/LanguageToggle";
 
 export default function Header() {
   // Transparent over the hero so the video runs edge to edge; once content is
@@ -25,7 +24,7 @@ export default function Header() {
       }`}
       style={{ height: "var(--header-h)" }}
     >
-      <div className="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-6 h-full flex items-center">
         <a href="#" aria-label="PREP" className="inline-flex min-h-11 items-center pr-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -36,9 +35,6 @@ export default function Header() {
             }`}
           />
         </a>
-        <div className="flex items-center gap-2">
-          <LanguageToggle scrolled={scrolled} />
-        </div>
       </div>
     </header>
   );
