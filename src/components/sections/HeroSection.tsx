@@ -100,7 +100,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.72) 18%, rgba(0,0,0,0.40) 42%, rgba(0,0,0,0.12) 66%, rgba(0,0,0,0.28) 100%)",
+            "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.60) 22%, rgba(0,0,0,0.30) 46%, rgba(0,0,0,0.08) 68%, rgba(0,0,0,0.26) 100%)",
         }}
       />
 
@@ -109,7 +109,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
           <motion.h1
             {...rise}
             transition={{ ...springUI, delay: 0.05 }}
-            className="t-hero text-white/90"
+            className="t-hero text-white/80"
           >
             {splitEmphasis(t("headline")).map((segment, i) =>
               segment.emphasised ? (
@@ -124,11 +124,11 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
           <motion.p
             {...rise}
             transition={{ ...springUI, delay: 0.14 }}
-            className="t-lead mt-6 text-white/80 max-w-2xl"
+            className="t-lead mt-8 md:mt-9 text-white/70 max-w-xl [text-shadow:0_1px_18px_rgba(0,0,0,0.45)]"
           >
             {t("subheadline")}
           </motion.p>
-          <motion.div {...rise} transition={{ ...springUI, delay: 0.22 }} className="mt-9">
+          <motion.div {...rise} transition={{ ...springUI, delay: 0.22 }} className="mt-10 md:mt-12">
             <Button variant="onDark" size="lg" onClick={onCtaClick}>
               {t("cta")}
             </Button>

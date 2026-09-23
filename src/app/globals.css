@@ -88,10 +88,22 @@ body {
  * behind it.
  */
 .t-hero {
-  font-size: clamp(1.625rem, 4.2vw, 3.125rem);
-  line-height: 1.16;
-  letter-spacing: -0.022em;
-  font-weight: 400;
+  /*
+   * 52px is the largest size that still sets this sentence in three lines on
+   * the rail (94% of the measure). 54px fits too, at 98%, which is too little
+   * headroom for rendering differences between platforms.
+   */
+  font-size: clamp(1.75rem, 4.4vw, 3.25rem);
+  /* Display leading: tight, so three lines read as one block of type. */
+  line-height: 1.06;
+  /* Large text needs real negative tracking, not a token amount. */
+  letter-spacing: -0.034em;
+  /* Light, so the emphasised phrases carry the weight rather than competing. */
+  font-weight: 300;
+  /* Edge definition over moving footage, so the scrim can stay restrained. */
+  text-shadow: 0 1px 28px rgba(0, 0, 0, 0.38);
+  font-feature-settings: "kern" 1, "liga" 1;
+  font-optical-sizing: auto;
   /*
    * Not `balance`: on a sentence this long it equalises the lines by making
    * them all short, which adds a row and leaves the block floating in the
@@ -102,8 +114,9 @@ body {
 
 .t-hero em {
   font-style: normal;
-  font-weight: 800;
-  letter-spacing: -0.028em;
+  /* One step of real contrast against the light base, not a bolding. */
+  font-weight: 600;
+  letter-spacing: -0.038em;
 }
 
 .t-h2 {
