@@ -103,6 +103,52 @@ formWizard:
   stepOf: "Vaihe {current}/{total}"
   success: Kiitos! Olemme sinuun yhteydessä pian.
   error: Jokin meni pieleen. Yritä uudelleen.
+pillars:
+  eyebrow: Neljä pilaria
+  title: Kokonaisuus, joka tekee tuloksista väistämättömiä
+  summary: "Ravitsemus muuttaa kehoa. Harjoittelu rakentaa muotoa ja voimaa. Mentaalinen suorituskyky pitää suunnan. Palautuminen pitää koneen käynnissä."
+  items:
+    - number: "01"
+      cardTitle: "Maukas tehoravitsemus\u00ADsysteemi kiireeseen"
+      cardText: "Syöminen toimii oikeassa elämässä — ja keho muuttuu."
+      title: "Maukas tehoravitsemus\u00ADsysteemi kiireeseen"
+      subtitle: "Ruokailu, josta voi nauttia oikeassa elämässä."
+      body: |-
+        Tiedät jo varsin hyvin, millaista ruokaa sinun pitäisi syödä. Ongelma ei siis ole tiedon puute. Ongelma on se, ettei täydellinen ruokavalio tunnu kestävän oikeaa elämääsi. Kalenteri täyttyy palavereista, työpäivät venyvät, lounas syödään ravintolassa, työmatkoja tulee ja viikonloppuisinkin halutaan elää ja nauttia. Hyvin nopeasti suunnitelma, joka saattaa toimia täydellisessä kiiltokuvaelämässä, lakkaa toimimasta hektisessä todellisuudessa.
+        Kustannuksena ei ole vain se, ettei paino putoa tai kroppa muutu, vaan myös ailahteleva vireystila ja tunne siitä, että yhdellä elämän osa-alueella ei saada aikaan niitä tuloksia, joihin muualla elämässä on totuttu.
+        Siksi me rakennamme kiireiseen elämääsi räätälöidyn tehoravitsemussysteemin, joka toimii juuri sinun kiireisessä arjessasi. Henkilökohtaisten tavoitteidesi, mieltymyksiesi ja arkesi ympärille rakennettu systeemi mahdollistaa, että ruoka maistuu hyvältä, sitä on riittävästi ja keho saa tarvitsemansa juuri siihen, mitä siltä vaaditaan. Olipa sitten hektinen työpäivä, työreissu hotelliaamiaisineen ja edustusillallisineen, viikonloppu tai kesäloma.
+      result: "Lopputuloksena voit nauttia ruoasta ja omasta elämästäsi samalla, kun kehosi vihdoin muuttuu toivomaasi suuntaan, tunnet olosi energiseksi ja syöt tavalla, joka ei edellytä sinulta jatkuvaa rajoittamista."
+    - number: "02"
+      cardTitle: "Maksimaalinen kehitys minimiajalla"
+      cardText: "Jokainen treeni, liike ja sarja palvelee tulosta."
+      title: "Maksimaalinen kehitys minimiajalla"
+      subtitle: "Vähemmän hukka-aikaa. Enemmän näkyvää kehitystä."
+      body: |-
+        Olet treenannut elämäsi aikana, ehkä paljonkin. Ongelma on, ettei treeni ole tuottanut sellaisia tuloksia, joita käytettyyn aikaan ja vaivaan nähden olisi pitänyt tulla. Nyt olet havahtunut siihen, että haluat saada muutoksen aikaan, mutta et halua enää tuhlata tuntikausia aikaasi treeneihin, jotka eivät vie sinua eteenpäin.
+        Tyypillinen ongelma ei ole liian vähäinen kunnianhimo tai yrittäminen, vaan väärin mitoitettu tekeminen. Jos harjoitusohjelmaa ei ole mitoitettu vaativaan arkeen, se vie liikaa aikaa ja energiaa, mutta toivottuja tuloksia ei silti saada. PREP on rakentanut metodin, jonka avulla saat paljon parempaa tulosta optimoimalla harjoitukset henkilökohtaiseen lähtötasoosi nähden, ja keskittymällä vain sellaiseen tekemiseen, josta saa parhaat mahdolliset tulokset.
+        Siksi me rakennamme asiakkaalle mahdollisimman vähän aikaa vievän harjoittelusysteemin, joka tuottaa mahdollisimman paljon kehitystä. Treenaat vain murto-osan siitä ajasta, mihin olet aiemmin tottunut, mutta saat parempia tuloksia.
+      result: "Saat kehon, joka kestää vaativaa arkea ja kuormitusta sekä näyttää treenatulta ja ryhdikkäältä — käyttäen harjoitteluun vain sen ajan, joka todella tarvitaan."
+    - number: "03"
+      cardTitle: "Vahva mieli paineen alla"
+      cardText: "Paine, pettymykset ja epävarmuus eivät kaada tekemistä."
+      title: "Vahva mieli paineen alla"
+      subtitle: "Miten saat itsestäsi kaiken irti ilman, että palat loppuun? Miten parannat itseluottamustasi?"
+      body: |-
+        Elämäsi on paineistettua. Sinulla on paljon vastuuta, ja tämä tuo mukanaan myös haasteita. Olet esihenkilötehtävissä tai muussa vastuupositiossa ja kaipaat sitä, että myös sinulla olisi työkaluja käsitellä painetta, välillä vastaan tulevia pettymyksiä ja epävarmuutta.
+        Välillä tuntuu, että on vaikeaa keskittyä, suoriutua painetilanteissa parhaalla mahdollisella tavalla ja päästä yli pettymyksen hetkistä, joita jokaiselle tulee joskus vastaan. Olet saattanut joskus myös käydä lähellä työuupumusta tai ainakin kokenut satunnaisesti itsesi mentaalisesti ylikuormittuneeksi.
+        Siksi rakennamme asiakkaalle vahvan mentaalisen suorituskyvyn.
+      result: "Lopputuloksena kestät paremmin painetta, palaudut henkisesti nopeammin ja olet itsevarma muutostenkin keskellä."
+    - number: "04"
+      cardTitle: "Ylikuormitustilaa ehkäisevä palautumis\u00ADsysteemi"
+      cardText: "Uni, kuormitus ja palautuminen tukevat korkeaa suorituskykyä."
+      title: "Väsymystä ehkäisevä palautumis\u00ADsysteemi"
+      subtitle: "Milloin olet viimeksi herännyt pirteänä?"
+      body: |-
+        Sinulla on 6–7 tuntia aikaa nukkua. Tekemättömät työt ja keskeneräiset projektit pyörivät päässä ja uni on levotonta ja katkonaista. Heräät aamulla väsyneenä herätyskelloon ja käynnistät päivän kofeiinilla. Päivän mittaan tarvitset muutaman lisäannoksen kofeiinia selvitäksesi iltaan saakka. Ongelma siis on, ettei kokonaiskuormitusta ja palautumista johdeta samalla tarkkuudella kuin muita tärkeitä resursseja. Silloin tekemisen määrä alkaa ylittää kapasiteetin ja laatu kärsii.
+        Kustannuksena ei ole pelkkä väsymys. Kustannuksena on se, että käytät kallisarvoista aikaasi asioihin vajaalla kapasiteetilla, eli teet näennäisesti paljon, mutta et saa aikaan niin hyvää tulosta, kuin voisit.
+        Siksi me rakennamme sinulle palautumissysteemin, joka mahdollistaa korkean suorituskyvyn ja ehkäisee ylikuormitustilaan ajautumisen.
+        Tavoitteena ei ole tehdä elämästäsi mahdollisimman kevyttä ja välttää kaikkea kuormitusta, vaan kasvattaa kapasiteettiasi palautua vaativasta arjesta.
+      result: "Lopputuloksena olet energisempi, terävämpi ja toimintakykyisempi, tekemisesi laatu on korkeaa ja pystyt nauttimaan elämästä ja olemaan aidosti läsnä."
 faq:
   title: FAQ
   items:

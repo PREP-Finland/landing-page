@@ -105,6 +105,52 @@ formWizard:
   stepOf: "Step {current}/{total}"
   success: "Thank you! We'll be in touch soon."
   error: Something went wrong. Please try again.
+pillars:
+  eyebrow: Four pillars
+  title: A whole that makes results inevitable
+  summary: "Nutrition changes the body. Training builds shape and strength. Mental performance keeps the direction. Recovery keeps the engine running."
+  items:
+    - number: "01"
+      cardTitle: "A tasty performance nutrition system for busy lives"
+      cardText: "Eating works in real life — and your body changes."
+      title: "A tasty performance nutrition system for busy lives"
+      subtitle: "Food you can enjoy in real life."
+      body: |-
+        You already know pretty well what you should be eating. So the problem isn't a lack of knowledge. The problem is that the perfect diet doesn't seem to survive your real life. Your calendar fills up with meetings, workdays stretch, lunch is eaten at a restaurant, business trips come up and on weekends you want to live and enjoy yourself. Very quickly, a plan that might work in a picture-perfect life stops working in a hectic reality.
+        The cost isn't just that the weight doesn't come off or your body doesn't change — it's also fluctuating energy and the feeling that in one area of life you aren't getting the results you're used to getting everywhere else.
+        That's why we build a performance nutrition system tailored to your busy life, one that works in your hectic everyday. Built around your personal goals, preferences and routines, the system makes sure the food tastes good, there's enough of it and your body gets exactly what it needs for what's asked of it. Whether it's a hectic workday, a business trip with hotel breakfasts and client dinners, a weekend or a summer holiday.
+      result: "The result: you can enjoy food and your own life while your body finally changes in the direction you want, you feel energetic and you eat in a way that doesn't require constant restriction."
+    - number: "02"
+      cardTitle: "Maximum progress in minimum time"
+      cardText: "Every session, movement and set serves the result."
+      title: "Maximum progress in minimum time"
+      subtitle: "Less wasted time. More visible progress."
+      body: |-
+        You've trained during your life, maybe a lot. The problem is that the training hasn't produced the results it should have, given the time and effort you put in. Now you've realised you want to make a change, but you no longer want to waste hours on workouts that don't move you forward.
+        The typical problem isn't too little ambition or effort, but work that is dosed wrong. If a training programme isn't designed for a demanding everyday life, it takes too much time and energy, and the results still don't come. PREP has built a method that gets you far better results by optimising training for your personal starting level and focusing only on the work that delivers the best possible outcomes.
+        That's why we build a training system that takes as little time as possible and produces as much progress as possible. You train for a fraction of the time you're used to, but get better results.
+      result: "You get a body that withstands a demanding life and heavy load, and looks trained and upright — using only the time that training truly requires."
+    - number: "03"
+      cardTitle: "A strong mind under pressure"
+      cardText: "Pressure, disappointments and uncertainty don't derail you."
+      title: "A strong mind under pressure"
+      subtitle: "How do you get the most out of yourself without burning out? How do you build your self-confidence?"
+      body: |-
+        Your life is under pressure. You carry a lot of responsibility, and that brings challenges with it. You're in a leadership role or another position of responsibility, and you want tools of your own for handling pressure and the disappointments and uncertainty that come your way.
+        At times it feels hard to focus, to perform at your best under pressure and to get past the moments of disappointment everyone faces now and then. You may have come close to burnout at some point, or at least occasionally felt mentally overloaded.
+        That's why we build strong mental performance for our clients.
+      result: "The result: you handle pressure better, recover mentally faster and stay confident in the middle of change."
+    - number: "04"
+      cardTitle: "A recovery system that prevents overload"
+      cardText: "Sleep, load and recovery support high performance."
+      title: "A recovery system that prevents fatigue"
+      subtitle: "When did you last wake up feeling refreshed?"
+      body: |-
+        You have 6–7 hours to sleep. Unfinished work and open projects spin in your head, and your sleep is restless and broken. You wake up tired to the alarm clock and start the day with caffeine. Over the day you need a few more doses of caffeine just to make it to the evening. So the problem is that total load and recovery aren't managed with the same precision as your other important resources. Then the amount you do starts to exceed your capacity, and quality suffers.
+        The cost isn't just fatigue. The cost is that you spend your precious time at reduced capacity — you seem to do a lot, but you don't achieve results as good as you could.
+        That's why we build you a recovery system that enables high performance and prevents you from sliding into overload.
+        The goal isn't to make your life as light as possible and avoid all load, but to grow your capacity to recover from a demanding everyday life.
+      result: "The result: you're more energetic, sharper and more capable, the quality of your work is high and you can enjoy life and be truly present."
 faq:
   title: FAQ
   items:
