@@ -1,9 +1,11 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
+import { springUI } from "@/lib/motion";
+import { splitEmphasis } from "@/lib/emphasis";
 const isDev = process.env.NODE_ENV === "development";
 
 function getVideoSrc(src: string) {
@@ -14,13 +16,14 @@ function getVideoSrc(src: string) {
 }
 
 interface HeroSectionProps {
-  onCtaClick: () => void;
+  onCtaClick: React.MouseEventHandler<HTMLButtonElement>;
   videosConfig: { hero: { src: string; poster: string } };
 }
 
 export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionProps) {
   const t = useTranslations("hero");
   const videoRef = useRef<HTMLVideoElement>(null);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const video = videoRef.current;
@@ -29,6 +32,15 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
+
+    // A looping full-viewport video is exactly what prefers-reduced-motion is
+    // for. There is no poster in the config, so hold the first frame instead:
+    // the image still sets the scene, nothing moves.
+    if (reduceMotion) {
+      video.pause();
+      video.currentTime = 0;
+      return;
+    }
 
     // Play while on-screen and the tab is visible; pause when scrolled away.
     let inView = true;
@@ -58,41 +70,63 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
       video.removeEventListener("loadeddata", onLoaded);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [reduceMotion]);
+
+  const rise = reduceMotion
+    ? { initial: { opacity: 0 }, animate: { opacity: 1 } }
+    : { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <section className="relative mt-16 aspect-[4/3] md:h-[calc(100vh-4rem)] md:aspect-auto w-full flex items-end justify-start md:justify-center overflow-hidden">
+    // Full-bleed: the header floats over the video rather than cropping it, and
+    // the stage is a full viewport height on phones too (svh, so a mobile
+    // browser's collapsing chrome doesn't clip it).
+    <section className="relative h-[100svh] w-full flex items-end overflow-hidden bg-black">
       <video
         ref={videoRef}
-        autoPlay
+        aria-hidden
+        autoPlay={!reduceMotion}
         muted
         loop
         playsInline
         preload="auto"
+        poster={videosConfig.hero.poster || undefined}
         className="absolute inset-0 w-full h-full object-cover"
         src={getVideoSrc(videosConfig.hero.src)}
       />
-      <div className="absolute inset-0 bg-black/20" />
-      <div className="relative z-10 px-6 pb-6 md:px-10 md:pb-16 self-end text-left md:text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-[family-name:var(--font-raleway)] text-sm md:text-xl lg:text-2xl font-bold text-white uppercase md:whitespace-nowrap"
-          style={{ letterSpacing: "2.5px" }}
-        >
-          {t("subheadline")}
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="mt-3 md:mt-8"
-        >
-          <Button size="lg" onClick={onCtaClick}>
-            {t("cta")}
-          </Button>
-        </motion.div>
+
+      {/* Bottom-weighted scrim: separates the text without dulling the frame. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.60) 22%, rgba(0,0,0,0.30) 46%, rgba(0,0,0,0.08) 68%, rgba(0,0,0,0.26) 100%)",
+        }}
+      />
+
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-16 md:pb-24">
+        <div>
+          <motion.h1
+            {...rise}
+            transition={{ ...springUI, delay: 0.05 }}
+            className="t-hero text-white/80"
+          >
+            {splitEmphasis(t("headline")).map((segment, i) =>
+              segment.emphasised ? (
+                <em key={i} className="text-white">
+                  {segment.text}
+                </em>
+              ) : (
+                <span key={i}>{segment.text}</span>
+              )
+            )}
+          </motion.h1>
+          <motion.div {...rise} transition={{ ...springUI, delay: 0.14 }} className="mt-10 md:mt-12">
+            <Button variant="onDark" size="lg" onClick={onCtaClick}>
+              {t("cta")}
+            </Button>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

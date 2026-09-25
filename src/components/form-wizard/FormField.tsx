@@ -3,7 +3,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { springUI } from "@/lib/motion";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { FormFieldConfig } from "@/types/form";
 
 interface FormFieldProps {
@@ -12,19 +14,17 @@ interface FormFieldProps {
   onChange: (name: string, value: string | boolean | string[]) => void;
 }
 
-function GradientBorderWrapper({ active, children }: { active: boolean; children: React.ReactNode }) {
+/** Border that lights up in the accent colour when a control is active. */
+function ActiveBorder({ active, children }: { active: boolean; children: React.ReactNode }) {
   return (
-    <div className="relative p-[1px] rounded-[4px]">
-      {/* Default border */}
-      <div className="absolute inset-0 rounded-[4px] bg-[var(--color-border)]" />
-      {/* Gradient border */}
+    <div className="relative p-[1px] rounded-[var(--radius-sm)]">
+      <div className="absolute inset-0 rounded-[var(--radius-sm)] bg-[var(--color-border)]" />
       <motion.div
-        className="absolute inset-0 rounded-[4px] bg-gradient-to-r from-[#CA132A] to-[#EA3860]"
+        className="absolute inset-0 rounded-[var(--radius-sm)] bg-[var(--color-accent)]"
         animate={{ opacity: active ? 1 : 0 }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
       />
-      {/* Inner content area */}
-      <div className="relative rounded-[3px] bg-[var(--color-bg)] z-10">
+      <div className="relative rounded-[calc(var(--radius-sm)-1px)] bg-[var(--color-bg)] z-10">
         {children}
       </div>
     </div>
@@ -32,7 +32,34 @@ function GradientBorderWrapper({ active, children }: { active: boolean; children
 }
 
 const inputClass =
-  "w-full px-4 py-3 bg-transparent text-[var(--color-text)] text-xs focus:outline-none rounded-[3px]";
+  "w-full px-4 py-3.5 bg-transparent text-[var(--color-text)] text-base rounded-[calc(var(--radius-sm)-1px)]";
+
+const labelClass = "block text-sm font-semibold text-[var(--color-text)] mb-2.5";
+
+function RequiredMark() {
+  return (
+    <span aria-hidden className="text-[var(--color-accent)] ml-0.5">
+      *
+    </span>
+  );
+}
+
+/** Shared tick used by the checkbox and radio indicators. */
+function Tick({ shown }: { shown: boolean }) {
+  return (
+    <motion.svg
+      width="12"
+      height="10"
+      viewBox="0 0 12 10"
+      fill="none"
+      aria-hidden
+      animate={{ opacity: shown ? 1 : 0, scale: shown ? 1 : 0.5 }}
+      transition={{ duration: 0.15 }}
+    >
+      <path d="M1 5L4.5 8.5L11 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </motion.svg>
+  );
+}
 
 function CustomSelect({
   field,
@@ -47,18 +74,11 @@ function CustomSelect({
   const label = t(field.labelKey);
   const [open, setOpen] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useMediaQuery("(pointer: coarse)");
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
   const selectedOption = field.options?.find((o) => o.value === value);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(pointer: coarse)");
-    setIsMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
 
   const updateRect = useCallback(() => {
     if (triggerRef.current) {
@@ -82,31 +102,41 @@ function CustomSelect({
         setOpen(false);
       }
     }
+    function handleKeyDown(e: KeyboardEvent) {
+      // Escape closes the dropdown without reaching the modal behind it.
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    }
     function handleScroll() {
       updateRect();
     }
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown, true);
     window.addEventListener("scroll", handleScroll, true);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown, true);
       window.removeEventListener("scroll", handleScroll, true);
     };
   }, [open, updateRect]);
 
   if (isMobile) {
     return (
-      <div className="mb-4">
+      <div className="mb-5">
         {label && (
-          <label className="block text-xs font-semibold mb-2">
-            {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
+          <label className={labelClass}>
+            {label} {field.required && <RequiredMark />}
           </label>
         )}
-        <GradientBorderWrapper active={!!value}>
+        <ActiveBorder active={!!value}>
           <select
             value={value || ""}
             onChange={(e) => onChange(field.name, e.target.value)}
             required={field.required}
-            className="w-full px-4 py-3 bg-transparent text-[var(--color-text)] text-xs focus:outline-none rounded-[3px] appearance-none cursor-pointer"
+            className={`${inputClass} appearance-none cursor-pointer`}
           >
             <option value="" disabled>—</option>
             {field.options?.map((option) => (
@@ -115,26 +145,28 @@ function CustomSelect({
               </option>
             ))}
           </select>
-        </GradientBorderWrapper>
+        </ActiveBorder>
       </div>
     );
   }
 
   return (
-    <div className="mb-4">
+    <div className="mb-5">
       {label && (
-        <label className="block text-sm font-semibold mb-2">
-          {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
+        <label className={labelClass}>
+          {label} {field.required && <RequiredMark />}
         </label>
       )}
-      <GradientBorderWrapper active={open || !!value}>
+      <ActiveBorder active={open || !!value}>
         <button
           ref={triggerRef}
           type="button"
           onClick={handleOpen}
-          className="w-full px-4 py-3 flex items-center justify-between text-left bg-transparent focus:outline-none rounded-[3px] cursor-pointer"
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          className="w-full px-4 py-3.5 flex items-center justify-between text-left text-base bg-transparent rounded-[calc(var(--radius-sm)-1px)] cursor-pointer"
         >
-          <span className={selectedOption ? "text-[var(--color-text)]" : "text-[var(--color-text)]/40"}>
+          <span className={selectedOption ? "text-[var(--color-text)]" : "text-[var(--color-text-muted)]"}>
             {selectedOption ? t(selectedOption.labelKey) : "—"}
           </span>
           <motion.svg
@@ -142,32 +174,36 @@ function CustomSelect({
             height="12"
             viewBox="0 0 12 12"
             fill="none"
+            aria-hidden
             animate={{ rotate: open ? 180 : 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="flex-shrink-0 ml-2 text-[var(--color-text)]/50"
+            transition={reduceMotion ? { duration: 0.15 } : springUI}
+            className="flex-shrink-0 ml-2 text-[var(--color-text-muted)]"
           >
             <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </motion.svg>
         </button>
-      </GradientBorderWrapper>
+      </ActiveBorder>
 
       {typeof window !== "undefined" && createPortal(
         <AnimatePresence>
           {open && rect && (
             <motion.div
               ref={dropdownRef}
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
+              role="listbox"
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.98 }}
+              animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.98 }}
+              transition={reduceMotion ? { duration: 0.12 } : springUI}
               style={{
                 position: "fixed",
-                top: rect.bottom + 4,
+                top: rect.bottom + 6,
                 left: rect.left,
                 width: rect.width,
                 zIndex: 9999,
+                // Anchored to the trigger, so it grows out of the control.
+                transformOrigin: "top center",
               }}
-              className="rounded-[4px] border border-[var(--color-border)] bg-[var(--color-bg)] shadow-lg overflow-y-auto max-h-48"
+              className="rounded-[var(--radius-sm)] border border-[var(--color-border)] bg-[var(--color-bg)] shadow-[0_2px_8px_rgba(20,16,16,0.06),0_16px_40px_-16px_rgba(20,16,16,0.3)] overflow-y-auto max-h-56 p-1"
             >
               {field.options?.map((option) => {
                 const isSelected = value === option.value;
@@ -175,34 +211,23 @@ function CustomSelect({
                   <button
                     key={option.value}
                     type="button"
+                    role="option"
+                    aria-selected={isSelected}
                     onClick={() => {
                       onChange(field.name, option.value);
                       setOpen(false);
                     }}
-                    className="relative w-full px-4 py-3 text-left cursor-pointer focus:outline-none"
+                    className={`relative w-full px-3 py-2.5 text-left text-base rounded-[var(--radius-xs)] cursor-pointer transition-colors duration-100 focus-visible:outline-offset-[-2px] ${
+                      isSelected
+                        ? "bg-[var(--color-accent)]/10 text-[var(--color-text)]"
+                        : "hover:bg-[var(--color-bg-tertiary)]"
+                    }`}
                   >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-[#CA132A]/10 to-[#EA3860]/10"
-                      animate={{ opacity: isSelected ? 1 : 0 }}
-                      transition={{ duration: 0.15 }}
-                    />
-                    <motion.div
-                      className="absolute inset-0 bg-[var(--color-text)]/5"
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: isSelected ? 0 : 1 }}
-                      transition={{ duration: 0.1 }}
-                    />
-                    <span className="relative z-10 flex items-center justify-between">
+                    <span className="relative z-10 flex items-center justify-between gap-3">
                       {t(option.labelKey)}
                       {isSelected && (
-                        <svg width="12" height="10" viewBox="0 0 12 10" fill="none" className="flex-shrink-0">
-                          <path d="M1 5L4.5 8.5L11 1.5" stroke="url(#selectGrad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          <defs>
-                            <linearGradient id="selectGrad" x1="0" y1="0" x2="1" y2="0">
-                              <stop offset="0%" stopColor="#CA132A" />
-                              <stop offset="100%" stopColor="#EA3860" />
-                            </linearGradient>
-                          </defs>
+                        <svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden className="flex-shrink-0 text-[var(--color-accent)]">
+                          <path d="M1 5L4.5 8.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       )}
                     </span>
@@ -228,11 +253,11 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
     case "email":
     case "tel":
       return (
-        <div className="mb-4">
-          <label className="block text-xs font-semibold mb-2">
-            {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
+        <div className="mb-5">
+          <label className={labelClass}>
+            {label} {field.required && <RequiredMark />}
           </label>
-          <GradientBorderWrapper active={focused}>
+          <ActiveBorder active={focused}>
             <input
               type={field.type}
               value={(value as string) || ""}
@@ -242,29 +267,29 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
               className={inputClass}
               required={field.required}
             />
-          </GradientBorderWrapper>
+          </ActiveBorder>
         </div>
       );
 
     case "textarea":
       return (
-        <div className="mb-4">
+        <div className="mb-5">
           {label && (
-            <label className="block text-xs font-semibold mb-2">
-              {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
+            <label className={labelClass}>
+              {label} {field.required && <RequiredMark />}
             </label>
           )}
-          <GradientBorderWrapper active={focused}>
+          <ActiveBorder active={focused}>
             <textarea
               value={(value as string) || ""}
               onChange={(e) => onChange(field.name, e.target.value)}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               rows={4}
-              className={inputClass}
+              className={`${inputClass} resize-y`}
               required={field.required}
             />
-          </GradientBorderWrapper>
+          </ActiveBorder>
         </div>
       );
 
@@ -273,34 +298,49 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
 
     case "radio":
       return (
-        <div className="mb-4">
+        <div className="mb-5">
           {label && (
-            <label className="block text-xs font-semibold mb-3">
-              {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
+            <label className={labelClass}>
+              {label} {field.required && <RequiredMark />}
             </label>
           )}
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {field.options?.map((option) => {
               const selected = value === option.value;
               return (
-                <GradientBorderWrapper key={option.value} active={selected}>
-                  <label className="flex items-center gap-3 p-3 rounded-[3px] cursor-pointer">
-                    <motion.div
-                      className="absolute inset-0 rounded-[3px] bg-gradient-to-r from-[#CA132A]/10 to-[#EA3860]/10"
-                      animate={{ opacity: selected ? 1 : 0 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                    />
+                <ActiveBorder key={option.value} active={selected}>
+                  <label
+                    className={`relative flex items-center gap-3.5 px-4 py-3.5 rounded-[calc(var(--radius-sm)-1px)] cursor-pointer text-base transition-colors duration-150 ${
+                      selected ? "bg-[var(--color-accent)]/[0.06]" : "hover:bg-[var(--color-bg-tertiary)]"
+                    }`}
+                  >
+                    {/* Custom indicator — the native control is kept for
+                        semantics and keyboard behaviour, visually hidden. */}
                     <input
                       type="radio"
                       name={field.name}
                       value={option.value}
                       checked={selected}
                       onChange={(e) => onChange(field.name, e.target.value)}
-                      className="relative z-10 accent-[#CA132A]"
+                      className="peer sr-only"
                     />
+                    <span
+                      aria-hidden
+                      className="relative z-10 grid h-5 w-5 flex-shrink-0 place-items-center rounded-full border transition-colors duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-accent)] peer-focus-visible:ring-offset-2"
+                      style={{
+                        borderColor: selected ? "var(--color-accent)" : "var(--color-border)",
+                        backgroundColor: selected ? "var(--color-accent)" : "transparent",
+                      }}
+                    >
+                      <motion.span
+                        className="block h-1.5 w-1.5 rounded-full bg-white"
+                        animate={{ opacity: selected ? 1 : 0, scale: selected ? 1 : 0.4 }}
+                        transition={{ duration: 0.15 }}
+                      />
+                    </span>
                     <span className="relative z-10">{t(option.labelKey)}</span>
                   </label>
-                </GradientBorderWrapper>
+                </ActiveBorder>
               );
             })}
           </div>
@@ -310,50 +350,20 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
     case "checkboxGroup": {
       const selected = (value as string[] | undefined) || [];
       return (
-        <div className="mb-4">
-          <label className="block text-xs font-semibold mb-3">
-            {label} {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
+        <div className="mb-5">
+          <label className={labelClass}>
+            {label} {field.required && <RequiredMark />}
           </label>
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {field.options?.map((option) => {
               const isChecked = selected.includes(option.value);
               return (
-                <GradientBorderWrapper key={option.value} active={isChecked}>
-                  <label className="flex items-center gap-3 p-3 rounded-[3px] cursor-pointer">
-                    <motion.div
-                      className="absolute inset-0 rounded-[3px] bg-gradient-to-r from-[#CA132A]/10 to-[#EA3860]/10"
-                      animate={{ opacity: isChecked ? 1 : 0 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                    />
-                    <div className="relative z-10 w-5 h-5 flex-shrink-0">
-                      <motion.div
-                        className="w-5 h-5 rounded-[3px] flex items-center justify-center"
-                        animate={
-                          isChecked
-                            ? { background: "linear-gradient(to right, #CA132A, #EA3860)", borderColor: "transparent" }
-                            : { background: "transparent", borderColor: "var(--color-border)" }
-                        }
-                        style={{ border: "1px solid var(--color-border)" }}
-                        transition={{ duration: 0.15, ease: "easeInOut" }}
-                      >
-                        <motion.svg
-                          width="12"
-                          height="10"
-                          viewBox="0 0 12 10"
-                          fill="none"
-                          animate={{ opacity: isChecked ? 1 : 0, scale: isChecked ? 1 : 0.5 }}
-                          transition={{ duration: 0.15 }}
-                        >
-                          <path
-                            d="M1 5L4.5 8.5L11 1.5"
-                            stroke="white"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </motion.svg>
-                      </motion.div>
-                    </div>
+                <ActiveBorder key={option.value} active={isChecked}>
+                  <label
+                    className={`relative flex items-center gap-3.5 px-4 py-3.5 rounded-[calc(var(--radius-sm)-1px)] cursor-pointer text-base transition-colors duration-150 ${
+                      isChecked ? "bg-[var(--color-accent)]/[0.06]" : "hover:bg-[var(--color-bg-tertiary)]"
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       value={option.value}
@@ -364,11 +374,21 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
                           : [...selected, option.value];
                         onChange(field.name, next);
                       }}
-                      className="sr-only"
+                      className="peer sr-only"
                     />
+                    <span
+                      aria-hidden
+                      className="relative z-10 grid h-5 w-5 flex-shrink-0 place-items-center rounded-[var(--radius-xs)] border transition-colors duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-accent)] peer-focus-visible:ring-offset-2"
+                      style={{
+                        borderColor: isChecked ? "var(--color-accent)" : "var(--color-border)",
+                        backgroundColor: isChecked ? "var(--color-accent)" : "transparent",
+                      }}
+                    >
+                      <Tick shown={isChecked} />
+                    </span>
                     <span className="relative z-10">{t(option.labelKey)}</span>
                   </label>
-                </GradientBorderWrapper>
+                </ActiveBorder>
               );
             })}
           </div>
@@ -376,64 +396,47 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
       );
     }
 
-    case "checkbox":
+    case "checkbox": {
+      const isChecked = (value as boolean) || false;
       return (
-        <div className="mb-4">
-          <label className="flex items-center gap-3 cursor-pointer">
-            <div className="relative w-5 h-5 flex-shrink-0">
-              <input
-                type="checkbox"
-                checked={(value as boolean) || false}
-                onChange={(e) => onChange(field.name, e.target.checked)}
-                required={field.required}
-                className="sr-only"
-              />
-              <motion.div
-                className="w-5 h-5 rounded-[3px] flex items-center justify-center pointer-events-none"
-                animate={
-                  value
-                    ? { background: "linear-gradient(to right, #CA132A, #EA3860)", borderColor: "transparent" }
-                    : { background: "transparent", borderColor: "var(--color-border)" }
-                }
-                style={{ border: "1px solid var(--color-border)" }}
-                transition={{ duration: 0.15, ease: "easeInOut" }}
-              >
-                <motion.svg
-                  width="12"
-                  height="10"
-                  viewBox="0 0 12 10"
-                  fill="none"
-                  animate={{ opacity: value ? 1 : 0, scale: value ? 1 : 0.5 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <path
-                    d="M1 5L4.5 8.5L11 1.5"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </motion.svg>
-              </motion.div>
-            </div>
-            <span className="text-xs">
+        <div className="mb-5">
+          <label className="flex items-start gap-3.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={(e) => onChange(field.name, e.target.checked)}
+              required={field.required}
+              className="peer sr-only"
+            />
+            <span
+              aria-hidden
+              className="mt-0.5 grid h-5 w-5 flex-shrink-0 place-items-center rounded-[var(--radius-xs)] border transition-colors duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-accent)] peer-focus-visible:ring-offset-2"
+              style={{
+                borderColor: isChecked ? "var(--color-accent)" : "var(--color-border)",
+                backgroundColor: isChecked ? "var(--color-accent)" : "transparent",
+              }}
+            >
+              <Tick shown={isChecked} />
+            </span>
+            <span className="text-sm leading-relaxed text-[var(--color-text-muted)]">
               {label}
               {field.privacyPolicyUrl && (
                 <> — <a
                   href={field.privacyPolicyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline hover:opacity-70 transition-opacity"
+                  className="text-[var(--color-accent)] underline underline-offset-2 hover:opacity-70 transition-opacity"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {t("formWizard.step3.dataConsentLink")}
                 </a></>
               )}
-              {field.required && <span className="text-red-500 text-base font-bold ml-0.5">*</span>}
+              {field.required && <RequiredMark />}
             </span>
           </label>
         </div>
       );
+    }
 
     default:
       return null;

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
+import { springUI } from "@/lib/motion";
+import Section, { Measure } from "@/components/ui/Section";
 
 interface FaqItem {
   q: string;
@@ -24,9 +26,9 @@ function Answer({ text }: { text: string }) {
   const flushBullets = (key: string) => {
     if (!bullets.length) return;
     blocks.push(
-      <ul key={key} className="list-disc pl-5 my-2 space-y-1">
+      <ul key={key} className="list-disc pl-5 my-3 space-y-1.5">
         {bullets.map((b, i) => (
-          <li key={i} className="text-gray-600 text-sm leading-relaxed font-light">
+          <li key={i} className="t-body text-[var(--color-text-muted)]">
             {b}
           </li>
         ))}
@@ -41,7 +43,7 @@ function Answer({ text }: { text: string }) {
     } else {
       flushBullets(`ul-${i}`);
       blocks.push(
-        <p key={i} className="text-gray-600 text-sm leading-relaxed font-light mb-2 last:mb-0">
+        <p key={i} className="t-body text-[var(--color-text-muted)] mb-3 last:mb-0">
           {line}
         </p>
       );
@@ -52,39 +54,63 @@ function Answer({ text }: { text: string }) {
   return <>{blocks}</>;
 }
 
-function FaqRow({ item, isOpen, onToggle }: { item: FaqItem; isOpen: boolean; onToggle: () => void }) {
+function FaqRow({
+  item,
+  isOpen,
+  onToggle,
+}: {
+  item: FaqItem;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  const reduceMotion = useReducedMotion();
+  const panelId = useId();
+  const buttonId = useId();
+
   return (
-    <div className="border-b border-gray-200">
+    <div className="border-b border-[var(--color-border)]">
       <button
         type="button"
+        id={buttonId}
         onClick={onToggle}
         aria-expanded={isOpen}
-        className="w-full flex items-center justify-between gap-4 py-5 text-left"
+        aria-controls={panelId}
+        className="group w-full flex items-center justify-between gap-6 py-6 text-left cursor-pointer"
       >
-        <span className="font-[family-name:var(--font-raleway)] text-sm md:text-base font-medium text-gray-900 normal-case">
+        <span className="text-base md:text-lg font-medium tracking-[-0.011em] text-[var(--color-text)] transition-colors duration-150 group-hover:text-[var(--color-accent)]">
           {item.q}
         </span>
-        <svg
-          className={`h-4 w-4 shrink-0 text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
+        <motion.span
+          aria-hidden
+          animate={{ rotate: isOpen ? 45 : 0 }}
+          transition={reduceMotion ? { duration: 0.15 } : springUI}
+          className="shrink-0 grid place-items-center h-8 w-8 rounded-full border border-[var(--color-border)] text-[var(--color-text-muted)] transition-colors duration-150 group-hover:border-[var(--color-accent)] group-hover:text-[var(--color-accent)]"
         >
-          <path d="M12 5v14M5 12h14" />
-        </svg>
+          <svg
+            className="h-3.5 w-3.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          >
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </motion.span>
       </button>
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            id={panelId}
+            role="region"
+            aria-labelledby={buttonId}
+            initial={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            animate={reduceMotion ? { opacity: 1 } : { height: "auto", opacity: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={reduceMotion ? { duration: 0.2 } : springUI}
             className="overflow-hidden"
           >
-            <div className="pb-5 pr-8 md:pr-10">
+            <div className="pb-7 pr-10 md:pr-16">
               <Answer text={item.a} />
             </div>
           </motion.div>
@@ -102,17 +128,15 @@ export default function FAQSection() {
   if (!Array.isArray(items) || items.length === 0) return null;
 
   return (
-    <section id="faq" className="py-14 md:py-20" style={{ backgroundColor: "#fafaf9" }}>
-      <div className="max-w-3xl mx-auto px-6">
+    <Section id="faq" surface="secondary">
+      <Measure className="mx-auto">
         <ScrollFadeIn>
-          <div className="text-left md:text-center mb-8 md:mb-10">
-            <h2 className="font-[family-name:var(--font-raleway)] text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-tight">
-              {t("title")}
-            </h2>
-          </div>
+          <h2 className="t-h2 text-left md:text-center text-[var(--color-text)] mb-12 md:mb-16">
+            {t("title")}
+          </h2>
         </ScrollFadeIn>
-        <ScrollFadeIn delay={0.1}>
-          <div>
+        <ScrollFadeIn delay={0.06}>
+          <div className="border-t border-[var(--color-border)]">
             {items.map((item, i) => (
               <FaqRow
                 key={i}
@@ -123,7 +147,7 @@ export default function FAQSection() {
             ))}
           </div>
         </ScrollFadeIn>
-      </div>
-    </section>
+      </Measure>
+    </Section>
   );
 }
