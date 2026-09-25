@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
@@ -16,6 +16,21 @@ interface PillarItem {
   subtitle: string;
   body: string;
   result: string;
+}
+
+/**
+ * Document-relative top via the offset chain rather than getBoundingClientRect,
+ * which would include the section's entrance transform and land the scroll
+ * short if a card is clicked while that animation is still running.
+ */
+function documentTop(el: HTMLElement): number {
+  let y = 0;
+  let node: HTMLElement | null = el;
+  while (node) {
+    y += node.offsetTop;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return y;
 }
 
 function PillarNumber({ children }: { children: string }) {
@@ -181,13 +196,23 @@ export default function PillarsSection() {
   const [active, setActive] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const gridRef = useRef<HTMLDivElement>(null);
+  /** Set when a card is opened, so the effect below can put it under the header. */
+  const pendingScroll = useRef<number | null>(null);
+  const scrollFrame = useRef<number | null>(null);
   // Single-column layout: a shared panel under a one-card-wide stack would sit
   // detached from the card whose answer it is.
   const inline = useMediaQuery("(max-width: 639px)");
 
-  if (!Array.isArray(items) || items.length === 0) return null;
+  const hasItems = Array.isArray(items) && items.length > 0;
+  const activeItem = hasItems && active !== null ? items[active] : null;
 
-  const activeItem = active !== null ? items[active] : null;
+  const toggle = (i: number) => {
+    const opening = active !== i;
+    // Only on open. Closing should leave the reader where they are.
+    if (opening) pendingScroll.current = i;
+    setActive(opening ? i : null);
+  };
 
   // Arrow keys move between the cards, so the group behaves like one control
   // rather than four unrelated buttons.
@@ -202,6 +227,69 @@ export default function PillarsSection() {
     e.preventDefault();
     cardRefs.current[next]?.focus();
   };
+
+  // Opening a card changes the height of the section, which used to move
+  // everything under the reader. Put the card they just clicked in a fixed
+  // place instead, so the section reads as stationary.
+  useLayoutEffect(() => {
+    const index = pendingScroll.current;
+    if (index === null) return;
+    pendingScroll.current = null;
+
+    const btn = cardRefs.current[index];
+    const grid = gridRef.current;
+    if (!btn || !grid) return;
+
+    const header = document.querySelector("header");
+    const offset = (header?.offsetHeight ?? 64) + 20;
+
+    let targetTop: number;
+    if (inline) {
+      /*
+       * Single column: the cards above will all be collapsed once the
+       * animation settles, so the final position is the grid top plus their
+       * collapsed heights. Measuring the live rect here would read a
+       * mid-animation layout and land in the wrong place.
+       */
+      const gap = parseFloat(getComputedStyle(grid).rowGap) || 16;
+      targetTop = documentTop(grid);
+      for (let k = 0; k < index; k++) {
+        const above = cardRefs.current[k];
+        // +2 for the card's top and bottom border.
+        if (above) targetTop += above.offsetHeight + 2 + gap;
+      }
+    } else {
+      // The cards sit above the panel, so their position does not move.
+      targetTop = documentTop(btn);
+    }
+
+    const top = Math.max(0, targetTop - offset);
+    if (Math.abs(top - window.scrollY) < 4) return;
+
+    /*
+     * Motion measures the `height: auto` keyframe on the following frame, and
+     * saves and restores window scroll around that measurement. A smooth
+     * scroll started here would still be at its origin when that snapshot is
+     * taken, so Motion would restore it and cancel the scroll outright. Wait
+     * for the measurement pass before moving.
+     */
+    if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
+    scrollFrame.current = requestAnimationFrame(() => {
+      scrollFrame.current = requestAnimationFrame(() => {
+        scrollFrame.current = null;
+        window.scrollTo({ top, behavior: reduceMotion ? "auto" : "smooth" });
+      });
+    });
+  }, [active, inline, reduceMotion]);
+
+  useEffect(
+    () => () => {
+      if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
+    },
+    []
+  );
+
+  if (!hasItems) return null;
 
   const swap = reduceMotion
     ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0.2 } }
@@ -225,7 +313,10 @@ export default function PillarsSection() {
         <ScrollFadeIn delay={0.06}>
           {/* items-start so an expanded card grows on its own rather than
               stretching the cards beside it. */}
-          <div className="grid grid-cols-1 items-start sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <div
+            ref={gridRef}
+            className="grid grid-cols-1 items-start sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5"
+          >
             {items.map((item, i) => (
               <PillarCard
                 key={item.number}
@@ -233,7 +324,7 @@ export default function PillarsSection() {
                 isActive={active === i}
                 isDimmed={!inline && active !== null && active !== i}
                 inline={inline}
-                onToggle={() => setActive(active === i ? null : i)}
+                onToggle={() => toggle(i)}
                 onKeyNav={handleKeyNav(i)}
                 cardRef={(el) => {
                   cardRefs.current[i] = el;
@@ -254,7 +345,7 @@ export default function PillarsSection() {
             transition={springUI}
             className="mt-5 md:mt-6"
           >
-            <AnimatePresence mode="wait" initial={false}>
+            <AnimatePresence mode="popLayout" initial={false}>
               {activeItem ? (
                 <motion.div key={activeItem.number} {...swap}>
                   <PillarDetail item={activeItem} />
