@@ -121,14 +121,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
               )
             )}
           </motion.h1>
-          <motion.p
-            {...rise}
-            transition={{ ...springUI, delay: 0.14 }}
-            className="t-lead mt-8 md:mt-9 text-white/70 max-w-xl [text-shadow:0_1px_18px_rgba(0,0,0,0.45)]"
-          >
-            {t("subheadline")}
-          </motion.p>
-          <motion.div {...rise} transition={{ ...springUI, delay: 0.22 }} className="mt-10 md:mt-12">
+          <motion.div {...rise} transition={{ ...springUI, delay: 0.14 }} className="mt-10 md:mt-12">
             <Button variant="onDark" size="lg" onClick={onCtaClick}>
               {t("cta")}
             </Button>
