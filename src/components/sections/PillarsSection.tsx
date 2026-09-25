@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
 import { springUI } from "@/lib/motion";
 import Section from "@/components/ui/Section";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface PillarItem {
   number: string;
@@ -17,10 +18,55 @@ interface PillarItem {
   result: string;
 }
 
+function PillarNumber({ children }: { children: string }) {
+  return (
+    <span
+      className="font-[family-name:var(--font-futura-pt)] text-xs tracking-[0.2em] text-[var(--color-accent)]"
+      style={{ fontVariantNumeric: "tabular-nums" }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** The essay itself, shared by the in-card panel and the desktop panel. */
+function PillarBody({ item, showTitle }: { item: PillarItem; showTitle: boolean }) {
+  const paragraphs = item.body
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  return (
+    <>
+      {showTitle && (
+        <>
+          <PillarNumber>{item.number}</PillarNumber>
+          <h3 className="mt-3 t-h3 text-[var(--color-text)] hyphens-auto [overflow-wrap:anywhere]">
+            {item.title}
+          </h3>
+        </>
+      )}
+      <p className={`${showTitle ? "mt-4" : ""} t-lead text-[var(--color-accent)]`}>
+        {item.subtitle}
+      </p>
+
+      <div className="mt-6 md:mt-8 space-y-5 t-body text-[var(--color-text-muted)]">
+        {paragraphs.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
+      </div>
+
+      <div aria-hidden className="mt-8 md:mt-10 h-px w-16 bg-[var(--color-accent)]" />
+      <p className="mt-6 t-lead font-semibold text-[var(--color-text)]">{item.result}</p>
+    </>
+  );
+}
+
 function PillarCard({
   item,
   isActive,
   isDimmed,
+  inline,
   onToggle,
   onKeyNav,
   cardRef,
@@ -28,21 +74,20 @@ function PillarCard({
   item: PillarItem;
   isActive: boolean;
   isDimmed: boolean;
+  /** Phone layout: the card opens in place rather than into a shared panel. */
+  inline: boolean;
   onToggle: () => void;
   onKeyNav: (e: React.KeyboardEvent) => void;
   cardRef: (el: HTMLButtonElement | null) => void;
 }) {
+  const reduceMotion = useReducedMotion();
+  const panelId = useId();
+
   return (
-    <button
-      ref={cardRef}
-      type="button"
-      onClick={onToggle}
-      onKeyDown={onKeyNav}
-      aria-expanded={isActive}
-      aria-controls="pillar-panel"
-      className={`group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-md)] border bg-[var(--color-bg)] p-5 md:p-6 text-left cursor-pointer
+    <div
+      className={`group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-md)] border bg-[var(--color-bg)]
         transition-[opacity,border-color,box-shadow,transform] duration-200 ease-out
-        active:scale-[0.985] active:duration-75
+        has-[button:active]:scale-[0.985] has-[button:active]:duration-75
         ${
           isActive
             ? "border-[var(--color-accent)]/25 shadow-[0_2px_6px_rgba(20,16,16,0.04),0_18px_40px_-24px_rgba(20,16,16,0.30)]"
@@ -50,75 +95,82 @@ function PillarCard({
         }
         ${isDimmed ? "opacity-55 hover:opacity-100" : "opacity-100"}`}
     >
-      {/* Accent rule wipes in from the left, pointing at the panel it opens. */}
+      {/* Accent rule wipes in from the left, marking the open card. */}
       <span
         aria-hidden
-        className={`absolute inset-x-0 top-0 h-[2px] origin-left bg-[var(--color-accent)] transition-transform duration-300 ease-out ${
+        className={`absolute inset-x-0 top-0 z-10 h-[2px] origin-left bg-[var(--color-accent)] transition-transform duration-300 ease-out ${
           isActive ? "scale-x-100" : "scale-x-0"
         }`}
       />
-      <span
-        className="font-[family-name:var(--font-futura-pt)] text-xs tracking-[0.2em] text-[var(--color-accent)]"
-        style={{ fontVariantNumeric: "tabular-nums" }}
-      >
-        {item.number}
-      </span>
-      <span className="mt-4 block text-base md:text-[1.0625rem] font-semibold leading-snug tracking-[-0.012em] text-[var(--color-text)] hyphens-auto [overflow-wrap:anywhere]">
-        {item.cardTitle}
-      </span>
-      <span className="mt-2.5 block text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
-        {item.cardText}
-      </span>
 
-      {/* Affordance that there is more behind the card. */}
-      <span
-        aria-hidden
-        className={`mt-auto pt-5 inline-flex items-center gap-1.5 t-eyebrow transition-colors duration-200 ${
-          isActive ? "text-[var(--color-accent)]" : "text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)]"
-        }`}
+      <button
+        ref={cardRef}
+        type="button"
+        onClick={onToggle}
+        onKeyDown={onKeyNav}
+        aria-expanded={isActive}
+        aria-controls={inline ? panelId : "pillar-panel"}
+        className="flex flex-1 flex-col p-5 md:p-6 text-left cursor-pointer"
       >
-        <motion.svg
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-          animate={{ rotate: isActive ? 180 : 0 }}
-          transition={springUI}
+        <PillarNumber>{item.number}</PillarNumber>
+        <span className="mt-4 block text-base md:text-[1.0625rem] font-semibold leading-snug tracking-[-0.012em] text-[var(--color-text)] hyphens-auto [overflow-wrap:anywhere]">
+          {item.cardTitle}
+        </span>
+        <span className="mt-2.5 block text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+          {item.cardText}
+        </span>
+
+        {/* Affordance that there is more behind the card. */}
+        <span
+          aria-hidden
+          className={`mt-auto pt-5 inline-flex items-center gap-1.5 t-eyebrow transition-colors duration-200 ${
+            isActive
+              ? "text-[var(--color-accent)]"
+              : "text-[var(--color-text-muted)] group-hover:text-[var(--color-accent)]"
+          }`}
         >
-          <path d="M2 4.5 6 8.5 10 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-        </motion.svg>
-      </span>
-    </button>
+          <motion.svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            animate={{ rotate: isActive ? 180 : 0 }}
+            transition={reduceMotion ? { duration: 0.15 } : springUI}
+          >
+            <path d="M2 4.5 6 8.5 10 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </motion.svg>
+        </span>
+      </button>
+
+      {/* Phones open the essay inside the card, so the answer stays attached to
+          the question instead of appearing below a stack of four. */}
+      {inline && (
+        <AnimatePresence initial={false}>
+          {isActive && (
+            <motion.div
+              id={panelId}
+              role="region"
+              initial={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+              animate={reduceMotion ? { opacity: 1 } : { height: "auto", opacity: 1 }}
+              exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+              transition={reduceMotion ? { duration: 0.2 } : springUI}
+              className="overflow-hidden"
+            >
+              <div className="border-t border-[var(--color-border)] px-5 pb-6 pt-5">
+                <PillarBody item={item} showTitle={false} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
+    </div>
   );
 }
 
 function PillarDetail({ item }: { item: PillarItem }) {
-  const paragraphs = item.body
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
-
   return (
     <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-bg)] p-7 md:p-12 shadow-[0_1px_3px_rgba(20,16,16,0.03),0_24px_60px_-36px_rgba(20,16,16,0.25)]">
-      <span
-        className="font-[family-name:var(--font-futura-pt)] text-xs tracking-[0.2em] text-[var(--color-accent)]"
-        style={{ fontVariantNumeric: "tabular-nums" }}
-      >
-        {item.number}
-      </span>
-      <h3 className="mt-3 t-h3 text-[var(--color-text)] hyphens-auto [overflow-wrap:anywhere]">
-        {item.title}
-      </h3>
-      <p className="mt-4 t-lead text-[var(--color-accent)]">{item.subtitle}</p>
-
-      <div className="mt-8 space-y-5 t-body text-[var(--color-text-muted)]">
-        {paragraphs.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
-      </div>
-
-      <div aria-hidden className="mt-10 h-px w-16 bg-[var(--color-accent)]" />
-      <p className="mt-6 t-lead font-semibold text-[var(--color-text)]">{item.result}</p>
+      <PillarBody item={item} showTitle />
     </div>
   );
 }
@@ -129,6 +181,9 @@ export default function PillarsSection() {
   const [active, setActive] = useState<number | null>(null);
   const reduceMotion = useReducedMotion();
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  // Single-column layout: a shared panel under a one-card-wide stack would sit
+  // detached from the card whose answer it is.
+  const inline = useMediaQuery("(max-width: 639px)");
 
   if (!Array.isArray(items) || items.length === 0) return null;
 
@@ -168,13 +223,16 @@ export default function PillarsSection() {
         </ScrollFadeIn>
 
         <ScrollFadeIn delay={0.06}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          {/* items-start so an expanded card grows on its own rather than
+              stretching the cards beside it. */}
+          <div className="grid grid-cols-1 items-start sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {items.map((item, i) => (
               <PillarCard
                 key={item.number}
                 item={item}
                 isActive={active === i}
-                isDimmed={active !== null && active !== i}
+                isDimmed={!inline && active !== null && active !== i}
+                inline={inline}
                 onToggle={() => setActive(active === i ? null : i)}
                 onKeyNav={handleKeyNav(i)}
                 cardRef={(el) => {
@@ -185,33 +243,37 @@ export default function PillarsSection() {
           </div>
         </ScrollFadeIn>
 
-        {/* `layout` lets the sections below settle rather than jump as the
-            panel opens and closes. */}
-        <motion.div
-          id="pillar-panel"
-          layout={!reduceMotion}
-          transition={springUI}
-          className="mt-5 md:mt-6"
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {activeItem ? (
-              <motion.div key={activeItem.number} {...swap}>
-                <PillarDetail item={activeItem} />
-              </motion.div>
-            ) : (
-              <motion.p
-                key="summary"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="max-w-3xl mx-auto pt-6 t-body text-left md:text-center text-[var(--color-text-muted)]"
-              >
-                {t("summary")}
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </motion.div>
+        {inline ? (
+          <p className="mt-8 t-body text-[var(--color-text-muted)]">{t("summary")}</p>
+        ) : (
+          /* `layout` lets the sections below settle rather than jump as the
+             panel opens and closes. */
+          <motion.div
+            id="pillar-panel"
+            layout={!reduceMotion}
+            transition={springUI}
+            className="mt-5 md:mt-6"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {activeItem ? (
+                <motion.div key={activeItem.number} {...swap}>
+                  <PillarDetail item={activeItem} />
+                </motion.div>
+              ) : (
+                <motion.p
+                  key="summary"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="max-w-3xl mx-auto pt-6 t-body text-left md:text-center text-[var(--color-text-muted)]"
+                >
+                  {t("summary")}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
       </>
     </Section>
   );
