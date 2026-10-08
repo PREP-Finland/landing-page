@@ -8,7 +8,7 @@ meta:
   title: Koe, miltä tuntuu olla paras versio itsestäsi.
 hero:
   headline: "Autamme **kiireisiä uraihmisiä** saavuttamaan vartalon, joka tuntuu **uskomattoman hyvältä** – ilman **yhtäkään haaskattua minuuttia**."
-  cta: Varaa maksuton suunnittelupalaveri
+  cta: Haluatko maksuttoman suunnitelman?
 invite:
   title: Selvitä, mikä toimii juuri sinulle.
   text: "Varaa maksuton henkilökohtainen suunnittelupalaveri, jossa saat selkeän näkemyksen siitä, miten sinun kannattaa rakentaa kiireinen arkesi päästäksesi elämäsi kuntoon mahdollisimman vähällä päänvaivalla."
@@ -23,7 +23,7 @@ intro:
   cta: Haluatko maksuttoman suunnitelman?
 closing:
   text: "Koe, miltä tuntuu olla paras versio itsestäsi."
-  cta: Varaa maksuton suunnittelupalaveri
+  cta: Haluatko maksuttoman suunnitelman?
 about:
   title: Tietoa meistä
   text: |
@@ -42,7 +42,7 @@ coaches:
     bioP4: "Jos tiedät sinusta löytyvän enemmän potentiaalia, Johanna osaa tuoda sen esiin."
   coach2:
     name: Sherko Eliassi
-    bioP1: "Miesten fitnessurheilun menestynein suomalainen, Sherko, tuo Prepiin poikkeuksellisen yhdistelmän omaa huippu-urheilutaustaa, yrittäjyyttä ja näyttöjä vaativien asiakkaiden valmentamista. Hän on Men's Physique -ammattilainen, maailmanmestari ja moninkertainen MM-mitalisti, kaksinkertainen euroopanmestari, kaksinkertainen Pohjoismaiden mestari ja moninkertainen suomenmestari — urheilija, joka tietää omasta kokemuksesta, mitä maailman parhaaksi tuleminen vaatii."
+    bioP1: "Miesten fitnessurheilun menestynein suomalainen, Sherko, tuo PREPiin poikkeuksellisen yhdistelmän omaa huippu-urheilutaustaa, yrittäjyyttä ja näyttöjä vaativien asiakkaiden valmentamista. Hän on Men's Physique -ammattilainen, maailmanmestari ja moninkertainen MM-mitalisti, kaksinkertainen euroopanmestari, kaksinkertainen Pohjoismaiden mestari ja moninkertainen suomenmestari — urheilija, joka tietää omasta kokemuksesta, mitä maailman parhaaksi tuleminen vaatii."
     bioP2: "Valmentajana Sherko on auttanut lukuisia kilpailijoita rakentamaan kansainvälisillä fitnesslavoilla kilpailukykyisen fysiikan sekä parantamaan suorituskykyään korkealle tasolle. Hänen erityinen vahvuutensa on kyky tunnistaa, mitä seuraava taso juuri kyseiseltä yksilöltä vaatii ja miten sinne päästään. Hänen loputon intohimonsa valmennustyötä kohtaan on muuttanut monen ihmisen elämää, ja häntä kutsutaankin asiakkaiden toimesta mestariveistäjäksi. Sherko on inspiroinut myös monia asiakkaitaan aloittamaan oman uransa valmentajana."
     bioP3: "Jos tavoitteesi on nähdä, mihin todella pystyt, Sherko tietää, mitä se sinulta vaatii."
 instagram:
@@ -81,18 +81,20 @@ cookies:
     title: Analytiikka
     description: "Auttavat meitä ymmärtämään, miten kävijät käyttävät sivustoa, jotta voimme parantaa sitä."
 formWizard:
+  title: Varaa maksuton suunnittelupalaveri
+  intro: "Kerro hieman itsestäsi ja tavoitteistasi. Vastaaminen vie noin minuutin, ja olemme sinuun yhteydessä sopiaksemme palaverin ajankohdan."
   step1:
-    title: "Olen..."
+    title: Mikä kuvaa sinua parhaiten?
     profileType: ""
-    entrepreneur: yrittäjä
-    demandingProfessional: huippuosaaja
-    competitiveAthlete: kilpaurheilija
-    resultsOriented: tuloshakuinen ihminen
+    entrepreneur: Yrittäjä
+    demandingProfessional: Huippuosaaja
+    competitiveAthlete: Kilpaurheilija
+    resultsOriented: Tuloshakuinen ihminen
     ageRange: Ikä
-    age1825: 18–24
-    age2535: 25–34
-    age3545: 35–44
-    age45plus: 45+
+    ageUnder30: Alle 30
+    age3140: 31–40
+    age4150: 41–50
+    age50plus: 50+
   step2:
     title: Kerro, mitä haluat saavuttaa.
     goalsLabel: ""
@@ -103,19 +105,26 @@ formWizard:
     email: Sähköposti
     dataConsent: Hyväksyn tietosuojaselosteen.
     dataConsentLink: Tietosuojaseloste
+  errors:
+    choose: Valitse yksi vaihtoehto.
+    required: Tämä tieto tarvitaan.
+    email: Tarkista sähköpostiosoite.
+    consent: Hyväksy tietosuojaseloste jatkaaksesi.
   next: Seuraava
   previous: Edellinen
   submit: "Lähetä"
+  submitting: "Lähetetään…"
   stepOf: "Vaihe {current}/{total}"
+  progress: Edistyminen
+  close: Sulje
   success: Kiitos! Olemme sinuun yhteydessä pian.
-  error: Jokin meni pieleen. Yritä uudelleen.
+  error: "Lähetys epäonnistui. Vastauksesi ovat tallessa – yritä hetken päästä uudelleen."
 pillars:
   eyebrow: Neljä elementtiä
   title: PREP-metodi uraan keskittyville ammattilaisille
   lead: Näistä elementeistä PREP-metodi koostuu.
   readMore: Lue lisää
-  cta: Varaa maksuton suunnittelupalaveri
-  summary: "Ravitsemus muuttaa kehoa. Harjoittelu rakentaa muotoa ja voimaa. Mentaalinen suorituskyky pitää suunnan. Palautuminen pitää koneen käynnissä."
+  cta: Haluatko maksuttoman suunnitelman?
   items:
     - number: "01"
       cardTitle: "Maksimaalinen kehitys minimiajalla"
@@ -164,8 +173,8 @@ pillars:
 testimonials:
   cta: Haluatko maksuttoman suunnitelman?
 audience:
-  title: Kenelle Prep on?
-  p1: "Prep on sinulle, jos haluat olla elämäsi parhaassa kunnossa, mutta et halua rakentaa koko elämääsi treenaamisen ja syömisen ympärille."
+  title: Kenelle PREP on?
+  p1: "PREP on sinulle, jos haluat olla elämäsi parhaassa kunnossa, mutta et halua rakentaa koko elämääsi treenaamisen ja syömisen ympärille."
   p2: "Valmennus on suunniteltu kunnianhimoisille uraihmisille, joiden arki on täynnä vastuuta, tavoitteita ja muuttuvia tilanteita ja jotka haluavat pitää myös oman kehonsa, energiansa ja suorituskykynsä korkealla tasolla."
   listTitle: "PREP sopii sinulle erityisesti, jos:"
   list:
@@ -181,13 +190,13 @@ audience:
 faq:
   title: FAQ
   items:
-    - q: "Mikä Prep on?"
+    - q: "Mikä PREP on?"
       a: |-
-        Prep on henkilökohtainen suorituskyvyn mentorointiohjelma kiireisille uraihmisille, jotka haluavat päästä elämänsä parhaaseen kuntoon ilman, että koko elämä alkaa pyöriä treenaamisen, ruokavalion ja palautumisen ympärillä.
+        PREP on henkilökohtainen suorituskyvyn mentorointiohjelma kiireisille uraihmisille, jotka haluavat päästä elämänsä parhaaseen kuntoon ilman, että koko elämä alkaa pyöriä treenaamisen, ruokavalion ja palautumisen ympärillä.
         Yhdistämme harjoittelun, ravitsemuksen, palautumisen ja henkisen kapasiteetin yhdeksi kokonaisuudeksi, joka rakennetaan toimimaan sinun arjessasi.
-    - q: "Kenelle Prep on rakennettu?"
+    - q: "Kenelle PREP on rakennettu?"
       a: |-
-        Prep on ihmisille, joilla on paljon tavoitteita, vastuuta ja vähän hukattavaa aikaa.
+        PREP on ihmisille, joilla on paljon tavoitteita, vastuuta ja vähän hukattavaa aikaa.
         Asiakkaamme ovat esimerkiksi yrittäjiä, johtajia, asiantuntijoita ja muita kunnianhimoisia uraihmisiä, jotka haluavat näyttää hyvältä, voida hyvin ja säilyttää korkean suorituskyvyn myös vaativassa arjessa.
         Sinun ei tarvitse olla valmiiksi hyvässä kunnossa tai kokenut treenaaja. Olennaisempaa on, että olet valmis tekemään oikeita asioita johdonmukaisesti.
     - q: "Mitä suorituskyvyn mentorointi tarkoittaa käytännössä?"
@@ -195,16 +204,16 @@ faq:
         Se tarkoittaa, ettei treeniä, ravitsemusta, palautumista tai jaksamista tarkastella toisistaan irrallisina asioina.
         Rakennamme niiden ympärille henkilökohtaisen kokonaisuuden, joka huomioi tavoitteesi, työsi, perheesi, aikataulusi, lähtötasosi ja käytettävissä olevan ajan.
         Sinun ei tarvitse itse jatkuvasti miettiä, mitä seuraavaksi pitäisi tehdä. Me autamme tunnistamaan, mihin juuri nyt kannattaa käyttää aikaasi ja energiaasi ja mihin ei.
-    - q: "Mikä tekee Prepistä erilaisen?"
+    - q: "Mikä tekee PREPistä erilaisen?"
       a: |-
-        Prep ei ole pelkkä treeniohjelma, ruokavalio tai yksittäinen hyvinvointipalvelu.
+        PREP ei ole pelkkä treeniohjelma, ruokavalio tai yksittäinen hyvinvointipalvelu.
         Rakennamme neljästä elementistä koostuvan kokonaisuuden: tehokkaan harjoittelun, kiireiseen arkeen sopivan ravitsemuksen, vahvemman mielen sekä palautumisen, joka tukee korkeaa suorituskykyä.
         Tavoitteena ei ole saada sinua tekemään mahdollisimman paljon. Tavoitteena on saada oikeilla asioilla mahdollisimman paljon aikaan.
     - q: "Tarvitseeko tavoitteeni olla painonpudotus?"
       a: |-
         Ei. Tavoitteena voi olla esimerkiksi kehonkoostumuksen muuttaminen, lihasmassan lisääminen, parempi kunto, enemmän energiaa, vahvempi ja ryhdikkäämpi keho, parempi palautuminen tai arjen suorituskyvyn parantaminen.
-        Painonpudotus voi olla osa kokonaisuutta, mutta Prep ei ole laihdutusohjelma.
-    - q: "Olen todella kiireinen. Pystynkö silti osallistua Prepiin?"
+        Painonpudotus voi olla osa kokonaisuutta, mutta PREP ei ole laihdutusohjelma.
+    - q: "Olen todella kiireinen. Pystynkö silti osallistua PREPiin?"
       a: |-
         Kyllä, juuri kiireistä arkea varten PREP on rakennettu.
         Emme oleta, että pystyt järjestämään elämäsi valmennuksen ympärille. Valmennus rakennetaan sinun todellisen kalenterisi ympärille niin, että käytät harjoitteluun, ravitsemukseen ja palautumiseen vain sen verran aikaa kuin tavoitteidesi saavuttaminen vaatii.
@@ -227,7 +236,7 @@ faq:
       a: |-
         Se riippuu lähtötilanteesta ja tavoitteesta.
         Ensimmäiset muutokset voivat näkyä jo viikkojen aikana esimerkiksi energiassa, harjoittelussa, ruokailurytmissä tai palautumisessa. Kehon näkyvä muuttuminen ja suuremmat suorituskyvyn muutokset vaativat yleensä pidempää, johdonmukaista tekemistä.
-        Prepin tavoitteena ei ole mahdollisimman nopea muutos, vaan tulokset, jotka myös kestävät.
+        PREPin tavoitteena ei ole mahdollisimman nopea muutos, vaan tulokset, jotka myös kestävät.
     - q: "Miten yhteistyö alkaa?"
       a: |-
         Yhteistyö alkaa maksuttomalla henkilökohtaisella suunnittelupuhelulla.

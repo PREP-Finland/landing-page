@@ -176,6 +176,13 @@ p {
   border-radius: var(--radius-xs);
 }
 
+/* Form fields show focus by fading their own border to the accent colour
+   (ActiveBorder), so the offset outline would only double it up. Unlayered,
+   like the rule above, or the outline would win over a utility class. */
+.field-control:focus-visible {
+  outline: none;
+}
+
 .prose h1 { font-size: 1.875rem; font-weight: 700; color: #111827; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 2rem; }
 .prose h2 { font-size: 1.375rem; font-weight: 700; color: #111827; line-height: 1.25; letter-spacing: -0.015em; margin-top: 2.5rem; margin-bottom: 0.75rem; }
 .prose h3 { font-size: 1.0625rem; font-weight: 600; color: #111827; line-height: 1.35; margin-top: 2rem; margin-bottom: 0.5rem; }

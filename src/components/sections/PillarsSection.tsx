@@ -363,7 +363,11 @@ export default function PillarsSection({ onCtaClick }: PillarsSectionProps) {
         </ScrollFadeIn>
 
         {inline ? (
-          <p className="mt-8 t-body text-[var(--color-text-muted)]">{t("summary")}</p>
+          <div className="mt-8">
+            <Button variant="primary" size="lg" onClick={onCtaClick}>
+              {t("cta")}
+            </Button>
+          </div>
         ) : (
           /* `layout` lets the sections below settle rather than jump as the
              panel opens and closes. */
@@ -379,16 +383,18 @@ export default function PillarsSection({ onCtaClick }: PillarsSectionProps) {
                   <PillarDetail item={activeItem} onCtaClick={onCtaClick} />
                 </motion.div>
               ) : (
-                <motion.p
-                  key="summary"
+                <motion.div
+                  key="cta"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="max-w-3xl mx-auto pt-6 t-body text-left md:text-center text-[var(--color-text-muted)]"
+                  className="pt-6 text-center"
                 >
-                  {t("summary")}
-                </motion.p>
+                  <Button variant="primary" size="lg" onClick={onCtaClick}>
+                    {t("cta")}
+                  </Button>
+                </motion.div>
               )}
             </AnimatePresence>
           </motion.div>
