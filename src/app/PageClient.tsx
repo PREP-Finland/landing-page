@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import TestimonialCarousel from "@/components/sections/TestimonialCarousel";
+import InviteSection from "@/components/sections/InviteSection";
 import IntroSection from "@/components/sections/IntroSection";
 import PillarsSection from "@/components/sections/PillarsSection";
+import AudienceSection from "@/components/sections/AudienceSection";
 import CoachesSection from "@/components/sections/CoachesSection";
 import InstagramCarousel from "@/components/sections/InstagramCarousel";
 import FAQSection from "@/components/sections/FAQSection";
@@ -44,10 +46,12 @@ export default function PageClient({ videosConfig, formWizardConfig }: PageClien
   return (
     <>
       <HeroSection onCtaClick={openWizard("hero")} videosConfig={videosConfig} />
-      <TestimonialCarousel />
-      <IntroSection onCtaClick={openWizard("intro")} />
-      <PillarsSection />
+      <InviteSection onCtaClick={openWizard("invite")} />
       <InstagramCarousel />
+      <IntroSection onCtaClick={openWizard("intro")} />
+      <PillarsSection onCtaClick={openWizard("pillars")} />
+      <TestimonialCarousel onCtaClick={openWizard("testimonials")} />
+      <AudienceSection onCtaClick={openWizard("audience")} />
       <CoachesSection />
       <FAQSection />
       <ClosingSection onCtaClick={openWizard("closing")} />

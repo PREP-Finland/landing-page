@@ -11,10 +11,10 @@ interface ClosingSectionProps {
 
 /**
  * The page used to end on a list of FAQ rows and a copyright line. This closes
- * it deliberately, on the line the intro copy already builds towards.
+ * it deliberately, on one line and one more invitation to book.
  */
 export default function ClosingSection({ onCtaClick }: ClosingSectionProps) {
-  const t = useTranslations("intro");
+  const t = useTranslations("closing");
 
   return (
     <Section id="closing" surface="dark" bleed className="relative overflow-hidden">
@@ -30,7 +30,7 @@ export default function ClosingSection({ onCtaClick }: ClosingSectionProps) {
       <div className="relative max-w-6xl mx-auto px-6">
         <Measure className="mx-auto text-center">
         <ScrollFadeIn>
-          <p className="t-h2 text-white text-balance">{t("p7")}</p>
+          <p className="t-h2 text-white text-balance">{t("text")}</p>
         </ScrollFadeIn>
         <ScrollFadeIn delay={0.08}>
           <div className="mt-12">

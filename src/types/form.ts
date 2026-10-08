@@ -11,6 +11,8 @@ export interface FormFieldConfig {
   options?: FieldOption[];
   showIf?: string;
   privacyPolicyUrl?: string;
+  /** Autofill hint, e.g. "name", "email", "tel". */
+  autoComplete?: string;
 }
 
 export interface WizardStepConfig {
@@ -22,5 +24,8 @@ export interface WizardStepConfig {
 export interface FormWizardConfig {
   steps: WizardStepConfig[];
 }
+
+/** Message keys (under `formWizard.errors`) for fields that failed validation. */
+export type FormErrors = Record<string, "choose" | "required" | "email" | "consent">;
 
 export type FormData = Record<string, string | boolean | string[]>;

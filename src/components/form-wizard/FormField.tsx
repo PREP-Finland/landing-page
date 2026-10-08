@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useId } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
@@ -12,16 +12,26 @@ interface FormFieldProps {
   field: FormFieldConfig;
   value: string | boolean | string[] | undefined;
   onChange: (name: string, value: string | boolean | string[]) => void;
+  /** Already-translated validation message, if the field failed. */
+  error?: string;
 }
 
-/** Border that lights up in the accent colour when a control is active. */
-function ActiveBorder({ active, children }: { active: boolean; children: React.ReactNode }) {
+/** Border that lights up in the accent colour when a control is active or invalid. */
+function ActiveBorder({
+  active,
+  invalid = false,
+  children,
+}: {
+  active: boolean;
+  invalid?: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <div className="relative p-[1px] rounded-[var(--radius-sm)]">
       <div className="absolute inset-0 rounded-[var(--radius-sm)] bg-[var(--color-border)]" />
       <motion.div
         className="absolute inset-0 rounded-[var(--radius-sm)] bg-[var(--color-accent)]"
-        animate={{ opacity: active ? 1 : 0 }}
+        animate={{ opacity: active || invalid ? 1 : 0 }}
         transition={{ duration: 0.18, ease: "easeOut" }}
       />
       <div className="relative rounded-[calc(var(--radius-sm)-1px)] bg-[var(--color-bg)] z-10">
@@ -31,8 +41,10 @@ function ActiveBorder({ active, children }: { active: boolean; children: React.R
   );
 }
 
+// `block` drops the inline baseline gap under a textarea; `field-control`
+// turns off the global focus outline, since ActiveBorder marks focus instead.
 const inputClass =
-  "w-full px-4 py-3.5 bg-transparent text-[var(--color-text)] text-base rounded-[calc(var(--radius-sm)-1px)]";
+  "field-control block w-full px-4 py-3.5 bg-transparent text-[var(--color-text)] text-base rounded-[calc(var(--radius-sm)-1px)]";
 
 const labelClass = "block text-sm font-semibold text-[var(--color-text)] mb-2.5";
 
@@ -41,6 +53,16 @@ function RequiredMark() {
     <span aria-hidden className="text-[var(--color-accent)] ml-0.5">
       *
     </span>
+  );
+}
+
+/** The message under a field that failed validation, tied to it by id. */
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} className="mt-2 text-sm font-medium text-[var(--color-accent)]">
+      {message}
+    </p>
   );
 }
 
@@ -65,14 +87,21 @@ function CustomSelect({
   field,
   value,
   onChange,
+  error,
+  id,
+  errorId,
 }: {
   field: FormFieldConfig;
   value: string | undefined;
   onChange: (name: string, value: string) => void;
+  error?: string;
+  id: string;
+  errorId: string;
 }) {
   const t = useTranslations();
   const label = t(field.labelKey);
   const [open, setOpen] = useState(false);
+  const [focused, setFocused] = useState(false);
   const [rect, setRect] = useState<DOMRect | null>(null);
   const isMobile = useMediaQuery("(pointer: coarse)");
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -125,14 +154,19 @@ function CustomSelect({
 
   if (isMobile) {
     return (
-      <div className="mb-5">
+      <div className="mb-5" data-field={field.name}>
         {label && (
-          <label className={labelClass}>
+          <label htmlFor={id} className={labelClass}>
             {label} {field.required && <RequiredMark />}
           </label>
         )}
-        <ActiveBorder active={!!value}>
+        <ActiveBorder active={focused || !!value} invalid={!!error}>
           <select
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            id={id}
+            aria-invalid={!!error}
+            aria-describedby={error ? errorId : undefined}
             value={value || ""}
             onChange={(e) => onChange(field.name, e.target.value)}
             required={field.required}
@@ -146,25 +180,30 @@ function CustomSelect({
             ))}
           </select>
         </ActiveBorder>
+        <FieldError id={errorId} message={error} />
       </div>
     );
   }
 
   return (
-    <div className="mb-5">
+    <div className="mb-5" data-field={field.name}>
       {label && (
-        <label className={labelClass}>
+        <label htmlFor={id} className={labelClass}>
           {label} {field.required && <RequiredMark />}
         </label>
       )}
-      <ActiveBorder active={open || !!value}>
+      <ActiveBorder active={open || focused || !!value} invalid={!!error}>
         <button
           ref={triggerRef}
+          id={id}
           type="button"
+          aria-describedby={error ? errorId : undefined}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           onClick={handleOpen}
           aria-haspopup="listbox"
           aria-expanded={open}
-          className="w-full px-4 py-3.5 flex items-center justify-between text-left text-base bg-transparent rounded-[calc(var(--radius-sm)-1px)] cursor-pointer"
+          className="field-control w-full px-4 py-3.5 flex items-center justify-between text-left text-base bg-transparent rounded-[calc(var(--radius-sm)-1px)] cursor-pointer"
         >
           <span className={selectedOption ? "text-[var(--color-text)]" : "text-[var(--color-text-muted)]"}>
             {selectedOption ? t(selectedOption.labelKey) : "—"}
@@ -183,6 +222,7 @@ function CustomSelect({
           </motion.svg>
         </button>
       </ActiveBorder>
+      <FieldError id={errorId} message={error} />
 
       {typeof window !== "undefined" && createPortal(
         <AnimatePresence>
@@ -243,23 +283,36 @@ function CustomSelect({
   );
 }
 
-export default function FormField({ field, value, onChange }: FormFieldProps) {
+export default function FormField({ field, value, onChange, error }: FormFieldProps) {
   const t = useTranslations();
   const label = t(field.labelKey);
   const [focused, setFocused] = useState(false);
+  const id = useId();
+  const errorId = `${id}-error`;
+  // Spread onto the control so assistive tech hears why it was rejected.
+  const invalidProps = {
+    "aria-invalid": !!error,
+    "aria-describedby": error ? errorId : undefined,
+  };
 
   switch (field.type) {
     case "text":
     case "email":
     case "tel":
       return (
-        <div className="mb-5">
-          <label className={labelClass}>
+        <div className="mb-5" data-field={field.name}>
+          <label htmlFor={id} className={labelClass}>
             {label} {field.required && <RequiredMark />}
           </label>
-          <ActiveBorder active={focused}>
+          <ActiveBorder active={focused} invalid={!!error}>
             <input
+              id={id}
+              name={field.name}
               type={field.type}
+              autoComplete={field.autoComplete}
+              // Opens the matching keyboard on phones.
+              inputMode={field.type === "email" ? "email" : field.type === "tel" ? "tel" : undefined}
+              {...invalidProps}
               value={(value as string) || ""}
               onChange={(e) => onChange(field.name, e.target.value)}
               onFocus={() => setFocused(true)}
@@ -268,19 +321,25 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
               required={field.required}
             />
           </ActiveBorder>
+          <FieldError id={errorId} message={error} />
         </div>
       );
 
     case "textarea":
       return (
-        <div className="mb-5">
+        <div className="mb-5" data-field={field.name}>
           {label && (
-            <label className={labelClass}>
+            <label htmlFor={id} className={labelClass}>
               {label} {field.required && <RequiredMark />}
             </label>
           )}
-          <ActiveBorder active={focused}>
+          <ActiveBorder active={focused} invalid={!!error}>
             <textarea
+              id={id}
+              name={field.name}
+              // Untitled fields are labelled by the step heading instead.
+              aria-labelledby={label ? undefined : "wizard-step-title"}
+              {...invalidProps}
               value={(value as string) || ""}
               onChange={(e) => onChange(field.name, e.target.value)}
               onFocus={() => setFocused(true)}
@@ -290,25 +349,41 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
               required={field.required}
             />
           </ActiveBorder>
+          <FieldError id={errorId} message={error} />
         </div>
       );
 
     case "select":
-      return <CustomSelect field={field} value={value as string | undefined} onChange={onChange} />;
+      return (
+        <CustomSelect
+          field={field}
+          value={value as string | undefined}
+          onChange={onChange}
+          error={error}
+          id={id}
+          errorId={errorId}
+        />
+      );
 
     case "radio":
       return (
-        <div className="mb-5">
+        <div className="mb-5" data-field={field.name}>
           {label && (
-            <label className={labelClass}>
+            <p id={`${id}-label`} className={labelClass}>
               {label} {field.required && <RequiredMark />}
-            </label>
+            </p>
           )}
-          <div className="space-y-2.5">
+          <div
+            role="radiogroup"
+            aria-labelledby={label ? `${id}-label` : "wizard-step-title"}
+            aria-required={field.required}
+            {...invalidProps}
+            className="space-y-2.5"
+          >
             {field.options?.map((option) => {
               const selected = value === option.value;
               return (
-                <ActiveBorder key={option.value} active={selected}>
+                <ActiveBorder key={option.value} active={selected} invalid={!!error}>
                   <label
                     className={`relative flex items-center gap-3.5 px-4 py-3.5 rounded-[calc(var(--radius-sm)-1px)] cursor-pointer text-base transition-colors duration-150 ${
                       selected ? "bg-[var(--color-accent)]/[0.06]" : "hover:bg-[var(--color-bg-tertiary)]"
@@ -344,6 +419,7 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
               );
             })}
           </div>
+          <FieldError id={errorId} message={error} />
         </div>
       );
 
@@ -399,10 +475,12 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
     case "checkbox": {
       const isChecked = (value as boolean) || false;
       return (
-        <div className="mb-5">
+        <div className="mb-5" data-field={field.name}>
           <label className="flex items-start gap-3.5 cursor-pointer">
             <input
               type="checkbox"
+              name={field.name}
+              {...invalidProps}
               checked={isChecked}
               onChange={(e) => onChange(field.name, e.target.checked)}
               required={field.required}
@@ -412,7 +490,7 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
               aria-hidden
               className="mt-0.5 grid h-5 w-5 flex-shrink-0 place-items-center rounded-[var(--radius-xs)] border transition-colors duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-accent)] peer-focus-visible:ring-offset-2"
               style={{
-                borderColor: isChecked ? "var(--color-accent)" : "var(--color-border)",
+                borderColor: isChecked || error ? "var(--color-accent)" : "var(--color-border)",
                 backgroundColor: isChecked ? "var(--color-accent)" : "transparent",
               }}
             >
@@ -434,6 +512,7 @@ export default function FormField({ field, value, onChange }: FormFieldProps) {
               {field.required && <RequiredMark />}
             </span>
           </label>
+          <FieldError id={errorId} message={error} />
         </div>
       );
     }

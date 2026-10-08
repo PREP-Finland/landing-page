@@ -22,14 +22,14 @@ steps:
         required: true
         showIf: profileType
         options:
-          - value: 18-25
-            labelKey: formWizard.step1.age1825
-          - value: 25-35
-            labelKey: formWizard.step1.age2535
-          - value: 35-45
-            labelKey: formWizard.step1.age3545
-          - value: 45+
-            labelKey: formWizard.step1.age45plus
+          - value: under-30
+            labelKey: formWizard.step1.ageUnder30
+          - value: 31-40
+            labelKey: formWizard.step1.age3140
+          - value: 41-50
+            labelKey: formWizard.step1.age4150
+          - value: 50+
+            labelKey: formWizard.step1.age50plus
   - id: goals
     titleKey: formWizard.step2.title
     fields:
@@ -44,14 +44,17 @@ steps:
         type: text
         labelKey: formWizard.step3.name
         required: true
+        autoComplete: name
       - name: email
         type: email
         labelKey: formWizard.step3.email
         required: true
+        autoComplete: email
       - name: phone
         type: tel
         labelKey: formWizard.step3.phone
         required: false
+        autoComplete: tel
       - name: dataConsent
         type: checkbox
         labelKey: formWizard.step3.dataConsent

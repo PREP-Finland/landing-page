@@ -1,8 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { springUI } from "@/lib/motion";
+import Button from "@/components/ui/Button";
 import Section, { Measure } from "@/components/ui/Section";
 
 const DISPLAY_MS = 7000;
@@ -36,7 +38,12 @@ const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-export default function TestimonialCarousel() {
+interface TestimonialCarouselProps {
+  onCtaClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export default function TestimonialCarousel({ onCtaClick }: TestimonialCarouselProps) {
+  const t = useTranslations("testimonials");
   const [index, setIndex] = useState(0);
   const [held, setHeld] = useState(false);
   const reduceMotion = useReducedMotion();
@@ -64,7 +71,7 @@ export default function TestimonialCarousel() {
   const current = TESTIMONIALS[index];
 
   return (
-    <Section aria-label="Testimonials" surface="tertiary" className="overflow-hidden">
+    <Section aria-label="Testimonials" surface="secondary" className="overflow-hidden">
       <Measure className="mx-auto text-center">
         <div
           onMouseEnter={() => setHeld(true)}
@@ -118,6 +125,12 @@ export default function TestimonialCarousel() {
             </button>
           ))}
         </div>
+        </div>
+
+        <div className="mt-10">
+          <Button variant="primary" size="lg" onClick={onCtaClick}>
+            {t("cta")}
+          </Button>
         </div>
       </Measure>
     </Section>

@@ -10,7 +10,7 @@ hero:
   cta: GET STARTED
 intro:
   title: We know how to turn your potential into results.
-  p1: "Prep brings methods proven in elite sports — rarely applied to modern life — to support your holistic performance and well-being, for those who want more from life."
+  p1: "PREP brings methods proven in elite sports — rarely applied to modern life — to support your holistic performance and well-being, for those who want more from life."
   p2: "For those who want to experience what it feels like to be the best version of themselves."
   p3: "True performance doesn't happen by accident. It can be built. A person becomes what they repeat, not what they wish for."
   p4: "We coach ambitious people who want to reach their potential. They include elite athletes, executives, entrepreneurs, and public figures — but also everyday people united by the desire to reach the next level in some area of their life."
@@ -38,7 +38,7 @@ coaches:
   coach2:
     name: Sherko Eliassi
     role: Nutrition & Recovery Coach
-    bioP1: "Finland's most successful men's fitness athlete, Sherko brings to Prep an exceptional combination of elite athletic background, entrepreneurship, and a proven track record coaching demanding clients. He is a Men's Physique professional, world champion and multiple world medal winner, two-time European champion, two-time Nordic champion, and multiple Finnish champion — an athlete who knows first-hand what it takes to become the best in the world."
+    bioP1: "Finland's most successful men's fitness athlete, Sherko brings to PREP an exceptional combination of elite athletic background, entrepreneurship, and a proven track record coaching demanding clients. He is a Men's Physique professional, world champion and multiple world medal winner, two-time European champion, two-time Nordic champion, and multiple Finnish champion — an athlete who knows first-hand what it takes to become the best in the world."
     bioP2: "As a coach, Sherko has helped numerous competitors build a competition-ready physique on international fitness stages and elevate their performance to the highest level. His particular strength is the ability to identify what the next level requires from each individual and how to get there. His endless passion for coaching has changed many lives, and his clients call him the \"master sculptor.\" Sherko has also inspired many of his clients to start their own coaching careers."
     bioP3: "If your goal is to see what you are truly capable of, Sherko knows what it takes."
 instagram:
@@ -108,7 +108,6 @@ formWizard:
 pillars:
   eyebrow: Four pillars
   title: A whole that makes results inevitable
-  summary: "Nutrition changes the body. Training builds shape and strength. Mental performance keeps the direction. Recovery keeps the engine running."
   items:
     - number: "01"
       cardTitle: "A tasty performance nutrition system for busy lives"

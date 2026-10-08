@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { animate, AnimatePresence, motion, useMotionValue, useReducedMotion, useTransform } from "motion/react";
-import FormWizard from "./FormWizard";
+import FormWizard, { type WizardStatus } from "./FormWizard";
+import { useFormWizard } from "@/hooks/useFormWizard";
 import { projectMomentum, releaseVelocity, rubberband, springSheet } from "@/lib/motion";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { FormWizardConfig } from "@/types/form";
@@ -29,6 +31,20 @@ export default function FormWizardModal({
   const titleId = useId();
   const reduceMotion = useReducedMotion();
   const isSheet = useMediaQuery("(max-width: 767px), (pointer: coarse)");
+  const t = useTranslations("formWizard");
+
+  // Held here rather than in the form, which unmounts with the dialog: a stray
+  // tap on the backdrop or a swipe down must not throw away what was typed.
+  const wizard = useFormWizard(formWizardConfig.steps);
+  const [status, setStatus] = useState<WizardStatus>("idle");
+
+  // Only a sent form starts over; anything unsent is still there next time.
+  const onExitComplete = () => {
+    if (status === "success") {
+      wizard.reset();
+      setStatus("idle");
+    }
+  };
 
   // Lock the page behind the sheet, without the content jumping as the
   // scrollbar disappears.
@@ -151,7 +167,7 @@ export default function FormWizardModal({
       };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={onExitComplete}>
       {open && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -176,8 +192,7 @@ export default function FormWizardModal({
             aria-labelledby={titleId}
             tabIndex={-1}
             {...sheetEnter}
-            layout={!isSheet}
-            transition={reduceMotion ? { duration: 0.15 } : { ...springSheet, layout: springSheet }}
+            transition={reduceMotion ? { duration: 0.15 } : springSheet}
             style={{ transformOrigin, y: isSheet ? dragY : undefined }}
             className={
               isSheet
@@ -185,37 +200,52 @@ export default function FormWizardModal({
                 : "relative z-10 bg-[var(--color-bg)] rounded-[var(--radius-lg)] w-full max-w-xl mx-4 max-h-[90vh] overflow-y-auto shadow-[0_4px_16px_rgba(20,16,16,0.08),0_32px_80px_-24px_rgba(20,16,16,0.45)] outline-none"
             }
           >
-            {isSheet && (
-              // Grab handle: the whole strip is the drag surface, so the sheet
-              // can be thrown down without fighting the content's scroll.
-              <div
-                onPointerDown={onGrabDown}
-                onPointerMove={onGrabMove}
-                onPointerUp={onGrabEnd}
-                onPointerCancel={onGrabEnd}
-                className="sticky top-0 z-20 flex h-11 cursor-grab touch-none items-center justify-center bg-[var(--color-bg)] active:cursor-grabbing"
-              >
-                <span aria-hidden className="h-1 w-10 rounded-full bg-[var(--color-border)]" />
-              </div>
-            )}
+            {/* One header row: the grab handle on a phone, and the close
+                button in the corner either way. */}
             <div
-              className={`sticky z-10 flex justify-end bg-[var(--color-bg)] pr-4 ${
-                isSheet ? "top-11 pt-1" : "top-0 pt-4"
-              }`}
+              className={
+                isSheet
+                  ? "sticky top-0 z-20 h-11 bg-[var(--color-bg)]"
+                  : "sticky top-0 z-20 h-0"
+              }
             >
+              {isSheet && (
+                // The whole strip is the drag surface, so the sheet can be
+                // thrown down without fighting the content's scroll.
+                <div
+                  onPointerDown={onGrabDown}
+                  onPointerMove={onGrabMove}
+                  onPointerUp={onGrabEnd}
+                  onPointerCancel={onGrabEnd}
+                  className="absolute inset-0 flex cursor-grab touch-none items-center justify-center active:cursor-grabbing"
+                >
+                  <span aria-hidden className="h-1 w-10 rounded-full bg-[var(--color-border)]" />
+                </div>
+              )}
               <button
+                type="button"
                 onClick={onClose}
-                className="w-11 h-11 flex items-center justify-center rounded-full text-[var(--color-text-muted)] cursor-pointer transition-[background-color,color,transform] duration-150 ease-out hover:bg-[var(--color-bg-tertiary)] hover:text-[var(--color-text)] active:scale-95"
-                aria-label="Close"
+                className={`absolute right-2 flex h-11 w-11 items-center justify-center rounded-full text-[var(--color-text-muted)] cursor-pointer transition-[background-color,color,transform] duration-150 ease-out hover:bg-[var(--color-bg-tertiary)] hover:text-[var(--color-text)] active:scale-95 ${
+                  isSheet ? "top-0" : "top-3 right-3"
+                }`}
+                aria-label={t("close")}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
             </div>
-            <div className="px-6 pb-12 md:px-12 md:pb-12">
-              <FormWizard onClose={onClose} formWizardConfig={formWizardConfig} titleId={titleId} />
+            <div className={isSheet ? "px-6 pt-2" : "px-12 pt-12 pb-12"}>
+              <FormWizard
+                onClose={onClose}
+                formWizardConfig={formWizardConfig}
+                wizard={wizard}
+                status={status}
+                setStatus={setStatus}
+                titleId={titleId}
+                isSheet={isSheet}
+              />
             </div>
           </motion.div>
         </motion.div>

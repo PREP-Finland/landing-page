@@ -13,10 +13,11 @@ const SITE_NAME = "PREP";
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const t = await getTranslations("hero");
+  const tMeta = await getTranslations("meta");
 
   // Title and description follow the active locale rather than being a single
   // static bilingual string.
-  const title = `${SITE_NAME} | ${t("subheadline")}`;
+  const title = `${SITE_NAME} | ${tMeta("title")}`;
   const description = stripEmphasis(t("headline"));
 
   return {
