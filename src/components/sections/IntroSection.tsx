@@ -23,27 +23,13 @@ export default function IntroSection({ onCtaClick }: IntroSectionProps) {
           <div className="mt-8 space-y-6 t-body text-[var(--color-text-muted)]">
             <p>{t("p1")}</p>
             <p>{t("p2")}</p>
-          </div>
-        </ScrollFadeIn>
-
-        {/* The pivot line, set as a pull quote rather than another paragraph. */}
-        <ScrollFadeIn delay={0.1}>
-          <blockquote className="mt-12 border-l-2 border-[var(--color-accent)] pl-6 md:pl-8">
-            <p className="t-lead text-[var(--color-text)] font-medium">{t("p3")}</p>
-          </blockquote>
-        </ScrollFadeIn>
-
-        <ScrollFadeIn delay={0.12}>
-          <div className="mt-12 space-y-6 t-body text-[var(--color-text-muted)]">
+            <p>{t("p3")}</p>
             <p>{t("p4")}</p>
           </div>
         </ScrollFadeIn>
 
         <ScrollFadeIn delay={0.14}>
-          <div className="mt-10 space-y-2">
-            <p className="t-lead text-[var(--color-text-muted)]">{t("p5")}</p>
-            <p className="t-lead text-[var(--color-text)] font-semibold">{t("p6")}</p>
-          </div>
+          <p className="mt-10 t-lead text-[var(--color-text)] font-semibold">{t("p5")}</p>
         </ScrollFadeIn>
 
         <ScrollFadeIn delay={0.16}>

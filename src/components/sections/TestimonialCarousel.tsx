@@ -64,7 +64,7 @@ export default function TestimonialCarousel() {
   const current = TESTIMONIALS[index];
 
   return (
-    <Section aria-label="Testimonials" surface="tertiary" className="overflow-hidden">
+    <Section aria-label="Testimonials" surface="secondary" className="overflow-hidden">
       <Measure className="mx-auto text-center">
         <div
           onMouseEnter={() => setHeld(true)}

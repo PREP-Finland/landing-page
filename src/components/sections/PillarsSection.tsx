@@ -3,10 +3,13 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Button from "@/components/ui/Button";
 import ScrollFadeIn from "@/components/ui/ScrollFadeIn";
 import { springUI } from "@/lib/motion";
 import Section from "@/components/ui/Section";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+
+type CtaClick = React.MouseEventHandler<HTMLButtonElement>;
 
 interface PillarItem {
   number: string;
@@ -45,7 +48,16 @@ function PillarNumber({ children }: { children: string }) {
 }
 
 /** The essay itself, shared by the in-card panel and the desktop panel. */
-function PillarBody({ item, showTitle }: { item: PillarItem; showTitle: boolean }) {
+function PillarBody({
+  item,
+  showTitle,
+  onCtaClick,
+}: {
+  item: PillarItem;
+  showTitle: boolean;
+  onCtaClick: CtaClick;
+}) {
+  const t = useTranslations("pillars");
   const paragraphs = item.body
     .split("\n")
     .map((l) => l.trim())
@@ -73,6 +85,12 @@ function PillarBody({ item, showTitle }: { item: PillarItem; showTitle: boolean 
 
       <div aria-hidden className="mt-8 md:mt-10 h-px w-16 bg-[var(--color-accent)]" />
       <p className="mt-6 t-lead font-semibold text-[var(--color-text)]">{item.result}</p>
+
+      <div className="mt-8 md:mt-10">
+        <Button variant="primary" size="lg" onClick={onCtaClick}>
+          {t("cta")}
+        </Button>
+      </div>
     </>
   );
 }
@@ -84,6 +102,7 @@ function PillarCard({
   inline,
   onToggle,
   onKeyNav,
+  onCtaClick,
   cardRef,
 }: {
   item: PillarItem;
@@ -93,8 +112,10 @@ function PillarCard({
   inline: boolean;
   onToggle: () => void;
   onKeyNav: (e: React.KeyboardEvent) => void;
+  onCtaClick: CtaClick;
   cardRef: (el: HTMLButtonElement | null) => void;
 }) {
+  const t = useTranslations("pillars");
   const reduceMotion = useReducedMotion();
   const panelId = useId();
 
@@ -154,6 +175,7 @@ function PillarCard({
           >
             <path d="M2 4.5 6 8.5 10 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </motion.svg>
+          {t("readMore")}
         </span>
       </button>
 
@@ -172,7 +194,7 @@ function PillarCard({
               className="overflow-hidden"
             >
               <div className="border-t border-[var(--color-border)] px-5 pb-6 pt-5">
-                <PillarBody item={item} showTitle={false} />
+                <PillarBody item={item} showTitle={false} onCtaClick={onCtaClick} />
               </div>
             </motion.div>
           )}
@@ -182,15 +204,19 @@ function PillarCard({
   );
 }
 
-function PillarDetail({ item }: { item: PillarItem }) {
+function PillarDetail({ item, onCtaClick }: { item: PillarItem; onCtaClick: CtaClick }) {
   return (
     <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-bg)] p-7 md:p-12 shadow-[0_1px_3px_rgba(20,16,16,0.03),0_24px_60px_-36px_rgba(20,16,16,0.25)]">
-      <PillarBody item={item} showTitle />
+      <PillarBody item={item} showTitle onCtaClick={onCtaClick} />
     </div>
   );
 }
 
-export default function PillarsSection() {
+interface PillarsSectionProps {
+  onCtaClick: CtaClick;
+}
+
+export default function PillarsSection({ onCtaClick }: PillarsSectionProps) {
   const t = useTranslations("pillars");
   const items = t.raw("items") as PillarItem[];
   const [active, setActive] = useState<number | null>(null);
@@ -305,8 +331,8 @@ export default function PillarsSection() {
       <>
         <ScrollFadeIn>
           <div className="mb-12 md:mb-16 text-left md:text-center">
-            <p className="t-eyebrow text-[var(--color-accent)]">{t("eyebrow")}</p>
-            <h2 className="t-h2 mt-4 text-[var(--color-text)]">{t("title")}</h2>
+            <h2 className="t-h2 text-[var(--color-text)] text-balance">{t("title")}</h2>
+            <p className="mt-4 t-lead text-[var(--color-text-muted)]">{t("lead")}</p>
           </div>
         </ScrollFadeIn>
 
@@ -326,6 +352,7 @@ export default function PillarsSection() {
                 inline={inline}
                 onToggle={() => toggle(i)}
                 onKeyNav={handleKeyNav(i)}
+                onCtaClick={onCtaClick}
                 cardRef={(el) => {
                   cardRefs.current[i] = el;
                 }}
@@ -348,7 +375,7 @@ export default function PillarsSection() {
             <AnimatePresence mode="popLayout" initial={false}>
               {activeItem ? (
                 <motion.div key={activeItem.number} {...swap}>
-                  <PillarDetail item={activeItem} />
+                  <PillarDetail item={activeItem} onCtaClick={onCtaClick} />
                 </motion.div>
               ) : (
                 <motion.p

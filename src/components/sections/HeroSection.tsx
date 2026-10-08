@@ -80,7 +80,7 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
     // Full-bleed: the header floats over the video rather than cropping it, and
     // the stage is a full viewport height on phones too (svh, so a mobile
     // browser's collapsing chrome doesn't clip it).
-    <section className="relative h-[100svh] w-full flex items-end overflow-hidden bg-black">
+    <section className="relative h-[100svh] w-full flex items-center overflow-hidden bg-black">
       <video
         ref={videoRef}
         aria-hidden
@@ -94,17 +94,18 @@ export default function HeroSection({ onCtaClick, videosConfig }: HeroSectionPro
         src={getVideoSrc(videosConfig.hero.src)}
       />
 
-      {/* Bottom-weighted scrim: separates the text without dulling the frame. */}
+      {/* Centre-weighted scrim: the text sits mid-frame, so that is where the
+          contrast goes, with a little extra at the top for the header. */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.60) 22%, rgba(0,0,0,0.30) 46%, rgba(0,0,0,0.08) 68%, rgba(0,0,0,0.26) 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.40) 0%, rgba(0,0,0,0.55) 35%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.35) 100%)",
         }}
       />
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-16 md:pb-24">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24">
         <div>
           <motion.h1
             {...rise}
