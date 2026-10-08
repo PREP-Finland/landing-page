@@ -331,7 +331,8 @@ export default function PillarsSection({ onCtaClick }: PillarsSectionProps) {
       <>
         <ScrollFadeIn>
           <div className="mb-12 md:mb-16 text-left md:text-center">
-            <h2 className="t-h2 text-[var(--color-text)] text-balance">{t("title")}</h2>
+            <p className="t-eyebrow text-[var(--color-accent)]">{t("eyebrow")}</p>
+            <h2 className="t-h2 mt-4 text-[var(--color-text)] text-balance">{t("title")}</h2>
             <p className="mt-4 t-lead text-[var(--color-text-muted)]">{t("lead")}</p>
           </div>
         </ScrollFadeIn>

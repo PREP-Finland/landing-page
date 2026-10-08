@@ -6,6 +6,7 @@ import TestimonialCarousel from "@/components/sections/TestimonialCarousel";
 import InviteSection from "@/components/sections/InviteSection";
 import IntroSection from "@/components/sections/IntroSection";
 import PillarsSection from "@/components/sections/PillarsSection";
+import AudienceSection from "@/components/sections/AudienceSection";
 import CoachesSection from "@/components/sections/CoachesSection";
 import InstagramCarousel from "@/components/sections/InstagramCarousel";
 import FAQSection from "@/components/sections/FAQSection";
@@ -49,7 +50,8 @@ export default function PageClient({ videosConfig, formWizardConfig }: PageClien
       <InstagramCarousel />
       <IntroSection onCtaClick={openWizard("intro")} />
       <PillarsSection onCtaClick={openWizard("pillars")} />
-      <TestimonialCarousel />
+      <TestimonialCarousel onCtaClick={openWizard("testimonials")} />
+      <AudienceSection onCtaClick={openWizard("audience")} />
       <CoachesSection />
       <FAQSection />
       <ClosingSection onCtaClick={openWizard("closing")} />
